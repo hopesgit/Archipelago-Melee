@@ -1,0 +1,205 @@
+name: Player{number}
+
+# Used to describe your yaml. Useful if you have multiple files.
+description: Default Melee Template
+
+game: Super Smash Bros Melee
+requires:
+  version: 0.6.1 # Version of Archipelago required for this yaml to work as expected.
+
+Super Smash Bros Melee:
+  # Game Options
+  progression_balancing:
+    # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
+    #
+    # A lower setting means more getting stuck. A higher setting means less getting stuck.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 99
+    random: 0
+    random-low: 0
+    random-high: 0
+    disabled: 0 # equivalent to 0
+    normal: 50 # equivalent to 50
+    extreme: 0 # equivalent to 99
+
+  accessibility:
+    # Set rules for reachability of your items/locations.
+    #
+    # **Full:** ensure everything can be reached and acquired.
+    #
+    # **Minimal:** ensure what is needed to reach your goal can be acquired.
+    full: 50
+    minimal: 0
+
+  # Goals
+  minimal_goal:
+    # Set to "Basic" to use the default goal settings: Events Goal with 51 required events.
+    # Set to "Custom" to choose your own goals.
+    # Chosing "Basic" here will override other goal choices
+    'basic': 50
+    'custom': 0
+
+  events_goal:
+    # Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
+    # If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear.
+    'true': 50
+    'false': 0
+
+  events_required:
+  # The number of events the player must clear in order to complete an Events goal.
+  # If you choose 0 and your goal includes Events, one event will be chosen at random from the non-excluded events.
+  # Ignored if Event Mode Goal is False.
+  51: 50
+  random: 0
+  random-low: 0
+  random-mid: 0
+  random-high: 0
+    
+  progressive_events:
+    # By default, event groups unlock as you gather more characters and complete a specified number of events.
+    # Set this to true, and event groups will instead be gated by Event Gate items.
+    # Set this to false, and event groups will function as vanilla.
+    # Ignored if Event Mode Goal is False.
+    'true': 0
+    'false': 50
+
+  excluded_events:
+    # Events to exclude from the Events goal. Events can be excluded by name or number.
+    # Ignored if Event Mode Goal is False.
+    # Note: excluding events from the logic could mean that you still have to clear some excluded events in order for the game to allow access to more events.
+    # Example: if you want to exclude event 3, put 3. If you want to exclude events 3-6, put [3, 4, 5, 6] or ['3-6']. 
+    []
+
+  classic_goal:
+    # Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all characters.
+    'true': 0
+    'false': 50
+
+  classic_total_goal:
+    # Adds Classic Mode to the goal. 
+    # In order to complete your goal, you must reach the given amount of total points between all characters in Classic Mode.
+    # This option will be ignored if set to 0.
+    0: 50
+    random: 0
+    random-low: 0
+    random-mid: 0
+    random-high: 0
+
+  adventure_goal:
+    # Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all characters.
+    'true': 0
+    'false': 50
+
+  adventure_total_goal: 
+    # Adds Adventure Mode to the goal.
+    # In order to complete your goal, you must reach the given amount of total score betweel all characters in Adventure Mode.
+    # Ignored if 0.
+    0: 50
+    random: 0
+    random-low: 0
+    random-mid: 0
+    random-high: 0
+
+  all_star_goal:
+    # Adds All-Star Mode to the goal.
+    # In order to complete your goal, you must complete All-Star mode with all characters.
+    'true': 0
+    'false': 50
+
+  all_star_total_goal:
+    # Adds All-Star Mode to the goal.
+    # In order to complete this goal, you must reach the given amount of total score between all characters in All-Star Mode.
+    # Ignored if 0.
+    0: 50
+    random: 0
+    random-low: 0
+    random-mid: 0
+    random-high: 0
+
+  trophy_count__goal: 
+    # Adds collecting trophies to the goal.
+    # In ordeer to complete your seeed, you must geet the number of trophies specified.
+    # Ignored if 0.
+    0: 50
+    random: 0
+    random-low: 0
+    random-mid: 0
+    random-high: 0
+
+  # optional/QoL
+  exclude_characters:
+    # Exludes specific characters from any goals you've chosen. Good for if you just really don't vibe with a character.
+    # Enter a character's name to exclude them.
+    # Example: ["Roy", "Pichu"]
+    []
+
+  easy_vs_mode_unlocks:
+    # Sets the vs mode battle counters to whatever value specified. Can make getting stages, characters, and trophies very easy and/or quick.
+    # Complete a vs match, and the game will check the counters to run unlock functions.
+    # For each character/stage to unlock, you will need to complete another match.
+    # Trophies/special messages unlock all at once.
+    0: 50
+    1000: 0
+    random: 0
+    random-low: 0
+    random-mid: 0
+    random-high: 0 
+
+  c_stick_in_single_player:
+    # By default, the C-Stick moves the camera in single-player. This option changes the controls so that the C-Stick performs Smash attacks, like in Vs Mode.
+    'true': 50
+    'false': 0
+
+  death_link:
+    # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
+    # NOT YET IMPLEMENTED
+    'true': 0
+    'false': 50
+
+  death_link_mode:
+    # Sets what happens to the player when death link activates.
+    # NOT YET IMPLEMENTED
+    lose_stock: 50
+    lose_all_stocks: 0 # allows you to continue with coins in single-player modes
+    lose_without_continue: 0 # affects most single-player modes
+
+  # Item & Location Options
+  local_items:
+    # Forces these items to be in their native world.
+    []
+
+  non_local_items:
+    # Forces these items to be outside their native world.
+    []
+
+  start_inventory:
+    # Start with these items.
+    {}
+
+  start_inventory_from_pool:
+    # Start with these items and don't place them in the world.
+    #
+    # The game decides what the replacement items will be.
+    {}
+
+  start_hints:
+    # Start with these item's locations prefilled into the ``!hint`` command.
+    []
+
+  start_location_hints:
+    # Start with these locations and their item prefilled into the ``!hint`` command.
+    []
+
+  exclude_locations:
+    # Prevent these locations from having an important item.
+    []
+
+  priority_locations:
+    # Prevent these locations from having an unimportant item.
+    []
+
+  item_links:
+    # Share part of your item pool with other players.
+    []

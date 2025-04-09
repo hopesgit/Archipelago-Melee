@@ -1,0 +1,275 @@
+{
+    "watchList": [
+        {
+            "address": "80000000",
+            "baseIndex": 3,
+            "label": "Game ID",
+            "length": 6,
+            "typeIndex": 5,
+            "unsigned": true
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+                {
+                    "address": "8045A6B0",
+                    "baseIndex": 0,
+                    "label": "CF's Adventure Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Adventure Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+                {
+                    "address": "8045B174",
+                    "baseIndex": 0,
+                    "label": "Samus's AS Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AE18",
+                    "baseIndex": 0,
+                    "label": "Ness' AS Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A6B4",
+                    "baseIndex": 0,
+                    "label": "CF's AS Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AF70",
+                    "baseIndex": 0,
+                    "label": "Pikachu's AS SCore",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A964",
+                    "baseIndex": 0,
+                    "label": "Kirby's AS Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "All-Star Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+            ],
+            "groupName": "Event Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+                {
+                    "address": "8045B4C8",
+                    "baseIndex": 0,
+                    "label": "Dr. Mario's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AC0C",
+                    "baseIndex": 0,
+                    "label": "Mario's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": false
+                },
+                {
+                    "address": "8045B218",
+                    "baseIndex": 0,
+                    "label": "Yoshi's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AEBC",
+                    "baseIndex": 0,
+                    "label": "Peach's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AA08",
+                    "baseIndex": 0,
+                    "label": "Bowser's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A6AC",
+                    "baseIndex": 0,
+                    "label": "CF's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A804",
+                    "baseIndex": 0,
+                    "label": "Fox's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AE10",
+                    "baseIndex": 0,
+                    "label": "Ness' Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045B014",
+                    "baseIndex": 0,
+                    "label": "IC's Classsic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045B16C",
+                    "baseIndex": 0,
+                    "label": "Samus's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045B2C4",
+                    "baseIndex": 0,
+                    "label": "Zelda's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045B41C",
+                    "baseIndex": 0,
+                    "label": "Young Link's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045B620",
+                    "baseIndex": 0,
+                    "label": "Pichu's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AF68",
+                    "baseIndex": 0,
+                    "label": "Pikachu's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045AD64",
+                    "baseIndex": 0,
+                    "label": "Mewtwo's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A8B0",
+                    "baseIndex": 0,
+                    "label": "MGAW's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045ACB8",
+                    "baseIndex": 0,
+                    "label": "Marth's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045B574",
+                    "baseIndex": 0,
+                    "label": "Roy's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Classic Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+            ],
+            "groupName": "Trophies"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "80459F60",
+                    "baseIndex": 1,
+                    "label": "Characters unlocked",
+                    "typeIndex": 1,
+                    "unsigned": false
+                },
+                {
+                    "address": "80459F62",
+                    "baseIndex": 1,
+                    "label": "Stages unlocked",
+                    "typeIndex": 1,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Characters/stages"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "80459F68",
+                    "baseIndex": 0,
+                    "label": "VS match counter 1(game checks this for char unlock fights)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "80459F88",
+                    "baseIndex": 0,
+                    "label": "VS match counter 2(game checks this for stage unlocks and other notices)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "80459F90",
+                    "baseIndex": 0,
+                    "label": "VS match counter 3(game checks this for trophy unlocks)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A114",
+                    "baseIndex": 0,
+                    "label": "VS match counter 4 (num shown in vs records)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045A128",
+                    "baseIndex": 0,
+                    "label": "VS match counter 5 (includes forfeits)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Versus Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+            ],
+            "groupName": "Done with this game's shit"
+        }
+    ]
+}

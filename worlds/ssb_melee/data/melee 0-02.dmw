@@ -1,0 +1,183 @@
+{
+    "watchList": [
+        {
+            "expanded": true,
+            "groupEntries": [
+                {
+                    "address": "8045D490",
+                    "baseIndex": 0,
+                    "label": "Dr Mario's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045CBD4",
+                    "baseIndex": 0,
+                    "label": "Mario's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045CB28",
+                    "baseIndex": 0,
+                    "label": "Luigi's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045C9D0",
+                    "baseIndex": 0,
+                    "label": "Bowser's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045C9C4",
+                    "baseIndex": 0,
+                    "label": "Bowser's Complete byte? Only works with 08 so far",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "8045CE84",
+                    "baseIndex": 0,
+                    "label": "Peach's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045D1E0",
+                    "baseIndex": 0,
+                    "label": "Yoshi's Classic Score",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "8047086C",
+                    "baseIndex": 0,
+                    "label": "Score accumulator (updated on Start press)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "80472E24",
+                    "baseIndex": 0,
+                    "label": "Score accumulator",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "80472E28",
+                    "baseIndex": 0,
+                    "label": "Score accumulator",
+                    "typeIndex": 2,
+                    "unsigned": true
+                },
+                {
+                    "address": "80472E2C",
+                    "baseIndex": 0,
+                    "label": "Score accumulator (updates first on stage clear)",
+                    "typeIndex": 2,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Classic Mode"
+        },
+        {
+            "groupEntries": [
+            ],
+            "groupName": "Adventure Mode"
+        },
+        {
+            "groupEntries": [
+            ],
+            "groupName": "All-Star Mode"
+        },
+        {
+            "groupEntries": [
+            ],
+            "groupName": "Event Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+                {
+                    "address": "8045BF32",
+                    "baseIndex": 0,
+                    "label": "Vs Matches",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045BF52",
+                    "baseIndex": 0,
+                    "label": "Vs Matches",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045BF5A",
+                    "baseIndex": 0,
+                    "label": "Vs Matches",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045C0F2",
+                    "baseIndex": 0,
+                    "label": "Vs Matches incl forfeits",
+                    "typeIndex": 1,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Vs Mode"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+            ],
+            "groupName": "Trophies"
+        },
+        {
+            "expanded": true,
+            "groupEntries": [
+                {
+                    "address": "8045BF28",
+                    "baseIndex": 1,
+                    "label": "Characters unlocked",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "8045BF2A",
+                    "baseIndex": 0,
+                    "label": "Stages unlocked",
+                    "typeIndex": 1,
+                    "unsigned": false
+                }
+            ],
+            "groupName": "Character/stage unlocks"
+        },
+        {
+            "address": "804D49EA",
+            "baseIndex": 1,
+            "label": "Current stage",
+            "typeIndex": 1,
+            "unsigned": true
+        },
+        {
+            "address": "804D6038",
+            "baseIndex": 0,
+            "label": "No label",
+            "typeIndex": 2,
+            "unsigned": false
+        },
+        {
+            "address": "8049EDA8",
+            "baseIndex": 0,
+            "label": "HRC Distance (coord offset)",
+            "typeIndex": 2,
+            "unsigned": false
+        }
+    ]
+}
