@@ -34,36 +34,29 @@ Super Smash Bros Melee:
     minimal: 0
 
   # Goals
-  minimal_goal:
-    # Set to "Basic" to use the default goal settings: Events Goal with 51 required events.
-    # Set to "Custom" to choose your own goals.
-    # Chosing "Basic" here will override other goal choices
-    'basic': 50
-    'custom': 0
-
   events_goal:
     # Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
     # If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear.
     'true': 50
     'false': 0
-
-  events_required:
-  # The number of events the player must clear in order to complete an Events goal.
-  # If you choose 0 and your goal includes Events, one event will be chosen at random from the non-excluded events.
-  # Ignored if Event Mode Goal is False.
-  51: 50
-  random: 0
-  random-low: 0
-  random-mid: 0
-  random-high: 0
     
   progressive_events:
     # By default, event groups unlock as you gather more characters and complete a specified number of events.
-    # Set this to true, and event groups will instead be gated by Event Gate items.
-    # Set this to false, and event groups will function as vanilla.
+    # Set this to true, and event groups will instead be gated by Progressive Event Gate items.
+    # Set this to false, and event groups will have vanilla requirements.
     # Ignored if Event Mode Goal is False.
     'true': 0
     'false': 50
+
+  shuffle_event_details:
+    # By default, an event has a set player character (if applicable), set enemies, a set stage, and other restrictions or AI routines.
+    # You can choose your level of randomization for events.
+    # If the player character is randomized, the event will logically require that character in order to count its completion. 
+    # NOT YET IMPLEMENTED
+    shuffle_player_char: 0
+    shuffle_enemy_char: 0 # Also shuffles enemy AI. Events that rely on particular AI routines will be ignored. 
+    shuffle_both: 0
+    vanilla: 50
 
   excluded_events:
     # Events to exclude from the Events goal. Events can be excluded by name or number.

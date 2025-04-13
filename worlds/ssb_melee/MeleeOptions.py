@@ -2,28 +2,11 @@ from enum import Enum
 from Options import DeathLink, DefaultOnToggle, OptionDict, OptionList, TextChoice, Toggle, Range, ItemDict, StartInventoryPool, Choice, PerGameCommonOptions, Visibility
 from dataclasses import dataclass
 
-class MinimalGoal(Choice):
-    """Basic chooses the following options: Events Goal, 51 required events; no other goals. 
-    
-    In order to win, you must complete all 51 events and obtain all characters.
-
-    Custom allows you to choose your own goals."""
-    default = "Basic"
-    options = ["Basic", "Custom"]
-
 class EventsGoal(Toggle):
     """Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
     If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear."""
     display_name = "Event Mode Goal"
     default = True
-
-class EventsRequired(Range):
-    """The number of events the player must clear in order to complete an Events goal.
-    Ignored if Event Mode Goal is False."""
-    display_name = "Number of Required Events"
-    range_start = 1
-    range_end = 51
-    default = 51
 
 class ProgressiveEvents(Toggle):
     """By default, Event mode unlocks as you gather more characters and complete a specified number of events.
@@ -32,6 +15,15 @@ class ProgressiveEvents(Toggle):
     Ignored if Event Mode Goal is False."""
     display_name = "Progressive Events"
     default = False
+
+class ShuffleEventDetails(Choice):
+    """By default, an event has a set player character (if applicable), set enemies, a set stage, and other restrictions or AI routines.
+    You can choose your level of randomization for events.
+    If the player character is randomized, the event will logically require that character in order to count its completion. 
+    NOT YET IMPLEMENTED"""
+    display_name = "Shuffle Event Details"
+    default = "vanilla"
+    choices = ["shuffle_player_char", "shuffle_enemy_char", "shuffle_both", "vanilla"]
 
 class ExcludedEvents(OptionList):
     """Events to exclude from the Events goal. Events can be excluded by name or number.
@@ -122,10 +114,9 @@ class DeathLinkMode(Choice):
 @dataclass
 class MeleeOptions(PerGameCommonOptions):
     # goals
-    minimal_goal: MinimalGoal
     events_goal: EventsGoal
-    events_required: EventsRequired
     progressive_events: ProgressiveEvents
+    shuffle_event_details: ShuffleEventDetails
     excluded_events: ExcludedEvents
     classic_goal: ClassicGoal
     classic_total_goal: ClassicTotalGoal
