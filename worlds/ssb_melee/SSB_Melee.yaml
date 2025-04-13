@@ -130,9 +130,13 @@ Super Smash Bros Melee:
 
   # optional/QoL
   exclude_characters:
-    # Exludes specific characters from any goals you've chosen. Good for if you just really don't vibe with a character.
+    # Exludes specific characters from any goals you've chosen. Good for if you just don't vibe with a character. Doees not prevent the character from getting unlocked.
     # Enter a character's name to exclude them.
     # Example: ["Roy", "Pichu"]
+    # Example: 
+    #  - Roy
+    #  - Pichu
+
     []
 
   easy_vs_mode_unlocks:
@@ -149,6 +153,11 @@ Super Smash Bros Melee:
 
   c_stick_in_single_player:
     # By default, the C-Stick moves the camera in single-player. This option changes the controls so that the C-Stick performs Smash attacks, like in Vs Mode.
+    'true': 50
+    'false': 0
+
+  disable_tap_jump:
+    # By default, flicking the control stick up causes your character to jump. Set this to true to disable that feature.
     'true': 50
     'false': 0
 

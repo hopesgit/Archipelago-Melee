@@ -114,13 +114,13 @@ class MeleeContext(CommonContext):
     def run_gui(self):
         from kvui import GameManager
 
-        class MetroidPrimeManager(GameManager):
+        class MeleeManager(GameManager):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
             base_title = "Archipelago Super Smash Bros Melee Client"
 
-        self.ui = MetroidPrimeManager(self)
+        self.ui = MeleeManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
 
@@ -296,7 +296,7 @@ def get_options_from_apssbm(apssbm_file: str) -> dict:
     return options_json
 
 
-def get_randomprime_config_from_apssbm(apssbm_file: str) -> dict:
+def get_randomizer_config_from_apssbm(apssbm_file: str) -> dict:
     with zipfile.ZipFile(apssbm_file) as zip_file:
         with zip_file.open("config.json") as file:
             config_json = file.read().decode("utf-8")
@@ -316,12 +316,8 @@ async def patch_and_run_game(apssbm_file: str):
         if not zipfile.is_zipfile(apssbm_file):
             raise Exception(f"Invalid apssbm file: {apssbm_file}")
 
-        config_json = get_randomprime_config_from_apssbm(apssbm_file)
+        config_json = get_randomizer_config_from_apssbm(apssbm_file)
         options_json = get_options_from_apssbm(apssbm_file)
-
-        build_progressive_beam_patch = False
-        if options_json:
-            build_progressive_beam_patch = options_json["progressive_beam_upgrades"]
 
         try:
             config_json["gameConfig"]["updateHintStateReplacement"] = construct_hook_patch(game_version, build_progressive_beam_patch)
@@ -399,7 +395,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
     :param connect: Address of the Archipelago server.
     :param password: Password for server authentication.
     """
-    #Utils.init_logging("The Wind Waker Client")
+    Utils.init_logging("Super Smash Bros Meleee Client")
 
     async def _main(connect: Optional[str], password: Optional[str]) -> None:
         ctx = MeleeContext(connect, password)

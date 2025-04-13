@@ -107,6 +107,11 @@ class CStickInSinglePlayer(Toggle):
     display_name = "Enable C-Stick in Single Player"
     default = True
 
+class DisableTapJump(Toggle):
+    """By default, you can flick the control stick up quickly to jump. Set this option to true to disable that behavior."""
+    display_name = "Disable Tap Jumping"
+    default = True
+
 class DeathLinkMode(Choice):
     """Set what happens when death link activates."""
     display_name = 'Death Link Mode'
@@ -134,6 +139,7 @@ class MeleeOptions(PerGameCommonOptions):
     exclude_characters: ExcludeCharacters
     easy_vs_mode_unlocks: EasyVsModeUnlocks
     c_stick_in_single_player: CStickInSinglePlayer
+    disable__tap_jump: DisableTapJump
     death_link_mode: DeathLinkMode
 
     # generic
