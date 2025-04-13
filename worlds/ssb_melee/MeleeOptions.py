@@ -115,7 +115,7 @@ class DeathLinkMode(Choice):
 
 
 @dataclass
-class SSBMeleeOptions(PerGameCommonOptions):
+class MeleeOptions(PerGameCommonOptions):
     # goals
     minimal_goal: MinimalGoal
     events_goal: EventsGoal

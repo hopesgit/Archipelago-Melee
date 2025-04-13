@@ -1,35 +1,48 @@
-from BaseClasses import CollectionState
-import worlds.ssb_melee.classes.Locations as Locations
-import Container
+from BaseClasses import CollectionState, List, Dict
+from .Locations import *
 
-import worlds.ssb_melee.classes.Classic as Classic
-import worlds.ssb_melee.classes.Adventure as Adventure
-import worlds.ssb_melee.classes.AllStar as AllStar
-import worlds.ssb_melee.classes.Event as Event
-import worlds.ssb_melee.classes.Trophies as Trophies
-import worlds.ssb_melee.classes.Vs as Vs
+from classes.Event import EVENTDATA
 
 import typing
 if typing.TYPE_CHECKING:
-    from MeleeOptions import SSBMeleeOptions
+    from .MeleeOptions import MeleeOptions
 
-def _get_options(state: CollectionState, player: int) -> 'SSBMeleeOptions':
+def _get_options(state: CollectionState, player: int) -> 'MeleeOptions':
     return state.multiworld.worlds[player].options
 
-def goal_includes_events(state: CollectionState, player: int) -> bool:
-    events = _get_options(state, player).events_goal.value
-    return events
+def basic_or_custom(state: CollectionState, player: int) -> bool:
+    goal = _get_options(state, player)
 
-def trim_events_list(state: CollectionState, player: int) -> bool:
+def goal_includes_events(state: CollectionState, player: int) -> bool:
+    check = _get_options(state, player).events_goal.value or basic_or_custom(state, player)
+    return check
+
+def trim_events_list(state: CollectionState, player: int) -> Dict:
     event_goal = goal_includes_events(state, player)
-    event_list = Event.EVENTDATA.copy() # copy eventdata list so that we can remove events specified in yaml
-    events_to_remove = _get_options(state, player).excluded_events.value
-    if event_goal:
+    event_list = EVENTDATA.copy() # copy eventdata list so that we can remove events specified in yaml
+    events_to_remove = sanitize_event_exclusions(state, player)
+    if event_goal and len(events_to_remove) > 0:
         for exclusion in events_to_remove:
-            # event = event_list.index(elmnt["num"] == exclusion or elmnt["name"] == exclusion)
-            event = map(lambda x: x["num"] == exclusion or x["name"] == exclusion, event_list)
-            if event: 
-                event_list.remove(event)
-        # return revised event list once exceptions are made
+            event_list.pop(exclusion)
     return event_list
-    
+
+def sanitize_event_exclusions(state: CollectionState, player: int) -> List[int|None]:
+    events_to_remove_from_opts = _get_options(state, player).excluded_events.value
+    events_to_remove = list()
+    if len(events_to_remove_from_opts) > 0:
+        for item in events_to_remove_from_opts:
+            try: 
+                range = item.split('-')
+                r = range(int(range[0]), int(range[1]) + 1)
+                for n in r:
+                    events_to_remove.append(n)
+            except SyntaxError:
+                try:
+                    n = int(item)
+                    events_to_remove.append(n)
+                except TypeError:
+                    continue
+        if len(events_to_remove) > 0:
+            events_to_remove = events_to_remove.sort()
+    else: 
+        return events_to_remove

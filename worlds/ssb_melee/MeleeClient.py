@@ -6,20 +6,30 @@ import subprocess
 import traceback
 from typing import List, Optional
 import zipfile
+from enum import Enum
 
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
+from CommonClient import (
+    ClientCommandProcessor, 
+    CommonContext, 
+    get_base_parser, 
+    logger, 
+    server_loop, 
+    gui_enabled
+)
 from NetUtils import ClientStatus
-#import Utils
-from .config import make_version_specific_changes
-#from .PrimeUtils import get_apworld_version
-from .Items import suit_upgrade_table
+import Utils
+from .MeleeUtils import get_apworld_version
 from .ClientReceiveItems import handle_receive_items
-from .NotificationManager import NotificationManager
-from .Container import construct_hook_patch
+# from .Container import construct_hook_patch
 from .DolphinClient import DolphinException, assert_no_running_dolphin, get_num_dolphin_instances
-from .classes.Locations import METROID_PRIME_LOCATION_BASE, every_location, PICKUP_LOCATIONS
-#from .MetroidPrimeInterface import HUD_MESSAGE_DURATION, ConnectionState, InventoryItemData, MetroidPrimeInterface, MetroidPrimeLevel, MetroidPrimeSuit
+from .Locations import METROID_PRIME_LOCATION_BASE, locations
+from .MeleeInterface import ConnectionState, InventoryItemData, MeleeAreas, MeleeInterface
 
+class ConnectionState(Enum):
+    DISCONNECTED = 0
+    IN_GAME = 1
+    IN_MENU = 2
+    MULTIPLE_DOLPHIN_INSTANCES = 3
 
 class MeleeCommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx: CommonContext):
@@ -52,7 +62,7 @@ class MeleeCommandProcessor(ClientCommandProcessor):
 
 
 status_messages = {
-    ConnectionState.IN_GAME: "Connected to Metroid Prime",
+    ConnectionState.IN_GAME: "Connected to Melee",
     ConnectionState.IN_MENU: "Connected to game, waiting for game to start",
     ConnectionState.DISCONNECTED: "Unable to connect to the Dolphin instance, attempting to reconnect...",
     ConnectionState.MULTIPLE_DOLPHIN_INSTANCES: "Warning: Multiple Dolphin instances detected, client may not function correctly."
@@ -65,7 +75,7 @@ class MeleeContext(CommonContext):
     is_pending_death_link_reset = False
     command_processor = MeleeCommandProcessor
     game_interface: MeleeInterface
-    notification_manager: NotificationManager
+    #notification_manager: NotificationManager
     game = "Super Smash Bros Melee"
     items_handling = 0b111
     dolphin_sync_task = None
@@ -77,11 +87,11 @@ class MeleeContext(CommonContext):
     last_error_message: Optional[str] = None
     apssbm_file: Optional[str] = None
 
-    def __init__(self, server_address, password, apmp1_file=None):
+    def __init__(self, server_address, password, apssbm_file=None):
         super().__init__(server_address, password)
-        self.game_interface = MetroidPrimeInterface(logger)
-        self.notification_manager = NotificationManager(HUD_MESSAGE_DURATION, self.game_interface.send_hud_message)
-        self.apmp1_file = apmp1_file
+        self.game_interface = MeleeInterface(logger)
+        # self.notification_manager = NotificationManager(HUD_MESSAGE_DURATION, self.game_interface.send_hud_message)
+        self.apssbm_file = apssbm_file
 
     def on_deathlink(self, data: Utils.Dict[str, Utils.Any]) -> None:
         super().on_deathlink(data)
@@ -114,7 +124,7 @@ class MeleeContext(CommonContext):
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
 
-def update_connection_status(ctx: MetroidPrimeContext, status):
+def update_connection_status(ctx: MeleeContext, status):
     if ctx.connection_state == status:
         return
     else:
@@ -124,16 +134,16 @@ def update_connection_status(ctx: MetroidPrimeContext, status):
         ctx.connection_state = status
 
 
-async def dolphin_sync_task(ctx: MetroidPrimeContext):
+async def dolphin_sync_task(ctx: MeleeContext):
     try:
         # This will not work if the client is running from source
         version = get_apworld_version()
-        logger.info(f"Using metroidprime.apworld version: {version}")
+        logger.info(f"Using melee apworld version: {version}")
     except:
         pass
 
-    if ctx.apmp1_file:
-        Utils.async_start(patch_and_run_game(ctx.apmp1_file))
+    if ctx.apssbm_file:
+        Utils.async_start(patch_and_run_game(ctx.apssbm_file))
 
     logger.info("Starting Dolphin Connector, attempting to connect to emulator...")
 
@@ -169,34 +179,34 @@ def __int_to_reversed_bits(value: int, bit_length: int) -> str:
     return binary_string[::-1]
 
 
-async def handle_checked_location(ctx: MetroidPrimeContext, current_inventory: dict[str, InventoryItemData]):
-    """Checks for active memory relays in each world"""
-    checked_locations = []
-    i = 0
-    for mlvl, memory_relay in PICKUP_LOCATIONS:
-        if ctx.game_interface.is_memory_relay_active(f'{mlvl.value:X}', memory_relay):
-            checked_locations.append(METROID_PRIME_LOCATION_BASE + i)
-        i += 1
-    await ctx.send_msgs([{"cmd": "LocationChecks", "locations": checked_locations}])
+# async def handle_checked_location(ctx: MeleeContext, current_inventory: dict[str, InventoryItemData]):
+#     """Checks for active memory relays in each world"""
+#     checked_locations = []
+#     i = 0
+#     for mlvl, memory_relay in PICKUP_LOCATIONS:
+#         if ctx.game_interface.is_memory_relay_active(f'{mlvl.value:X}', memory_relay):
+#             checked_locations.append(METROID_PRIME_LOCATION_BASE + i)
+#         i += 1
+#     await ctx.send_msgs([{"cmd": "LocationChecks", "locations": checked_locations}])
 
 
-async def handle_check_goal_complete(ctx: MetroidPrimeContext):
+async def handle_check_goal_complete(ctx: MeleeContext):
     if ctx.game_interface.current_game is not None:
         current_level = ctx.game_interface.get_current_level()
-        if current_level == MetroidPrimeLevel.End_of_Game:
+        if current_level == MeleeAreas.End_of_Game:
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
 
-async def handle_check_deathlink(ctx: MetroidPrimeContext):
+async def handle_check_deathlink(ctx: MeleeContext):
     health = ctx.game_interface.get_current_health()
     if health <= 0 and ctx.is_pending_death_link_reset == False:
-        await ctx.send_death(ctx.player_names[ctx.slot] + " ran out of energy.")
+        await ctx.send_death(ctx.player_names[ctx.slot] + " lost a stock.")
         ctx.is_pending_death_link_reset = True
     elif health > 0 and ctx.is_pending_death_link_reset == True:
         ctx.is_pending_death_link_reset = False
 
 
-async def _handle_game_ready(ctx: MetroidPrimeContext):
+async def _handle_game_ready(ctx: MeleeContext):
     if ctx.server:
         ctx.last_error_message = None
         if not ctx.slot:
@@ -206,7 +216,7 @@ async def _handle_game_ready(ctx: MetroidPrimeContext):
         current_inventory = ctx.game_interface.get_current_inventory()
         await handle_receive_items(ctx, current_inventory)
         ctx.notification_manager.handle_notifications()
-        await handle_checked_location(ctx, current_inventory)
+        # await handle_checked_location(ctx, current_inventory)
         await handle_check_goal_complete(ctx)
 
         if ctx.death_link_enabled:
@@ -220,7 +230,7 @@ async def _handle_game_ready(ctx: MetroidPrimeContext):
         await asyncio.sleep(1)
 
 
-async def _handle_game_not_ready(ctx: MetroidPrimeContext):
+async def _handle_game_not_ready(ctx: MeleeContext):
     """If the game is not connected or not in a playable state, this will attempt to retry connecting to the game."""
     ctx.game_interface.reset_relay_tracker_cache()
     if ctx.connection_state == ConnectionState.DISCONNECTED:
@@ -230,7 +240,7 @@ async def _handle_game_not_ready(ctx: MetroidPrimeContext):
 
 
 async def run_game(romfile):
-    auto_start = Utils.get_options()["metroidprime_options"].get("rom_start", True)
+    auto_start = Utils.get_options()["ssbmelee_options"].get("rom_start", True)
 
     if auto_start is True and assert_no_running_dolphin():
         import webbrowser
@@ -239,7 +249,7 @@ async def run_game(romfile):
         subprocess.Popen([auto_start, romfile],
                          stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-
+# TODO: update version obj for Melee versions
 def get_version_from_iso(path: str) -> str:
     if not os.path.exists(path):
         raise FileNotFoundError(f"Couldn't get version for iso at {path}!")
@@ -247,7 +257,7 @@ def get_version_from_iso(path: str) -> str:
         game_id = f.read(6).decode("utf-8")
         f.read(1)
         game_rev = f.read(1)[0]
-        if game_id[:3] != "GM8":
+        if game_id[:6] != "GALE01":
             raise Exception("This is not Super Smash Bros Melee")
         match game_id[3]:
             case "E":
@@ -278,35 +288,36 @@ def get_version_from_iso(path: str) -> str:
                 raise Exception(f"Unknown version of Metroid Prime GC (game_id : {game_id} | game_rev : {game_rev})")
 
 
-def get_options_from_apmp1(apmp1_file: str) -> dict:
-    with zipfile.ZipFile(apmp1_file) as zip_file:
+def get_options_from_apssbm(apssbm_file: str) -> dict:
+    with zipfile.ZipFile(apssbm_file) as zip_file:
         with zip_file.open("options.json") as file:
             options_json = file.read().decode("utf-8")
             options_json = json.loads(options_json)
     return options_json
 
 
-def get_randomprime_config_from_apmp1(apmp1_file: str) -> dict:
-    with zipfile.ZipFile(apmp1_file) as zip_file:
+def get_randomprime_config_from_apssbm(apssbm_file: str) -> dict:
+    with zipfile.ZipFile(apssbm_file) as zip_file:
         with zip_file.open("config.json") as file:
             config_json = file.read().decode("utf-8")
             config_json = json.loads(config_json)
     return config_json
 
 
-async def patch_and_run_game(apmp1_file: str):
-    apmp1_file = os.path.abspath(apmp1_file)
+async def patch_and_run_game(apssbm_file: str):
+    return
+    apssbm_file = os.path.abspath(apssbm_file)
     input_iso_path = Utils.get_options()["metroidprime_options"]["rom_file"]
     game_version = get_version_from_iso(input_iso_path)
-    base_name = os.path.splitext(apmp1_file)[0]
+    base_name = os.path.splitext(apssbm_file)[0]
     output_path = base_name + '.iso'
 
     if not os.path.exists(output_path):
-        if not zipfile.is_zipfile(apmp1_file):
-            raise Exception(f"Invalid APMP1 file: {apmp1_file}")
+        if not zipfile.is_zipfile(apssbm_file):
+            raise Exception(f"Invalid apssbm file: {apssbm_file}")
 
-        config_json = get_randomprime_config_from_apmp1(apmp1_file)
-        options_json = get_options_from_apmp1(apmp1_file)
+        config_json = get_randomprime_config_from_apssbm(apssbm_file)
+        options_json = get_options_from_apssbm(apssbm_file)
 
         build_progressive_beam_patch = False
         if options_json:
@@ -339,20 +350,20 @@ async def patch_and_run_game(apmp1_file: str):
 
 
 def launch():
-    Utils.init_logging("MetroidPrime Client")
+    Utils.init_logging("Melee Client")
 
     async def main():
         multiprocessing.freeze_support()
         logger.info("main")
         parser = get_base_parser()
-        parser.add_argument('apmp1_file', default="", type=str, nargs="?",
-                            help='Path to an apmp1 file')
+        parser.add_argument('apssbm_file', default="", type=str, nargs="?",
+                            help='Path to an apssbm file.')
         args = parser.parse_args()
 
-        ctx = MetroidPrimeContext(args.connect, args.password, args.apmp1_file)
+        ctx = MeleeContext(args.connect, args.password, args.apssbm_file)
 
-        if args.apmp1_file:
-            slot = get_options_from_apmp1(args.apmp1_file)["player_name"]
+        if args.apssbm_file:
+            slot = get_options_from_apssbm(args.apssbm_file)["player_name"]
             if slot:
                 ctx.auth = slot
 
@@ -379,6 +390,42 @@ def launch():
     colorama.init()
 
     asyncio.run(main())
+    colorama.deinit()
+
+def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
+    """
+    Run the main async loop for the Melee Client.
+
+    :param connect: Address of the Archipelago server.
+    :param password: Password for server authentication.
+    """
+    #Utils.init_logging("The Wind Waker Client")
+
+    async def _main(connect: Optional[str], password: Optional[str]) -> None:
+        ctx = MeleeContext(connect, password)
+        ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
+        if gui_enabled:
+            ctx.run_gui()
+        ctx.run_cli()
+        await asyncio.sleep(1)
+
+        ctx.dolphin_sync_task = asyncio.create_task(dolphin_sync_task(ctx), name="DolphinSync")
+
+        await ctx.exit_event.wait()
+        # Wake the sync task, if it is currently sleeping, so it can start shutting down when it sees that the
+        # exit_event is set.
+        ctx.watcher_event.set()
+        ctx.server_address = None
+
+        await ctx.shutdown()
+
+        if ctx.dolphin_sync_task:
+            await ctx.dolphin_sync_task
+
+    import colorama
+
+    colorama.init()
+    asyncio.run(_main(connect, password))
     colorama.deinit()
 
 

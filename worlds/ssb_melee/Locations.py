@@ -1,6 +1,6 @@
 from BaseClasses import Location, MultiWorld
-from worlds.ssb_melee.classes.Event import EVENTDATA
-from worlds.ssb_melee.classes.Character import get_unlockable_characters
+from .classes.Event import EVENTDATA
+from .classes.Character import get_unlockable_characters
 import os
 import csv
 
@@ -98,29 +98,27 @@ all_star_location_table = {
 
 event_location_table = {}
 event_location_counter = 5500000
+event_counter = 0
 for event in EVENTDATA:
-    event_location_counter = event_location_counter + 1
-    event_location_table.update({f"Event Mode - {event.get('num')}: {event.get('name')} Clear": event_location_counter})
-
-print(event_location_table)
-
+    event_counter += 1
+    event_location_counter += 1
+    event_location_table.update({f"Event Match - Clear Event #{event_counter}": event_location_counter})
 
 trophy_location_table = {}
 trophy_counter = event_location_counter
-with open("./data/SSBM Trophies.csv", 'r') as file: 
+path = os.path.join(os.path.dirname(__file__), "data/SSBM Trophies.csv")
+with open(path, 'r') as file: 
     trophy_csv = csv.reader(file)
     for row in trophy_csv:
         trophy_counter = trophy_counter + 1
         trophy_location_table.update({f"Trophy Unlocked - {row[1]}": trophy_counter})
-
-print(trophy_location_table)
 
 character_location_table = {}
 character_counter = trophy_counter
 chars = get_unlockable_characters()
 for character in chars:
     character_counter = character_counter + 1
-    character_location_table.update({f"Character Unlocked - {character}": character_counter})
+    character_location_table.update({f"Win Character Unlock Duel - {character}": character_counter})
 
 
 locations: dict[str, int] = {
@@ -131,9 +129,6 @@ locations: dict[str, int] = {
     **trophy_location_table,
     **character_location_table
 }
-
-print(locations)
-print(" locations count: " + str(len(locations)))
 
 # PICKUP_LOCATIONS: list[(int, int)] = [
 #     (MetroidPrimeLevel.Chozo_Ruins, 0x0002012d),

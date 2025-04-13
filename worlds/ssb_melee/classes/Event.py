@@ -1,334 +1,315 @@
 # reference: https://www.ssbwiki.com/List_of_event_matches#In_Super_Smash_Bros._Melee
 EVENTS = range(1, 51, 1)
-EVENTDATA = [
-    {
-        "num": 1,
+EVENTDATA = {
+    1: {
         "name": "Trouble King",
         "character": "mario",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 2,
+    2: {
         "name": "Lord of the Jungle",
         "character": "dk",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 3,
+    3: {
         "name": "Bomb-fest",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 4,
+    4: {
         "name": "Dino-wrangling",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 5,
+    5: {
         "name": "Spare Change",
         "character": "ness",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 6,
+    6: {
         "name": "Kirbys on Parade",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 7,
+    7: {
         "name": "Pokemon Battle",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 8,
+    8: {
         "name": "Hot Date on Brinstar",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 9,
+    9: {
         "name": "Hide 'n' Sheik",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 10,
+    10: {
         "name": "All-Star Match 1",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 11,
+    11: {
         "name": "King of the Mountain",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 12,
+    12: {
         "name": "Seconds, Anyone?",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 13,
+    13: {
         "name": "Yoshi's Egg",
         "character": "yoshi",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 14,
+    14: {
         "name": "Trophy Tussle 1",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 15,
+    15: {
         "name": "Girl Power",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 16,
+    16: {
         "name": "Kirby's Air-raid",
         "character": "kirby",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 17,
+    17: {
         "name": "Bounty Hunters",
         "character": "samus",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 18,
+    18: {
         "name": "Link's Adventure",
         "character": "link",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 19,
+    19: {
         "name": "Peach's Peril",
         "character": "mario",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 20,
+    20: {
         "name": "All-Star Match 2",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 21,
+    },
+    21: {
         "name": "Ice Breaker",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 22,
+    },
+    22: {
         "name": "Super Mario 128",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 23,
+    },
+    23: {
         "name": "Slippy's Invention",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 24,
+    },
+    24: {
         "name": "The Yoshi Herd",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 25,
+    },
+    25: {
         "name": "Gargantuans",
         "character": "bowser",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 26,
+    },
+    26: {
         "name": "Trophy Tussle 2",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 27,
+    },
+    27: {
         "name": "Cold Armor",
         "character": "samus",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 28,
+    },
+    28: {
         "name": "Puffballs Unite!",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 29,
+    },
+    29: {
         "name": "Triforce Gathering",
         "character": "link",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 30,
+    },
+    30: {
         "name": "All-Star Match 3",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 31,
+    },
+    31: {
         "name": "Mario Bros. Madness",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 32,
+    },
+    32: {
         "name": "Target Acquired",
         "character": "falco",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 33,
+    },
+    33: {
         "name": "Lethal Marathon",
         "character": "cf",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 34,
+    },
+    34: {
         "name": "Seven Years",
         "character": "ylink",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 35,
+    },
+    35: {
         "name": "Time for a Checkup",
         "character": "luigi",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 36,
+    },
+    36: {
         "name": "Space Travelers",
         "character": "ness",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 37,
+    },
+    37: {
         "name": "Legendary Pokemon",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 38,
+    },
+    38: {
         "name": "Super Mario Bros. 2",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 39,
+    },
+    39: {
         "name": "Jigglypuff Live!",
         "character": "jiggly",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 40,
+    },
+    40: {
         "name": "All-Star Match 4",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 41,
+    },
+    41: {
         "name": "En Garde!",
         "character": "marth",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 42,
+    },
+    42: {
         "name": "Trouble King 2",
         "character": "luigi",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 43,
+    },
+    43: {
         "name": "Birds of Prey",
         "character": "fox",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     },
-    {
-        "num": 44,
+    44: {
         "name": "Mewtwo Strikes!",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 45,
+    },
+    45: {
         "name": "Game & Watch Forever!",
         "character": "mgaw",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 46,
+    },
+    46: {
         "name": "Fire Emblem Pride",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 47,
+    },
+    47: 
+    {
         "name": "Trophy Tussle 3",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 48,
+    },
+    48: {
         "name": "Pikachu and Pichu",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 49,
+    },
+    49: {
         "name": "All-Star Match Deluxe",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 50,
+    },
+    50: {
         "name": "Final Destination Match",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
-    },{
-        "num": 51,
+    },
+    51: {
         "name": "The Showdown",
         "character": "any",
         "clear_byte": 0xffffff,
         "score_byte": 0xffffff
     }
-]
+}
+
 EVENTGROUPS = [
     {
         "first": 1, #beginning of group

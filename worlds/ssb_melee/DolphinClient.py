@@ -1,5 +1,5 @@
 from logging import Logger
-import dolphin_memory_engine
+import dolphin_memory_engine # type: ignore
 import subprocess
 import Utils
 
