@@ -111,9 +111,9 @@ Super Smash Bros Melee:
     random-mid: 0
     random-high: 0
 
-  trophy_count__goal: 
+  trophy_count_goal: 
     # Adds collecting trophies to the goal.
-    # In ordeer to complete your seeed, you must geet the number of trophies specified.
+    # In order to complete your seed, you must get the number of trophies specified.
     # Ignored if 0.
     0: 50
     random: 0

@@ -22,8 +22,11 @@ class ShuffleEventDetails(Choice):
     If the player character is randomized, the event will logically require that character in order to count its completion. 
     NOT YET IMPLEMENTED"""
     display_name = "Shuffle Event Details"
-    default = "vanilla"
-    choices = ["shuffle_player_char", "shuffle_enemy_char", "shuffle_both", "vanilla"]
+    default = 3
+    option_ShufflePlayerChar = 0
+    option_ShuffleEnemyChar = 1
+    option_ShuffleBoth = 2
+    option_Vanilla = 3
 
 class ExcludedEvents(OptionList):
     """Events to exclude from the Events goal. Events can be excluded by name or number.
@@ -77,7 +80,7 @@ class TrophyCountGoal(Range):
     This option will be ignored if set to 0. 
     Excludes the Olimar and Japan-only trophies.
     For more information: https://www.ssbwiki.com/List_of_trophies_by_unlock_criteria_(SSBM)"""
-    display_name = "Trophy Collector Goal"
+    display_name = "Trophy Collection Goal"
     default = 0
     range_start = 0
     range_end = 290
@@ -107,9 +110,10 @@ class DisableTapJump(Toggle):
 class DeathLinkMode(Choice):
     """Set what happens when death link activates."""
     display_name = 'Death Link Mode'
-    default = 'Lose Stock'
-    options = ['Lose Stock', 'Lose All Stocks', 'Lose Without Continue']
-
+    default = 0
+    option_LoseStock = 0
+    option_LoseAllStocks = 1
+    option_LoseWithoutContinue = 2
 
 @dataclass
 class MeleeOptions(PerGameCommonOptions):
