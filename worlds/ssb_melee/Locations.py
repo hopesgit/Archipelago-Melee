@@ -1,6 +1,6 @@
 from BaseClasses import Location, MultiWorld
 from .classes.Event import EVENTDATA
-from .classes.Character import get_unlockable_characters
+from .classes.Fighter import get_unlockable_characters
 import os
 import csv
 
