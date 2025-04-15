@@ -124,13 +124,13 @@ class MeleeOptions(PerGameCommonOptions):
     adventure_total_goal: AdventureTotalGoal
     all_star_goal: AllStarGoal
     all_star_total_goal: AllStarTotalGoal
-    trophy_count__goal: TrophyCountGoal
+    trophy_count_goal: TrophyCountGoal
 
     # optional/QoL
     exclude_characters: ExcludeCharacters
     easy_vs_mode_unlocks: EasyVsModeUnlocks
     c_stick_in_single_player: CStickInSinglePlayer
-    disable__tap_jump: DisableTapJump
+    disable_tap_jump: DisableTapJump
     death_link_mode: DeathLinkMode
 
     # generic
