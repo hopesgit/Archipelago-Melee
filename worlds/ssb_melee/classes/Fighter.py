@@ -1,4 +1,4 @@
-CHARACTERS = {
+FIGHTERS = {
     "drmario": "Dr. Mario",
     "mario": "Mario",
     "luigi": "Luigi",
@@ -26,10 +26,10 @@ CHARACTERS = {
     "roy": "Roy"
 }
 
-CHARGROUPS = [
+FGROUPS = [
     {
         "name": "starter",
-        "chars": [
+        "fighters": [
             "mario",
             "yoshi",
             "dk",
@@ -47,8 +47,8 @@ CHARGROUPS = [
         ]
     },
     {
-        "name": "uchar1", # first batch of unlockable characters. Relevant to Event 30
-        "chars": [
+        "name": "uf1", # first batch of unlockable fighters. Relevant to Event 30
+        "fighters": [
             "luigi",
             "jiggly",
             "drmario",
@@ -57,8 +57,8 @@ CHARGROUPS = [
         ]
     },
     {
-        "name": "uchar2", # all unlockable chars
-        "chars": [
+        "name": "uf2", # all unlockable fighters
+        "fighters": [
             "luigi",
             "jiggly",
             "drmario",
@@ -74,9 +74,9 @@ CHARGROUPS = [
     }
 ]
 
-def get_unlockable_characters():
-    group = CHARGROUPS[2]["chars"]
+def get_unlockable_fighters():
+    group = FGROUPS[2]["fighters"]
     names = []
     for name in group:
-        names.append(CHARACTERS[name])
+        names.append(FIGHTERS[name])
     return names

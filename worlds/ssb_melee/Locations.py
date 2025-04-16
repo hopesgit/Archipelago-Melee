@@ -1,12 +1,12 @@
 from BaseClasses import Location, MultiWorld
 from .classes.Event import EVENTDATA
-from .classes.Fighter import get_unlockable_characters
+from .classes.Fighter import get_unlockable_fighters
 import os
 import csv
 
 METROID_PRIME_LOCATION_BASE = 5031100
 
-class MeleeLocation(Location): #Location
+class MeleeLocation(Location):
     game: str = "Super Smash Bros Melee"
 
 classic_location_table = {
@@ -113,12 +113,12 @@ with open(path, 'r') as file:
         trophy_counter = trophy_counter + 1
         trophy_location_table.update({f"Trophy Unlocked - {row[1]}": trophy_counter})
 
-character_location_table = {}
-character_counter = trophy_counter
-chars = get_unlockable_characters()
-for character in chars:
-    character_counter = character_counter + 1
-    character_location_table.update({f"Win Character Unlock Duel - {character}": character_counter})
+fighter_location_table = {}
+fighter_counter = trophy_counter
+fighters = get_unlockable_fighters()
+for fighter in fighters:
+    fighter_counter = fighter_counter + 1
+    fighter_location_table.update({f"Win Fighter Unlock Duel - {fighter}": fighter_counter})
 
 
 locations: dict[str, int] = {
@@ -127,7 +127,7 @@ locations: dict[str, int] = {
     **all_star_location_table,
     **event_location_table,
     **trophy_location_table,
-    **character_location_table
+    **fighter_location_table
 }
 
 # PICKUP_LOCATIONS: list[(int, int)] = [

@@ -3,7 +3,7 @@ from .Locations import *
 
 from classes.Event import EVENTDATA
 
-from random import random, choice
+from random import choice
 from CommonClient import logger
 
 import typing
@@ -104,10 +104,10 @@ def has_fighter(state: CollectionState, player: int, fighter: str) -> bool:
     else:
         return state.has(fighter, player)
 
-def has_all_basic_characters(state: CollectionState, player: int) -> bool:
+def has_all_basic_fighters(state: CollectionState, player: int) -> bool:
     return True
 
-def has_all_unlockable_characters(state: CollectionState, player: int) -> bool:
+def has_all_unlockable_fighters(state: CollectionState, player: int) -> bool:
     return (has_fighter(state, player, "Dr. Mario") and 
             has_fighter(state, player, "Luigi") and 
             has_fighter(state, player, "Ganondorf") and 

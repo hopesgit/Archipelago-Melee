@@ -29,7 +29,7 @@ components.append(
 icon_paths["Melee"] = "ap:worlds.ssb_melee/img/melee.png"
 
 class SSBMeleeWorld(World):
-    """Super Smash Bros. Melee is a platform fighter released in 2001 for the Nintendo GameCube.
+    """Super Smash Bros. Melee is a platform fighter party game released in 2001 for the Nintendo GameCube.
     Players can choose any of a handful of Nintendo characters and duke it out in Single- or Multiplayer modes."""
     options_dataclass = MeleeOptions
     options = MeleeOptions

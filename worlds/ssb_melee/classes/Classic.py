@@ -1,4 +1,4 @@
-# Classic Mode is a mode where you choose a character and run through a series 
+# Classic Mode is a mode where you choose a fighter and run through a series 
 # of themed battles, ending with a conflict with Master Hand.
 # Additionally, the final battle can become a conflict with Master Hand and 
 # Crazy Hand under certain conditions.

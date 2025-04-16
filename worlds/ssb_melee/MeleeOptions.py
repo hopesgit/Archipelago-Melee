@@ -9,17 +9,17 @@ class EventsGoal(Toggle):
     default = True
 
 class ProgressiveEvents(Toggle):
-    """By default, Event mode unlocks as you gather more characters and complete a specified number of events.
+    """By default, Event mode unlocks as you gather more fighters and complete a specified number of events.
     Set this to true, and events will instead be gated by Event Gate items.
-    Set this to false, and events will require certain characters as well as a specified number of cleared events to unlock later events.
+    Set this to false, and events will require certain fighters as well as a specified number of cleared events to unlock later events.
     Ignored if Event Mode Goal is False."""
     display_name = "Progressive Events"
     default = False
 
 class ShuffleEventDetails(Choice):
-    """By default, an event has a set player character (if applicable), set enemies, a set stage, and other restrictions or AI routines.
+    """By default, an event has a set P1 fighter (if applicable), set enemies, a set stage, and other restrictions or AI routines.
     You can choose your level of randomization for events.
-    If the player character is randomized, the event will logically require that character in order to count its completion. 
+    If the player fighter is randomized, the event will logically require that fighter in order to count its completion. 
     NOT YET IMPLEMENTED"""
     display_name = "Shuffle Event Details"
     default = 3
@@ -36,12 +36,12 @@ class ExcludedEvents(OptionList):
     default = []
 
 class ClassicGoal(Toggle):
-    """Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all characters."""
+    """Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all fighters."""
     display_name = "Classic Mode Goal"
     default = False
 
 class ClassicTotalGoal(Range):
-    """Adds Classic Mode to the goal. Adds Classic Mode to the goal if Classic Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all characters.
+    """Adds Classic Mode to the goal. Adds Classic Mode to the goal if Classic Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
     This option will be ignored if set to 0."""
     display_name = "Classic Mode High Score Total Goal"
     default = 0
@@ -49,12 +49,12 @@ class ClassicTotalGoal(Range):
     range_end = 100000000
 
 class AdventureGoal(Toggle):
-    """Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all characters."""
+    """Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all fighters."""
     display_name = "Adventure Mode Goal"
     default = False
 
 class AdventureTotalGoal(Range):
-    """Adds Adventure Mode to the goal. Adds Adventure Mode to the goal if Adventure Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all characters.
+    """Adds Adventure Mode to the goal. Adds Adventure Mode to the goal if Adventure Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
     This option will be ignored if set to 0."""
     display_name = "Adventure Mode High Score Total Goal"
     default = 0
@@ -62,13 +62,13 @@ class AdventureTotalGoal(Range):
     range_end = 100000000
 
 class AllStarGoal(Toggle):
-    """Adds All-Star Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete All-Star with all characters.
-    You can unlock All-Star Mode by unlocking all playable characters."""
+    """Adds All-Star Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete All-Star with all fighters.
+    You can unlock All-Star Mode by unlocking all playable fighters."""
     display_name = "All-Star Mode Goal"
     default = False
 
 class AllStarTotalGoal(Range):
-    """Adds All-Star Mode to the goal. Adds All-Star Mode to the goal if All-Star Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all characters.
+    """Adds All-Star Mode to the goal. Adds All-Star Mode to the goal if All-Star Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
     This option will be ignored if set to 0."""
     display_name = "All-Star Mode High Score Total Goal"
     default = 0
@@ -85,13 +85,13 @@ class TrophyCountGoal(Range):
     range_start = 0
     range_end = 290
 
-class ExcludeCharacters(OptionList):
-    """Exludes specific characters from any goals you've chosen. Good for if you just really don't vibe with a character."""
-    display_name = "Exclude Characters from Goals"
+class ExcludeFighters(OptionList):
+    """Exludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character."""
+    display_name = "Exclude Fighters from Goals"
     default = []
 
 class EasyVsModeUnlocks(Range):
-    """Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, characters, and trophies very easy and/or quick."""
+    """Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick."""
     display_name = "Easy Vs Mode Unlocks"
     default = 0
     range_start = 0
@@ -131,7 +131,7 @@ class MeleeOptions(PerGameCommonOptions):
     trophy_count_goal: TrophyCountGoal
 
     # optional/QoL
-    exclude_characters: ExcludeCharacters
+    exclude_fighters: ExcludeFighters
     easy_vs_mode_unlocks: EasyVsModeUnlocks
     c_stick_in_single_player: CStickInSinglePlayer
     disable_tap_jump: DisableTapJump

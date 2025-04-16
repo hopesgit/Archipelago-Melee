@@ -41,7 +41,7 @@ Super Smash Bros Melee:
     'false': 0
     
   progressive_events:
-    # By default, event groups unlock as you gather more characters and complete a specified number of events.
+    # By default, event groups unlock as you gather more fighters and complete a specified number of events.
     # Set this to true, and event groups will instead be gated by Progressive Event Gate items.
     # Set this to false, and event groups will have vanilla requirements.
     # Ignored if Event Mode Goal is False.
@@ -49,9 +49,9 @@ Super Smash Bros Melee:
     'false': 50
 
   shuffle_event_details:
-    # By default, an event has a set player character (if applicable), set enemies, a set stage, and other restrictions or AI routines.
+    # By default, an event has a set p1 fighter (if applicable), set enemies, a set stage, and other restrictions or AI routines.
     # You can choose your level of randomization for events.
-    # If the player character is randomized, the event will logically require that character in order to count its completion. 
+    # If the player fighter is randomized, the event will logically require that fighter in order to count its completion. 
     # NOT YET IMPLEMENTED
     shuffle_player_char: 0
     shuffle_enemy_char: 0 # Also shuffles enemy AI. Events that rely on particular AI routines will be ignored. 
@@ -66,13 +66,13 @@ Super Smash Bros Melee:
     []
 
   classic_goal:
-    # Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all characters.
+    # Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all fighters.
     'true': 0
     'false': 50
 
   classic_total_goal:
     # Adds Classic Mode to the goal. 
-    # In order to complete your goal, you must reach the given amount of total points between all characters in Classic Mode.
+    # In order to complete your goal, you must reach the given amount of total points between all fighters in Classic Mode.
     # This option will be ignored if set to 0.
     0: 50
     random: 0
@@ -81,13 +81,13 @@ Super Smash Bros Melee:
     random-high: 0
 
   adventure_goal:
-    # Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all characters.
+    # Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all fighters.
     'true': 0
     'false': 50
 
   adventure_total_goal: 
     # Adds Adventure Mode to the goal.
-    # In order to complete your goal, you must reach the given amount of total score betweel all characters in Adventure Mode.
+    # In order to complete your goal, you must reach the given amount of total score between all fighters in Adventure Mode.
     # Ignored if 0.
     0: 50
     random: 0
@@ -97,13 +97,13 @@ Super Smash Bros Melee:
 
   all_star_goal:
     # Adds All-Star Mode to the goal.
-    # In order to complete your goal, you must complete All-Star mode with all characters.
+    # In order to complete your goal, you must complete All-Star mode with all fighters.
     'true': 0
     'false': 50
 
   all_star_total_goal:
     # Adds All-Star Mode to the goal.
-    # In order to complete this goal, you must reach the given amount of total score between all characters in All-Star Mode.
+    # In order to complete this goal, you must reach the given amount of total score between all fighters in All-Star Mode.
     # Ignored if 0.
     0: 50
     random: 0
@@ -122,20 +122,22 @@ Super Smash Bros Melee:
     random-high: 0
 
   # optional/QoL
-  exclude_characters:
-    # Exludes specific characters from any goals you've chosen. Good for if you just don't vibe with a character. Doees not prevent the character from getting unlocked.
-    # Enter a character's name to exclude them.
+  exclude_fighters:
+    # Exludes specific fighters from any goals you've chosen. Good for if you just don't vibe with a character. Does not prevent the fighter(s) from getting unlocked.
+    # Enter a fighter's name to exclude them.
     # Example: ["Roy", "Pichu"]
     # Example: 
     #  - Roy
     #  - Pichu
-
     []
 
   easy_vs_mode_unlocks:
-    # Sets the vs mode battle counters to whatever value specified. Can make getting stages, characters, and trophies very easy and/or quick.
+    # Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick.
+    # 
     # Complete a vs match, and the game will check the counters to run unlock functions.
-    # For each character/stage to unlock, you will need to complete another match.
+    # 
+    # For each fighter/stage to unlock, you will need to complete another match.
+    # 
     # Trophies/special messages unlock all at once.
     0: 50
     1000: 0
@@ -150,7 +152,7 @@ Super Smash Bros Melee:
     'false': 0
 
   disable_tap_jump:
-    # By default, flicking the control stick up causes your character to jump. Set this to true to disable that feature.
+    # By default, flicking the control stick up causes your fighter to jump. Set this to true to disable that feature.
     'true': 50
     'false': 0
 
