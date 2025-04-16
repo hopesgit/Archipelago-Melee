@@ -94,6 +94,7 @@
             "groupName": "All-Star Mode"
         },
         {
+            "expanded": true,
             "groupEntries": [
             ],
             "groupName": "Event Mode"
@@ -159,17 +160,24 @@
             "groupName": "Character/stage unlocks"
         },
         {
-            "address": "804D49EA",
-            "baseIndex": 1,
-            "label": "Current stage",
-            "typeIndex": 1,
-            "unsigned": true
-        },
-        {
             "address": "804D6038",
             "baseIndex": 0,
             "label": "No label",
             "typeIndex": 2,
+            "unsigned": false
+        },
+        {
+            "address": "8043208B",
+            "baseIndex": 0,
+            "label": "Current Stage (event mode?)",
+            "typeIndex": 0,
+            "unsigned": false
+        },
+        {
+            "address": "804D6D58",
+            "baseIndex": 0,
+            "label": "HUD (0=on, 1=off)",
+            "typeIndex": 0,
             "unsigned": false
         },
         {

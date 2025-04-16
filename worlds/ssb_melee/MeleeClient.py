@@ -31,16 +31,26 @@ class ConnectionState(Enum):
     IN_MENU = 2
     MULTIPLE_DOLPHIN_INSTANCES = 3
 
+status_messages = {
+    0: "Connected to Melee",
+    1: "Connected to game, waiting for game to start",
+    2: "Unable to connect to the Dolphin instance, attempting to reconnect...",
+    3: "Warning: Multiple Dolphin instances detected, client may not function correctly."
+}
+
 class MeleeCommandProcessor(ClientCommandProcessor):
+    ctx: "MeleeContext"
+
     def __init__(self, ctx: CommonContext):
         super().__init__(ctx)
 
+    # TODO: rework this to use SSBM in-game notices
     def _cmd_test_hud(self, *args):
         """Send a message to the game interface."""
         self.ctx.notification_manager.queue_notification(' '.join(map(str, args)))
 
     def _cmd_status(self, *args):
-        """Display the current dolphin connection status."""
+        """Display the current Dolphin connection status."""
         logger.info(f"Connection status: {status_messages[self.ctx.connection_state]}")
 
     def _cmd_deathlink(self):
@@ -53,20 +63,12 @@ class MeleeCommandProcessor(ClientCommandProcessor):
             logger.info(message)
             self.ctx.notification_manager.queue_notification(message)
 
-    def _cmd_debug_menu(self):
-        """Toggle debug menu cheat. Replaces Tournament Mode when active."""
-        if isinstance(self.ctx, MeleeContext):
-            self.ctx.debug_menu_enabled = not self.ctx.debug_menu_enabled
-
-
-
-
-status_messages = {
-    ConnectionState.IN_GAME: "Connected to Melee",
-    ConnectionState.IN_MENU: "Connected to game, waiting for game to start",
-    ConnectionState.DISCONNECTED: "Unable to connect to the Dolphin instance, attempting to reconnect...",
-    ConnectionState.MULTIPLE_DOLPHIN_INSTANCES: "Warning: Multiple Dolphin instances detected, client may not function correctly."
-}
+    def _cmd_hardcore_mode(self):
+        """Toggles the in-game HUD. You can't be nervous about damage that you can't see, right?"""
+        logger.info('Toggling HUD...')
+        self.ctx.game_interface.set_hardcore_mode(not self.ctx.hardcore_mode)
+        self.ctx.hardcore_mode = not self.ctx.hardcore_mode
+        logger.info(f"HUD has been set to {'ON' if self.ctx.hardcore_mode else 'OFF'}.")
 
 
 class MeleeContext(CommonContext):
@@ -86,6 +88,7 @@ class MeleeContext(CommonContext):
     slot_name: Optional[str] = None
     last_error_message: Optional[str] = None
     apssbm_file: Optional[str] = None
+    hardcore_mode = False
 
     def __init__(self, server_address, password, apssbm_file=None):
         super().__init__(server_address, password)
@@ -129,6 +132,7 @@ def update_connection_status(ctx: MeleeContext, status):
         return
     else:
         logger.info(status_messages[status])
+        # logger.info(status_messages)
         if get_num_dolphin_instances() > 1:
             logger.info(status_messages[ConnectionState.MULTIPLE_DOLPHIN_INSTANCES])
         ctx.connection_state = status
@@ -195,6 +199,7 @@ async def handle_check_goal_complete(ctx: MeleeContext):
         current_level = ctx.game_interface.get_current_level()
         if current_level == MeleeAreas.End_of_Game:
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            ## TODO: add call to force credits after goal achieved
 
 
 async def handle_check_deathlink(ctx: MeleeContext):
@@ -295,14 +300,12 @@ def get_options_from_apssbm(apssbm_file: str) -> dict:
             options_json = json.loads(options_json)
     return options_json
 
-
 def get_randomizer_config_from_apssbm(apssbm_file: str) -> dict:
     with zipfile.ZipFile(apssbm_file) as zip_file:
         with zip_file.open("config.json") as file:
             config_json = file.read().decode("utf-8")
             config_json = json.loads(config_json)
     return config_json
-
 
 async def patch_and_run_game(apssbm_file: str):
     return

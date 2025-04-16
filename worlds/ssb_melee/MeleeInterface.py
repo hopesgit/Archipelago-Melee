@@ -162,6 +162,25 @@ class MeleeInterface:
             player_state_pointer, 0, struct.pack(">I", value)
         )
 
+    def set_hardcore_mode(self, on: bool):
+        value: 0
+        if on:
+            value = 0
+        else: 
+            value = 1
+        self.dolphin_client.write_address(
+            0x804D6D58, value 
+        )
+        # self.dolphin_client.
+
+    def kill_player(self):
+        ## current implementation idea:
+        ## call function that triggers loss of a stock
+        ## -> address 80033ce0
+        ## write to register 3 the player number (should be 1?) (writing a 5 or higher crashes the game)
+        ## -> maybe this should be written before trying to call the func at 80033ce0
+        pass
+
     def get_current_level(self) -> Optional[MeleeAreas]:
         """Returns the world that the player is currently in"""
         if self.current_game is None:
