@@ -357,3 +357,66 @@ EVENTGROUPS = [
         "requirements": ["all of", 1, 50, "classic/adv"]
     }
 ]
+
+from typing import Dict, List, Tuple
+from math import inf
+
+
+class EventRule:
+    type: str
+    time_limit: int
+    special: str
+    teams: bool
+
+
+class EventFighter:
+    name: str
+    stocks: int
+    start_damage: int
+    knock_back: Dict
+    ai: str
+    lvl: int
+
+
+class Event:
+    number: int
+    name: str
+    p1: EventFighter
+    allies: List[EventFighter] | None
+    enemies: List[EventFighter]
+    stage_ids: List[int]
+    music: List[int]
+    objectives: List[EventRule]
+    requirements: Dict
+    clear_byte: int
+    score_byte: int
+    table_loc: int # I have yet to find the table with the Event information in the iso
+
+
+    def __init__(self, number: int, name: str, p1: EventFighter, allies: List[EventFighter] | None,
+                 enemies: List[EventFighter], stage_ids: List[int], music: List[int],
+                 objectives: List[EventRule], requirements, clear_byte = 0x80000000,
+                 score_byte = 0x80000000, table_loc = 0x80000000):
+        self.number = number
+        self.name = name
+        self.p1 = p1
+        self.allies = allies
+        self.enemies = enemies
+        self.stage_ids = stage_ids
+        self.music = music
+        self.objectives = objectives
+        self.requirements = requirements
+        self.clear_byte = clear_byte
+        self.score_byte = score_byte
+        self.table_loc = table_loc
+
+
+class EventRandomizer:
+    e_data = EVENTDATA
+    e_groups = EVENTGROUPS
+
+    from .Fighter import FIGHTERS, FGROUPS
+    f_data = FIGHTERS
+    f_groups = FGROUPS
+
+

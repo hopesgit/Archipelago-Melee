@@ -2,11 +2,10 @@ from enum import Enum
 from Options import DeathLink, DefaultOnToggle, OptionDict, OptionList, TextChoice, Toggle, Range, ItemDict, StartInventoryPool, Choice, PerGameCommonOptions, Visibility
 from dataclasses import dataclass
 
-class EventsGoal(Toggle):
+class EventsGoal(DefaultOnToggle):
     """Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
     If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear."""
     display_name = "Event Mode Goal"
-    default = True
 
 class ProgressiveEvents(Toggle):
     """By default, Event mode unlocks as you gather more fighters and complete a specified number of events.
@@ -86,7 +85,7 @@ class TrophyCountGoal(Range):
     range_end = 290
 
 class ExcludeFighters(OptionList):
-    """Exludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character."""
+    """Excludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character."""
     display_name = "Exclude Fighters from Goals"
     default = []
 
@@ -97,15 +96,13 @@ class EasyVsModeUnlocks(Range):
     range_start = 0
     range_end = 1000
 
-class CStickInSinglePlayer(Toggle):
+class CStickInSinglePlayer(DefaultOnToggle):
     """By default, the C-Stick moves the camera in single-player. This option changes the controls so that the C-Stick performs Smash attacks, like in Vs Mode."""
     display_name = "Enable C-Stick in Single Player"
-    default = True
 
-class DisableTapJump(Toggle):
+class DisableTapJump(DefaultOnToggle):
     """By default, you can flick the control stick up quickly to jump. Set this option to true to disable that behavior."""
     display_name = "Disable Tap Jumping"
-    default = True
 
 class DeathLinkMode(Choice):
     """Set what happens when death link activates."""

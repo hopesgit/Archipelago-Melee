@@ -1,3 +1,4 @@
+import logging
 from logging import Logger
 import struct
 from typing import Any, Dict, Optional, Union
@@ -186,9 +187,11 @@ class MeleeInterface:
         if self.current_game is None:
             return None
         world_bytes = self.dolphin_client.read_pointer(
-            GAMES[self.current_game]["game_state_pointer"], 0x84, struct.calcsize(">I")
+            0x8065CC14
+            # GAMES[self.current_game]["game_state_pointer"], 0x84, struct.calcsize(">I")
         )
         if world_bytes is not None:
+            logging.debug(f'Current menu is: {world_bytes}')
             world_asset_id = struct.unpack(">I", world_bytes)[0]
             return world_by_id(world_asset_id)
         return None
@@ -206,16 +209,16 @@ class MeleeInterface:
         return self.get_current_health()
 
     def get_last_received_index(self) -> Optional[int]:
-        return 2
         """Gets the index of the last item received. This is stored as the current amount for the power suit"""
+        return 2
         inventory_item = self.get_item(item_table[SuitUpgrade.Power_Suit.value])
         if inventory_item is not None:
             return inventory_item.current_amount
         return None
 
     def set_last_received_index(self, index: int):
-        return 2
         """Sets the received index to the index of the last item received. This is stored as the max amount for the power suit"""
+        return 2
         inventory_item = self.get_item(item_table[SuitUpgrade.Power_Suit.value])
         if inventory_item is not None:
             inventory_item.current_amount = index
@@ -232,8 +235,9 @@ class MeleeInterface:
             game_id = self.dolphin_client.read_address(GC_GAME_ID_ADDRESS, 6)
             try:
                 game_rev: Optional[int] = self.dolphin_client.read_address(
-                    GC_GAME_ID_ADDRESS + 7, 1
+                    GC_GAME_ID_ADDRESS, 2
                 )[0]
+                logging.debug(f"Game ID is: {game_rev}")
             except:
                 game_rev = None
             # The first read of the address will be null if the client is faster than the emulator
@@ -269,13 +273,13 @@ class MeleeInterface:
         try:
             connected = self.dolphin_client.is_connected()
             if not connected or self.current_game is None:
-                return ConnectionState.DISCONNECTED
+                return ConnectionState.DISCONNECTED.value
             elif self.is_in_playable_state():
-                return ConnectionState.IN_GAME
+                return ConnectionState.IN_GAME.value
             else:
-                return ConnectionState.IN_MENU
+                return ConnectionState.IN_MENU.value
         except DolphinException:
-            return ConnectionState.DISCONNECTED
+            return ConnectionState.DISCONNECTED.value
 
     def is_in_playable_state(self) -> bool:
         """Check if the player is in the actual game rather than the main menu"""

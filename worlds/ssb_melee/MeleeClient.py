@@ -8,6 +8,7 @@ from typing import List, Optional
 import zipfile
 from enum import Enum
 
+import settings
 from CommonClient import (
     ClientCommandProcessor, 
     CommonContext, 
@@ -24,12 +25,6 @@ from .ClientReceiveItems import handle_receive_items
 from .DolphinClient import DolphinException, assert_no_running_dolphin, get_num_dolphin_instances
 from .Locations import METROID_PRIME_LOCATION_BASE, locations
 from .MeleeInterface import ConnectionState, InventoryItemData, MeleeAreas, MeleeInterface
-
-class ConnectionState(Enum):
-    DISCONNECTED = 0
-    IN_GAME = 1
-    IN_MENU = 2
-    MULTIPLE_DOLPHIN_INSTANCES = 3
 
 status_messages = {
     0: "Connected to Melee",
@@ -81,7 +76,7 @@ class MeleeContext(CommonContext):
     game = "Super Smash Bros Melee"
     items_handling = 0b111
     dolphin_sync_task = None
-    connection_state = ConnectionState.DISCONNECTED
+    connection_state = ConnectionState.DISCONNECTED.value
     slot_data: dict[str, Utils.Any] = None
     death_link_enabled = False
     previous_location_str: str = ""
@@ -131,10 +126,10 @@ def update_connection_status(ctx: MeleeContext, status):
     if ctx.connection_state == status:
         return
     else:
-        logger.info(status_messages[status])
-        # logger.info(status_messages)
+        #logger.info(status_messages[status])
+        logger.info(status_messages)
         if get_num_dolphin_instances() > 1:
-            logger.info(status_messages[ConnectionState.MULTIPLE_DOLPHIN_INSTANCES])
+            logger.info(status_messages[ConnectionState.MULTIPLE_DOLPHIN_INSTANCES.value])
         ctx.connection_state = status
 
 
@@ -142,7 +137,7 @@ async def dolphin_sync_task(ctx: MeleeContext):
     try:
         # This will not work if the client is running from source
         version = get_apworld_version()
-        logger.info(f"Using melee apworld version: {version}")
+        logger.info(f"Using Melee apworld version: {version}")
     except:
         pass
 
@@ -245,7 +240,9 @@ async def _handle_game_not_ready(ctx: MeleeContext):
 
 
 async def run_game(romfile):
-    auto_start = Utils.get_options()["ssbmelee_options"].get("rom_start", True)
+    # auto_start = settings.Settings.get(key="ssbmelee_options").rom_start == True
+    auto_start = settings.get_settings()["ssb_melee_options"].get("rom_start", True)
+    # auto_start = Utils.get_options()["ssbmelee_options"].get("rom_start", True)
 
     if auto_start is True and assert_no_running_dolphin():
         import webbrowser
@@ -398,7 +395,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
     :param connect: Address of the Archipelago server.
     :param password: Password for server authentication.
     """
-    Utils.init_logging("Super Smash Bros Meleee Client")
+    Utils.init_logging("Super Smash Bros Melee Client")
 
     async def _main(connect: Optional[str], password: Optional[str]) -> None:
         ctx = MeleeContext(connect, password)
