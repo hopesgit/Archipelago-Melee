@@ -1,10 +1,8 @@
 from BaseClasses import CollectionState, List, Dict
-from .Locations import *
 
 from .classes.Event import EVENTDATA
 
 from random import choice
-from CommonClient import logger
 
 import typing
 if typing.TYPE_CHECKING:
@@ -12,7 +10,7 @@ if typing.TYPE_CHECKING:
 
 
 def _get_options(state: CollectionState, player: int) -> 'MeleeOptions':
-    return (state.multiworld.worlds[player].options)
+    return state.multiworld.worlds[player].options
 
 
 # options logic
@@ -101,11 +99,12 @@ def goal_includes_trophies(state: CollectionState, player: int) -> int:
         try:
             value = int(split[0])
         except ValueError as e:
+            from CommonClient import logger
             logger(f'Trophy count logic error: "{e}"')
     return value
 
 
-def get_goals(state: CollectionState, player: int):
+def get_goals(state: CollectionState, player: int) -> Dict:
     goal = dict()
     goal['event'] = goal_includes_events(state, player)
     goal['classic'] = goal_includes_classic(state, player)

@@ -14,7 +14,7 @@ _SUPPORTED_VERSIONS = ["0-02"]
 # _SYMBOLS: Dict[str, Any] = {version: py_randomprime.symbols_for_version(version) for version in _SUPPORTED_VERSIONS}  # type: ignore
 GAMES: Dict[str, Any] = {
     "0-02": {
-        "game_id": b"GM8E01",
+        "game_id": b"GALE01",
         "game_rev": 2,
         # "game_state_pointer": _SYMBOLS["0-02"]["g_GameState"],
         # "cstate_manager_global": _SYMBOLS["0-02"]["g_StateManager"],
@@ -36,12 +36,17 @@ class ConnectionState(Enum):
     IN_MENU = 2
     MULTIPLE_DOLPHIN_INSTANCES = 3
 
+# TODO: rework areas; Melee's current menu can be found in 0x8065CC14
 class MeleeAreas(Enum):
     """Game menus/areas with their corresponding IDs in memory"""
 
     Main_Menu = 00000000
     Vs_Mode = 00000000
-    Singleplayer_Mode = 00000000
+    In_Battle = 00000000
+    Event_Match = 00000000
+    Adventure_Mode = 00000000
+    Classic_Mode = 00000000
+    All_Star_Mode = 00000000
     End_of_Game = 332894565
 
 def world_by_id(id: int) -> Optional[MeleeAreas]:
@@ -163,6 +168,7 @@ class MeleeInterface:
             player_state_pointer, 0, struct.pack(">I", value)
         )
 
+
     def set_hardcore_mode(self, on: bool):
         value: 0
         if on:
@@ -172,8 +178,9 @@ class MeleeInterface:
         self.dolphin_client.write_address(
             0x804D6D58, value 
         )
-        # self.dolphin_client.
 
+
+    # TODO: kill player
     def kill_player(self):
         ## current implementation idea:
         ## call function that triggers loss of a stock

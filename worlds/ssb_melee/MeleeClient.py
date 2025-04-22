@@ -150,9 +150,9 @@ async def dolphin_sync_task(ctx: MeleeContext):
         try:
             connection_state = ctx.game_interface.get_connection_state()
             update_connection_status(ctx, connection_state)
-            if connection_state == ConnectionState.IN_MENU:
+            if connection_state == ConnectionState.IN_MENU.value:
                 await handle_check_goal_complete(ctx)  # It will say the player is in menu sometimes
-            if connection_state == ConnectionState.IN_GAME:
+            if connection_state == ConnectionState.IN_GAME.value:
                 await _handle_game_ready(ctx)
             else:
                 await _handle_game_not_ready(ctx)
@@ -251,7 +251,10 @@ async def run_game(romfile):
         subprocess.Popen([auto_start, romfile],
                          stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-# TODO: update version obj for Melee versions
+
+# GALE01 is US/KOR/JP versions
+# TODO: find Revision byte
+# GALP01 is EU version
 def get_version_from_iso(path: str) -> str:
     if not os.path.exists(path):
         raise FileNotFoundError(f"Couldn't get version for iso at {path}!")
@@ -263,31 +266,9 @@ def get_version_from_iso(path: str) -> str:
             raise Exception("This is not Super Smash Bros Melee")
         match game_id[3]:
             case "E":
-                match game_rev:
-                    case 0:
-                        return "0-00"
-                    case 1:
-                        return "0-01"
-                    case 2:
-                        return "0-02"
-                    case 48:
-                        return "kor"
-                    case _rev:
-                        raise Exception(f"Unknown revision of Metroid Prime GC US (game_rev : {_rev})")
-            case "J":
-                match game_rev:
-                    case 0:
-                        return "jpn"
-                    case _rev:
-                        raise Exception(f"Unknown revision of Metroid Prime GC JPN (game_rev : {_rev})")
+                return "0-02"
             case "P":
-                match game_rev:
-                    case 0:
-                        return "pal"
-                    case _rev:
-                        raise Exception(f"Unknown revision of Metroid Prime GC PAL (game_rev : {_rev})")
-            case _id:
-                raise Exception(f"Unknown version of Metroid Prime GC (game_id : {game_id} | game_rev : {game_rev})")
+                raise Exception(f"Melee PAL is currently unsupported.")
 
 
 def get_options_from_apssbm(apssbm_file: str) -> dict:
