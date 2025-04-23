@@ -1,0 +1,250 @@
+Name,Points Given,Requirement
+Bird of Prey,4000,Only used aerial attacks.
+Combo King,2500,Used many combos (average combo counter being 2.5 or greater).
+Juggler,1500,Struck an enemy several times while keeping them airborne.
+Backstabber,2000,Attacked from behind often (70% of the time).
+Sweeper,2500,Most attacks were low attacks.
+Clean Sweep,5000,Only used low attacks (such as down tilts and down smashes).
+Meteor Smash,800×,Knocked out a foe using a meteor smash.
+Meteor Clear,3000,Cleared a stage with a meteor smash.
+Meteor Master,8000,"Every time an attack with a meteor smash was used, it hit and KO'd an opponent (minimum of 2)."
+Meteor Survivor,"2,000×",Successfully recovered from a meteor smash after being hit by one while airborne. Does not necessarily need to be via meteor canceling.
+Flying Meteor,"4,000×",Hit a reeling enemy with a meteor smash.
+Exceptional Aim,4000,Hit with most attacks.
+Perfect Aim,10000,Never missed (at least 8 attacks per minute).
+All Ground,6000,Hit the opponent with all standard ground attacks at least once.
+All Aerial,4000,Hit the opponent with all standard aerial attacks at least once.
+All Variations,10000,Used all attacks except final blows on enemies.
+All on One,20000,Used all attacks except final blows on one enemy.
+Lethal Weapon,7000,"Hit opponents using a wide variety of attacks. One known way to get the bonus is by using all aerial, smash, and special attacks on an enemy, without missing with any of them and without using any other attacks."
+Berserker,3500,Used 60 attacks within one minute (on average).
+Smash King,3000,Used many smash attacks (50% or more of all hits).
+Smash Maniac,3500,Used only smash attacks.
+Smash-less,1500,Used no smash attacks.
+Specialist,2200,Used only special moves.
+Dedicated Specialist,3100,"Only used one move, which was a special move."
+One-Two Punch,1800,Hit consecutively with an entire neutral combo.
+First Strike,500,Delivered the first attack of the match.
+150% Damage,1000,Survived to over 150% damage in a single stock. Not valid in Team Battles. Earned even if the hit that brought the player to 150% KO'd them.
+200% Damage,3000,Survived to over 200% damage in a single stock. Same conditions as other X% Damage bonuses.
+250% Damage,7000,Survived to over 250% damage in a single stock. Same conditions as other X% Damage bonuses.
+300% Damage,10000,Survived to over 300% damage in a single stock. Same conditions as other X% Damage bonuses.
+350% Damage,15000,Survived to over 350% damage in a single stock. Same conditions as other X% Damage bonuses.
+Heavy Damage,20000,Survived to over 400% damage in a single stock. Same conditions as other X% Damage bonuses.
+Sniper,2000,Hit only with projectile attacks.
+Brawler,2000,Only used direct attacks (as opposed to projectiles).
+Precise Aim,10000,"All attacks hit immediately after execution (that is, they all hit on the same frame the hitboxes appeared)."
+Pitcher,6000,Fought with only grabs and throws.
+Butterfingers,-500,Most grabs failed.
+All Thumbs,-1500,Failed all attempted dash grabs (4 minimum).
+Cuddly Bear,2000,"Performed at least 3 grabs, but did not pummel or throw."
+Compass Tosser,3500,Used all four throws on enemies.
+Throw Down,2500,Cleared a stage with a throw.
+Pummeler,1500,Did a lot of damage by pummeling.
+Fists of Fury,2500,"When grabbing other characters, always pummeled, never threw."
+Close Call,2000,Threw an enemy just before they escaped from the player's grab.
+Opportunist,-1000,Didn't attack for a time of 30 seconds.
+Spectator,-2500,Spent a long time on a slanted surface.
+Statue,500,Barely moved horizontally at all.
+Never Look Back,5000,Never changed directions.
+Stiff Knees,300,Never crouched.
+"Run, Don't Walk",6500,Never walked (except for very small distances).
+Ambler,2500,Walked a lot.
+No Hurry,1000,"Never dashed. Despite the description stating ""Always walked; never ran."", it can be earned alongside the Run, Don't Walk bonus if the player doesn't move at all."
+Marathon Man,2000,Ran a lot.
+Eagle,1500,Spent a lot of time in the air.
+Aerialist,2500,Never jumped from the ground; used only midair jumps.
+Acrobat,3000,Did a midair jump during every air trip.
+Cement Shoes,4000,Never jumped in any way.
+Head Banger,800,Hit walls a lot (3 or more times a minute).
+Elbow Room,2000,Bumped into or pushed opponents a lot (overlaps opponents 1/30 or more of the time).
+Power Shielder,5000,Powershielded at least 3 times in one minute. Powershielding projectiles does not count.
+Shield Buster,"2,500×",Broke an opponent's shield.
+Shattered Shield,"-1,000×",Got shield broken.
+Shield Stupidity,"-2,000×",Broke the player's own shield.
+Shield Saver,500,Dropped shield just before it broke (has 3 HP or less remaining).
+Skid Master,1000,Skidded at least 9 feet in one minute.
+Rock Climber,800,Hung from edges at least 4 times in one minute.
+Edge Hog,"2,500×",Prevented an enemy from grabbing an edge by grabbing it first.
+Cliff Hanger,2000,Hung off ledges several times before being KO'd.
+Life on the Edge,800×,"After being knocked off, grabbed an edge without using a midair jump."
+Poser,2000,Taunted often (6 or more times in one minute).
+Poser Poseur,500×,Taunted one second after someone else does.
+Poser Power,700×,"Attacked an opponent with a taunt. As with the Poser KO bonus, only Luigi can earn this."
+Pose Breaker,800×,Hit a taunting opponent with a weak attack.
+Instant Poser,100×,Taunted within one second after KOing an opponent.
+Control Freak,1000,Tapped the Control Stick twice as fast as the second-fastest tapper.
+Button Masher,700,Pressed buttons twice as fast as the second-fastest presser.
+Button Holder,4000,Held down the A or B button for the entire match.
+Rock Steady,3000,"Did not fall down (that is, did not ever get knocked down on the ground)."
+Pratfaller,1500,Always landed face up. Not to be confused with Prat Falling.
+Face Planter,1500,Always landed face down.
+Twinkle Toes,2500,Succeeded on every attempt to tech.
+Floor Diver,1500,Dropped through soft platforms often (about 12 times a minute).
+No R 4 U,300,Didn't press either L or R.
+Climactic Clash,"1,200×","Hit the same enemy with progressively stronger blows (such as hitting with a neutral attack, then a tilt, and then a smash attack or a strong special attack)."
+Floored,300,"Took a lot of damage (over 200%) from floors, such as the Mute City track.*"
+Punching Bag,100,Got knocked back and forth by two enemies (at least 28% damage taken in one combo by opponents on opposite sides).
+Stale Moves,-2000,"Used the same attack constantly. Defined as 40% or more of one's attacks being the same move, unless less than 16 attacks total were used or a single-move bonus is earned."
+Blind Eye,3000,Was always hit from behind.
+Crowd Favorite,2500,The crowd cheered for the player.
+Master of Suspense,2500,Surprised the crowd a lot (3 or more times a minute).
+Lost in Space,2000,Spent at least 25% of the total match time in the magnifying glass.
+Lost Luggage,3000,Spent time in a magnifying glass on all four sides of the screen.
+Half-Minute Man,2500,Beat the stage within 30 seconds.
+Pacifist,3000,"Never attacked, including missed attacks."
+Peaceful Warrior,5000,"Never attacked, but didn't lose the match."
+Moment of Silence,3000,Took no damage for one minute. Not given if Impervious is earned.
+Impervious,7000,Never took damage.
+Immortal,5000,Was never knocked off the stage.
+Switzerland,12000,Never attacked (including misses) and never took any damage.
+Predator,-1500,"Frequently attacked opponents with high damage. Can be earned even in team battles, but players can avoid receiving this bonus by attacking ""only"" the fighters (including teammates) who have the lowest current damage value. Cannot be earned in a match that only has two players."
+"Down, But Not Out",2000,Fell all the way down but got back up the most in the match.
+Solar Being,800,Was only ever Star KO'd.
+Stalker,-1000,"In three-player matches, attacked one specific opponent 80% of the time. In four-player matches, attacked one specific opponent 66% of the time. Not given in a two-player match, but given in team battles, even if there is only one opponent."
+Bully,-2000,"Only KO'd one specific enemy (3 KOs minimum). Not given in a two-player match, but given in team battles, even if there is only one opponent."
+Coward,-500,Spent a long time away from opponents.
+In the Fray,2000,Average distance to foe was very small.
+Friendly Foe,3000,Never pushed an opponent.
+Center Stage,2000,Spent most of the time in the middle of the stage.
+Merciful Master,3000,Won without KOing anybody.
+Star KO,300×,Star KO'd the enemy.
+Rocket KO,5000,Star KO'd all opponents on a team.
+Wimpy KO,"4,000×",KO'd a foe with a weak attack.
+Bull's-eye KO,800×,KO'd an opponent with a shooting item.
+Poser KO,"5,000×",KO'd an opponent with a taunt. Only Luigi can earn this bonus since he's the only character who has a damaging taunt.
+Cheap KO,500×,KO'd an enemy from behind.
+Bank-Shot KO,"3,000×",KO'd an opponent with a reflected item.
+Timely KO,"3,500×",KO'd an enemy with less than five seconds left.
+Special KO,800×,KO'd a foe by using a special attack.
+Hangman's KO,"2,000×",KO'd an opponent that was hanging from an edge.
+KO 64,640×,KO'd an opponent with 64% damage.
+Bubble-Blast KO,"1,200×",KO'd an opponent who was in a hoop.
+Sacrificial KO,"1,500×",KO'd both an enemy and themselves with a single attack.
+Avenger KO,"2,500×",KO'd an opponent 5 seconds after the player was KO'd by them.
+Double KO,"2,000×",KO'd two enemies with one attack.
+Triple KO,"4,000×",KO'd three opponents with one attack.
+Quadruple KO,"8,000×",KO'd four opponents with one attack.
+Quintuple KO,"15,000×",KO'd five opponents with one attack.
+Dead-Weight KO,"4,000×","KO'd an opponent by grabbing a Goomba, Koopa Troopa, Paratroopa, ReDead, Octorok, Like Like, Topi, or Polar Bear and throwing it at them; while these enemies commonly only appear in Adventure Mode, they can also occasionally spawn from container items in any other game modes. In the case of Koopas, throwing their shells also counts."
+Kiss-the-Floor KO,"1,000×",Launched an opponent onto a damaging floor for a KO.
+Assisted KO,"1,500×",Enemy was KO'd by a stage hazard (such as an Arwing at Corneria or a car at Onett).
+Foresight,500×,Got Screen KO'd.
+First to Fall,-1000,First one to be KO'd after the match began (VS. Mode).
+Cliff Diver,500,"After grabbing a ledge, let go of it and fell."
+Quitter,"-1,000×",Fell off the stage without using a double or triple jump to recover.
+Shameful Fall,"-1,500×","At less than 50%, got KO'd by a foe with over 100% damage."
+World Traveler,2000,Got KO'd off all four sides of the screen.
+Ground Pounded,500×,Got KO'd by landing on a damaging floor.
+Environmental Hazard,"1,000×",Got KO'd by a part of the stage environment.
+Angelic,2000,Ended the match while standing on a revival platform.
+Magnified Finish,1000,Ended the match while in a magnifying glass.
+Fighter Stance,500,Ended the match while taunting.
+Mystic,2000,Ended the match while offscreen.
+Shooting Star,1500,Ended match as a star (by being Star KO'd).
+Lucky Number Seven,3000,Finished a stage with :07 left.
+Last Second,5000,Finished a stage with one second left.
+Lucky Threes,3330,Finished a stage with 3:33 left.
+Jackpot,1110,Damage at end was composed of only one digit (such as 44% or 111%).
+Full Power,2000,"Ended the match with 0% damage, regardless of having taken damage beforehand or not."
+Item-less,1800,Never used items.
+Item Specialist,2000,Only hit with items.
+Item Chucker,3000,Attacked only by throwing items.
+Item Smasher,3000,Used only smash attacks with battering items.
+Capsule KO,800×,KO'd an enemy with a Capsule.
+Carrier KO,800×,KO'd a foe with a container item (other than a Capsule).
+Weight Lifter,1500,Frequently held heavy items.
+Item Catcher,"1,000×",Caught a thrown item.
+Reciprocator,"2,000×",Caught an item that an enemy threw and threw it back.
+Item Self-Destruct,-1000,SD'd because of an item.
+Triple Items,3000,Used the same items three or more times in a row (such as three Fire Flowers). Earned even if just one kind of item is set on in a Melee.
+Minimalist,1500,Spent the least time holding items of all players.*
+Materialist,100,Spent the most time holding items of all players.*
+Item Hog,4000,Used at least 10 different kinds of items.
+Item Collector,4000,Collected all items that appeared.
+Connoisseur,3000,Got every kind of food that appeared.
+Gourmet,2000,Used only food items (3 or more).
+Battering Ram,1500,"Used only battering items (3 or more). Hammers also count. Picking up a container (Crate, Barrel, or Capsule) disables the bonus."
+Straight Shooter,1500,Used only shooting items (3 or more).
+Wimp,1500,Used only recovery items (3 or more).
+Shape Shifter,1500,Used only transformation items (3 or more).
+Chuck Wagon,1500,Used only throwing items (3 or more).
+Parasol Finish,1600,Was parachuting with the Parasol at match's end.
+Gardener Finish,2000,Put a flower on an enemy's head at match's end (timed matches only).
+Flower Finish,1700,Was flowered when the match ended.
+Super Scoper,2000,"Did 100% damage or more by firing a Super Scope. Can be earned by using multiple Super Scopes (and is nearly always necessary, as only one isn't enough to do 100% damage without using the Infinite Super Scope Glitch)."
+Screwed Up,2000,Held a Screw Attack for 30 seconds or more.
+Screw-Attack KO,"2,500×",Used a thrown Screw Attack to KO an enemy.
+Warp Star KO,"1,000×",KO'd a foe using a Warp Star.
+Mycologist,2500,Got 3 or more Mushrooms.
+Mario Maniac,8000,"Used only Super Mushrooms, Fire Flowers, and Starmen."
+Metal KO,800×,KO'd a foe while being metal.
+Freezie KO,"2,000×",KO'd an enemy with a Freezie.
+Flipper KO,"2,000×",KO'd enemy with a Flipper.
+Mr. Saturn Fan,3000,Only item used was Mr. Saturn.
+Mrs. Saturn,1500,Held a specific Mr. Saturn for 30 seconds or more.
+Saturn Siblings,4000,Got 3 or more individual Mr. Saturns.
+Saturn Ringer,4000,Caught a Mr. Saturn thrown at the player.
+Giant KO,600×,KO'd a foe while giant.
+Tiny KO,"2,500×",KO'd a foe while tiny.
+Invisible KO,800×,KO'd a foe while being invisible.
+Bunny-Hood Blast,"1,200×",KO'd someone while wearing a Bunny Hood.
+Vegetarian,1800,Ate 2 or more Maxim Tomatoes.
+Heartthrob,2800,Got 2 or more Heart Containers.
+Invincible Finish,1200,Ended match while being invincible.
+Invincible KO,800×,KO'd a foe while being invincible.
+Beam Swordsman,800×,KO'd a foe by using a Beam Sword.
+Home-Run King,600×,KO'd a foe using a Home-Run Bat.
+Laser Marksman,4000,Hit with every blast from a Ray Gun.
+Flame Thrower,1600,Got a 10 combo or higher with the Fire Flower.
+Hammer Throw,1500,"Successfully dropped a Hammer. To do this, a player holding a Hammer must tumble by an attack and drop it by pressing the Z button on the frame they start falling after the tumble. One of the hardest bonuses to earn in the game."
+Headless Hammer,2500,Grabbed a Hammer and had its head fall off.
+Super Spy,800×,KO'd someone with a Motion-Sensor Bomb.
+Bob-omb's Away,-500,Got KO'd by a wandering Bob-omb.
+Bob-omb Squad,"2,500×",Grabbed a Bob-omb just before it exploded (right after the Bob-omb stops wandering around) without being hurt by it.
+Pokémon KO,"1,000×",KO'd a foe with a Poké Ball Pokémon.
+Mew Catcher,10000,Mew appeared from a thrown Poké Ball.
+Celebi Catcher,8000,Celebi appeared from a thrown Poké Ball.
+Goomba KO,100×,KO'd a Goomba. Stepping on them counts.
+Koopa KO,200×,"KO'd a Koopa. Knocking a Koopa into its shell does not count, nor does throwing a Koopa Shell off the screen; therefore this can only be achieved by a throw or a swallow by Yoshi or Kirby."
+Paratroopa KO,300×,"KO'd a Koopa Paratroopa. Like Koopas, reducing Paratroopas to a shell does not count."
+ReDead KO,300×,KO'd a ReDead.
+Like-Like KO,500×,KO'd a Like-Like.
+Octorok KO,150×,KO'd an Octorok.
+Topi KO,200×,KO'd a Topi.
+Polar Bear KO,800×,KO'd a Polar Bear.
+Shy Guy KO,20×,KO'd a Shy Guy at the Yoshi's Story stage.
+First Place,1000,Finished in first place in a VS. match.
+Last Place,-1000,Finished in last place in time match (Versus Mode).
+Wire to Wire,2000,Led in points for the whole match (Versus mode).
+Whipping Boy,-1500,Trailed in points for the whole match (Versus mode).
+KO Artist,3000,Had twice the KOs of whoever had the second-most (at least 3) (Versus Mode).
+KO Master,1500,Had the most KOs (Versus Mode).
+Offensive Artist,2000,Did twice the damage of whoever did the second-most (at least 300) (Versus Mode).
+Offensive Master,1000,Did the most damage (Versus Mode).
+Frequent Faller,-1000,Had twice the Falls of whoever had the second-most (at least 3) (VS. Mode).
+Fall Guy,-500,Had the most falls (Versus Mode).
+Self-Destructor,-2000,Had twice the self-destructs of whoever had the second-most (at least 3) (Versus Mode).
+Master of Disaster,-1000,Had the most self-destructs (Versus Mode).
+KOs,500×,Counts each KO (Versus Mode).
+Falls,-500×,Counts each fall (Versus Mode).
+SDs,-500×,Counts each self-destruct (Versus Mode).
+Target Master,30000,Smashed all targets in Target Test.
+Hobbyist,1000,Got at least one trophy before the stage ended (Trophies dropped by enemies do not count) (Regular Matches).
+Collector,30000,Snagged all trophies that appeared (Regular Matches).
+No-Damage Clear,300000,"Cleared Classic Mode, Adventure Mode, or All-Star Mode without taking any damage."
+No-Miss Clear,10000,Cleared all levels without losing a single life (Regular Matches).
+Continuation,-20000,Cleared a Regular Match by continuing.
+Speedster,10000,Cleared all levels quickly. (Not given if Speed Demon is earned.)
+Speed Demon,20000,Cleared all levels very quickly.
+Melee Master,100000,Cleared All-Star mode without using any of the Heart Containers.
+Classic Clear,50000,Cleared Classic Mode.
+Adventure Clear,50000,Cleared Adventure Mode.
+All-Star Clear,50000,Cleared All-Star Mode.
+Very-Hard Clear,200000,Cleared Very Hard mode.
+Crazy Hand KO,80000,Defeated Crazy Hand in Classic mode. Counts even if the player uses the debug menu to autocomplete the stage once he appears.
+Luigi KO,20,Defeated Luigi in Adventure mode.
+Link Master,30000,Defeated all five Links in Adventure mode.
+Giant Kirby KO,10000,Defeated Giant Kirby in Adventure mode.
+Metal Bros. KO,8000,KO'd the Metal Bros. in Adventure mode.
+Giga Bowser KO,100000,Defeated Giga Bowser in Adventure mode.

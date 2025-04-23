@@ -11,13 +11,12 @@ from .Items import (
 )
 
 _SUPPORTED_VERSIONS = ["0-02"]
-# _SYMBOLS: Dict[str, Any] = {version: py_randomprime.symbols_for_version(version) for version in _SUPPORTED_VERSIONS}  # type: ignore
 GAMES: Dict[str, Any] = {
     "0-02": {
         "game_id": b"GALE01",
         "game_rev": 2,
-        # "game_state_pointer": _SYMBOLS["0-02"]["g_GameState"],
-        # "cstate_manager_global": _SYMBOLS["0-02"]["g_StateManager"],
+        "game_state_pointer": 0x80591ce0,
+        "cstate_manager_global": 0x80459e88,
         "cplayer_vtable": 0x803DA7A8,
     }
 }
@@ -100,7 +99,7 @@ class MeleeInterface:
     _previous_message_size: int = 0
     game_id_error: Optional[str] = None
     game_rev_error: int
-    current_game: Optional[str]
+    current_game: Optional[str]= None
     relay_trackers: Optional[Dict[Any, Any]]
 
     def __init__(self, logger: Logger) -> None:
@@ -137,6 +136,12 @@ class MeleeInterface:
                 if item.id == item_data:
                     return self.get_item(item)
         return None
+
+    def get_player1_state(self):
+        from .MemoryLocations import MEMORY
+        stocks =  self.dolphin_client.read_address(0x801a583c + MEMORY["meleestruct"][0x801a583c]["p1_stocks"], 1)
+        logging.info(f"p1 stocks: {stocks}")
+        return stocks
 
     def get_current_inventory(self) -> Dict[str, InventoryItemData]:
         MAX_VANILLA_ITEM_ID = 40
@@ -189,12 +194,12 @@ class MeleeInterface:
         ## -> maybe this should be written before trying to call the func at 80033ce0
         pass
 
-    def get_current_level(self) -> Optional[MeleeAreas]:
+    def get_current_menu(self) -> Optional[MeleeAreas]:
         """Returns the world that the player is currently in"""
         if self.current_game is None:
             return None
         world_bytes = self.dolphin_client.read_pointer(
-            0x8065CC14
+            0x8065CC14, 0x00, 4
             # GAMES[self.current_game]["game_state_pointer"], 0x84, struct.calcsize(">I")
         )
         if world_bytes is not None:
@@ -236,14 +241,15 @@ class MeleeInterface:
             )
 
     def connect_to_game(self):
-        """Initializes the connection to dolphin and verifies it is connected to Metroid Prime"""
+        """Initializes the connection to Dolphin and verifies it is connected to Melee"""
         try:
             self.dolphin_client.connect()
             game_id = self.dolphin_client.read_address(GC_GAME_ID_ADDRESS, 6)
             try:
-                game_rev: Optional[int] = self.dolphin_client.read_address(
-                    GC_GAME_ID_ADDRESS, 2
-                )[0]
+                game_rev = 2
+                # game_rev: Optional[int] = self.dolphin_client.read_address(
+                #     GC_GAME_ID_ADDRESS, 2
+                # )[0]
                 logging.debug(f"Game ID is: {game_rev}")
             except:
                 game_rev = None
@@ -262,13 +268,13 @@ class MeleeInterface:
                 and game_id != b"\x00\x00\x00\x00\x00\x00"
             ):
                 self.logger.info(
-                    f"Connected to the wrong game ({game_id}, rev {game_rev}), please connect to Metroid Prime GC (Game ID starts with a GM8)"
+                    f"Connected to the wrong game ({game_id}, rev {game_rev}), please connect to Super Smash Bros Melee GC (Game ID starts with a GAL)"
                 )
                 self.game_id_error = game_id
                 if game_rev:
                     self.game_rev_error = game_rev
             if self.current_game:
-                self.logger.info("Metroid Prime Disc Version: " + self.current_game)
+                self.logger.info("Super Smash Bros Melee Revision: " + self.current_game)
         except DolphinException:
             pass
 
@@ -279,10 +285,10 @@ class MeleeInterface:
     def get_connection_state(self):
         try:
             connected = self.dolphin_client.is_connected()
+            #self.logger.info(f'get_connection_status connection is: {connected}')
+            #self.logger.info(f'get_connection_status current_game is: {self.current_game}')
             if not connected or self.current_game is None:
                 return ConnectionState.DISCONNECTED.value
-            elif self.is_in_playable_state():
-                return ConnectionState.IN_GAME.value
             else:
                 return ConnectionState.IN_MENU.value
         except DolphinException:
@@ -290,7 +296,8 @@ class MeleeInterface:
 
     def is_in_playable_state(self) -> bool:
         """Check if the player is in the actual game rather than the main menu"""
-        return self.get_current_level() is not None and self.__is_player_table_ready()
+        # self.get_player1_state()
+        return self.get_current_menu() is not None # and self.__is_player_table_ready()
 
     # TODO: rework to use special messages in-game
     # def send_hud_message(self, message: str) -> bool:
@@ -332,20 +339,6 @@ class MeleeInterface:
     #     self.dolphin_client.write_address(
     #         GAMES[self.current_game]["HUD_MESSAGE_ADDRESS"], encoded_message
     #     )
-
-    def __is_player_table_ready(self) -> bool:
-        """Check if the player table is ready to be read from memory, indicating the game is in a playable state"""
-        assert self.current_game
-        player_table_bytes = self.dolphin_client.read_pointer(
-            GAMES[self.current_game]["cstate_manager_global"] + 0x84C, 0, 4
-        )
-        if player_table_bytes is None:
-            return False
-        player_table = struct.unpack(">I", player_table_bytes)[0]
-        if player_table == GAMES[self.current_game]["cplayer_vtable"]:
-            return True
-        else:
-            return False
 
     def __get_player_state_pointer(self):
         assert self.current_game

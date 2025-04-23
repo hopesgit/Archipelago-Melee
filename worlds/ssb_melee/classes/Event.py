@@ -411,12 +411,12 @@ class Event:
         self.table_loc = table_loc
 
 
-class EventRandomizer:
-    e_data = EVENTDATA
-    e_groups = EVENTGROUPS
-
-    from .Fighter import FIGHTERS, FGROUPS
-    f_data = FIGHTERS
-    f_groups = FGROUPS
+# class EventRandomizer:
+#     e_data = EVENTDATA
+#     e_groups = EVENTGROUPS
+#
+#     from .Fighter import FIGHTERS, FGROUPS
+#     f_data = FIGHTERS
+#     f_groups = FGROUPS
 
 

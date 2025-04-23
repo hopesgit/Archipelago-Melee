@@ -23,7 +23,7 @@ from .MeleeUtils import get_apworld_version
 from .ClientReceiveItems import handle_receive_items
 # from .Container import construct_hook_patch
 from .DolphinClient import DolphinException, assert_no_running_dolphin, get_num_dolphin_instances
-from .Locations import METROID_PRIME_LOCATION_BASE, locations
+from .Locations import MELEE_LOCATION_BASE, locations
 from .MeleeInterface import ConnectionState, InventoryItemData, MeleeAreas, MeleeInterface
 
 status_messages = {
@@ -126,8 +126,8 @@ def update_connection_status(ctx: MeleeContext, status):
     if ctx.connection_state == status:
         return
     else:
-        #logger.info(status_messages[status])
-        logger.info(status_messages)
+        logger.info(status_messages[status])
+        #logger.info(status_messages)
         if get_num_dolphin_instances() > 1:
             logger.info(status_messages[ConnectionState.MULTIPLE_DOLPHIN_INSTANCES.value])
         ctx.connection_state = status
@@ -191,8 +191,8 @@ def __int_to_reversed_bits(value: int, bit_length: int) -> str:
 
 async def handle_check_goal_complete(ctx: MeleeContext):
     if ctx.game_interface.current_game is not None:
-        current_level = ctx.game_interface.get_current_level()
-        if current_level == MeleeAreas.End_of_Game:
+        current_menu = ctx.game_interface.get_current_menu()
+        if current_menu == MeleeAreas.End_of_Game:
             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
             ## TODO: add call to force credits after goal achieved
 
@@ -233,9 +233,9 @@ async def _handle_game_ready(ctx: MeleeContext):
 async def _handle_game_not_ready(ctx: MeleeContext):
     """If the game is not connected or not in a playable state, this will attempt to retry connecting to the game."""
     ctx.game_interface.reset_relay_tracker_cache()
-    if ctx.connection_state == ConnectionState.DISCONNECTED:
+    if ctx.connection_state == ConnectionState.DISCONNECTED.value:
         ctx.game_interface.connect_to_game()
-    elif ctx.connection_state == ConnectionState.IN_MENU:
+    elif ctx.connection_state == ConnectionState.IN_MENU.value:
         await asyncio.sleep(3)
 
 
@@ -288,7 +288,7 @@ def get_randomizer_config_from_apssbm(apssbm_file: str) -> dict:
 async def patch_and_run_game(apssbm_file: str):
     return
     apssbm_file = os.path.abspath(apssbm_file)
-    input_iso_path = Utils.get_options()["metroidprime_options"]["rom_file"]
+    input_iso_path = Utils.get_options()["ssb_melee_options"]["rom_file"]
     game_version = get_version_from_iso(input_iso_path)
     base_name = os.path.splitext(apssbm_file)[0]
     output_path = base_name + '.iso'

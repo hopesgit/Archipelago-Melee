@@ -1,10 +1,8 @@
-from BaseClasses import Location, MultiWorld
-from .classes.Event import EVENTDATA
-from .classes.Fighter import get_unlockable_fighters
+from BaseClasses import Location
 import os
 import csv
 
-METROID_PRIME_LOCATION_BASE = 5031100
+MELEE_LOCATION_BASE = 50311000
 
 class MeleeLocation(Location):
     game: str = "Super Smash Bros Melee"
@@ -96,6 +94,7 @@ all_star_location_table = {
     'All-Star Mode - High Score Total Reached': 0x00000000
 }
 
+from .classes.Event import EVENTDATA
 event_location_table = {}
 event_location_counter = 5500000
 event_counter = 0
@@ -106,19 +105,34 @@ for event in EVENTDATA:
 
 trophy_location_table = {}
 trophy_counter = event_location_counter
+trophy_location_counter = event_location_counter
 path = os.path.join(os.path.dirname(__file__), "data/SSBM Trophies.csv")
 with open(path, 'r') as file: 
     trophy_csv = csv.reader(file)
     for row in trophy_csv:
         trophy_counter = trophy_counter + 1
-        trophy_location_table.update({f"Trophy Unlocked - {row[1]}": trophy_counter})
+        trophy_location_counter += 1
+        trophy_location_table.update({f"Trophy Unlocked - {row[1]}": trophy_location_counter})
 
-fighter_location_table = {}
-fighter_counter = trophy_counter
-fighters = get_unlockable_fighters()
-for fighter in fighters:
-    fighter_counter = fighter_counter + 1
-    fighter_location_table.update({f"Win Fighter Unlock Duel - {fighter}": fighter_counter})
+# from .classes.Fighter import get_unlockable_fighters
+# fighter_location_table = {}
+# fighter_location_counter = trophy_location_counter
+# fighter_counter = trophy_counter
+# fighters = get_unlockable_fighters()
+# for fighter in fighters:
+#     fighter_location_counter += 1
+#     fighter_counter = fighter_counter + 1
+#     fighter_location_table.update({f"Win Fighter Unlock Duel - {fighter}": fighter_counter})
+
+
+from .classes.SpecialBonus import BONUSES
+bonus_location_table = {}
+bonus_location_counter = trophy_location_counter
+bonus_counter = trophy_counter
+bonuses = BONUSES
+for bonus in bonuses:
+    bonus_counter += 1
+    bonus_location_table.update({f"First Time Special Bonus - {bonus.name}": bonus_location_counter})
 
 
 locations: dict[str, int] = {
@@ -127,7 +141,8 @@ locations: dict[str, int] = {
     **all_star_location_table,
     **event_location_table,
     **trophy_location_table,
-    **fighter_location_table
+    #**fighter_location_table,
+    **bonus_location_table
 }
 
 # PICKUP_LOCATIONS: list[(int, int)] = [

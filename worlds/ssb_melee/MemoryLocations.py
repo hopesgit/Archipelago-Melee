@@ -16,6 +16,15 @@ MEMORY = {
         # Byte 2: Costume value
         # Byte 3: Character ID
         # Byte 4: Same as byte 3?
-
+    },
+    'meleestruct': {
+        0x801a583c: {
+            "stage_id": 0x0E, #internal stage ID
+            "damage_ratio": 0x30, #(float)
+            "p1_stocks": 0x62,
+            "p1_costume": 0x63,
+            "p1_CPU_level": 0x6F
+        }
     }
 }
+
