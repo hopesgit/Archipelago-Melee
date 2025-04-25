@@ -35,23 +35,216 @@ class ConnectionState(Enum):
     IN_MENU = 2
     MULTIPLE_DOLPHIN_INSTANCES = 3
 
-# TODO: rework areas; Melee's current menu can be found in 0x8065CC14
+# TODO: rework areas
 class MeleeAreas(Enum):
     """Game menus/areas with their corresponding IDs in memory"""
+    # Melee's menu state is stored in a struct in 0x80479d30
+    # state is as follows b'\x00\x00\x00\x00'
+    # s1: current_major;
+    # s2: pending_major;
+    # s3: previous_major;
+    # s4: current_minor;
 
-    Main_Menu = 00000000
-    Vs_Mode = 00000000
-    In_Battle = 00000000
-    Event_Match = 00000000
-    Adventure_Mode = 00000000
-    Classic_Mode = 00000000
-    All_Star_Mode = 00000000
-    End_of_Game = 332894565
+    # all we care about is the current major and current minor, so check for those
 
-def world_by_id(id: int) -> Optional[MeleeAreas]:
+    # 10240 don't know what this is yet
+    Intro_Movie = [404226048, 404236288]
+    Title_Screen = [256, 6144, 404226050]
+    Demo_Battle = [404226049, 404226051]
+    How_to_Play = 404226052 # this is only the title screen version, it uses the menu ids if called from the main menu
+    Main_Menu = [
+        16843520, 16847872, 16853760, 16846592, 16850944, 16851200,
+        16851456, 16851712, 16852224, 16852480, 16849920, 16843264,
+        16849664, 16845312, 16850688, 16846848, 16850176, 16853504,
+        16854016, 16847616, 16847360
+    ]
+    # Classic
+    Classic_CSS = 50528624
+    Classic_Stage1_Intro = 50528512
+    Classic_Stage1_Battle = 50528513
+    Classic_Stage2_Intro = 50528520
+    Classic_Stage2_Battle = 50528521
+    Classic_Bonus_Targets_Intro = 50528528
+    Classic_Bonus_Targets_Minigame = 50528529
+    Classic_Stage4_Intro = 50528536
+    Classic_Stage4_Battle = 50528537
+    Classic_Stage5_Intro = 50528544
+    Classic_Stage5_Battle = 50528545
+    Classic_Bonus_Trophies_Intro = 50528552
+    Classic_Bonus_Trophies_Minigame = 50528553
+    Classic_Stage7_Intro = 50528560
+    Classic_Stage7_Battle = 50528561
+    Classic_Stage8_Intro = 50528568
+    Classic_Stage8_Battle = 50528569
+    Classic_Bonus_Maze_Intro = 50528576
+    Classic_Bonus_Maze_Minigame = 50528577
+    Classic_Stage10_Intro = 50528584
+    Classic_Stage10_Battle = 50528585
+    Classic_Final_Stage = 50528593
+    Classic_Fighter_Trophy_Fall = 353698560
+    Classic_Credits = 353698561
+    Classic_Sizzle_Reel = 353698562
+    Classic_Congratulations = 353698563
+
+    # Adventure
+    Adventure_CSS = 67371376
+    Adventure_Stage1_Intro = 67371264
+    Adventure_Stage1_Course = 67371265
+    Adventure_Stage1_Luigi_Intro = 67371266
+    Adventure_Stage1_Castle = 67371267
+    Adventure_Stage2_Intro = 67371272
+    Adventure_Stage2_Falls = 67371273
+    Adventure_Stage2_Cabin = 67371274
+    Adventure_Stage3_Maze_Intro = 67371280
+    Adventure_Stage3_Maze = 67371281
+    Adventure_Stage3_Temple = 67371282
+    Adventure_Stage4_Brinstar = 67371289
+    Adventure_Stage4_Explosion_Imminent = 67371290
+    Adventure_Stage4_Escape = 67371291
+    Adventure_Stage4_Explosion = 67371292
+    Adventure_Stage5_Intro = 67371296
+    Adventure_Stage5_Kirby = 67371297
+    Adventure_Stage5_Hats_Intro = 67371298
+    Adventure_Stage5_Hats = 67371299
+    Adventure_Stage6_Intro = 67371304
+    Adventure_Stage6_Fox = 67371305
+    Adventure_Stage6_Arwings = 67371306
+    Adventure_Stage6_Fox2 = 67371307
+    Adventure_Stage7_Intro = 67371312
+    Adventure_Stage7_Zaku = 67371313
+    Adventure_Stage8_Crash = 67371320
+    Adventure_Stage8_Intro = 67371321
+    Adventure_Stage8_Race = 67371322
+    Adventure_Stage8_Mute_City = 67371323
+    Adventure_Stage9_Intro = 67371328
+    Adventure_Stage9_Onett = 67371329
+    Adventure_Stage10_Intro = 67371336
+    Adventure_Stage10_Climb = 67371337
+    Adventure_Stage11_Intro = 67371344
+    Adventure_Stage11_Wireframes = 67371345
+    Adventure_Stage11_Bros_Intro = 67371346
+    Adventure_Stage11_Bros_Battle = 67371347
+    Adventure_Stage12_Intro = 67371352
+    Adventure_Stage12_Bowser = 67371353
+    Adventure_Stage12_Trophy_Fall = 67371354
+    Adventure_Stage12_Trophy_Rise = 67371355
+    Adventure_Stage12_Giga = 67371356
+    Adventure_Stage12_Trophy_Poof = 67371357
+    Adventure_Fighter_Trophy_Fall = 370541568
+    # 68551016 not sure which scene this could be
+    Adventure_Credits = 370541569
+    Adventure_Fighter_Sizzle_Reel = 370541570
+    Adventure_Fighter_Congratulations = 370541571
+
+    #All_Star_Mode
+    All_Star_CSS = 84214128
+    All_Star_Match = [84214016, 84214024, 84214032, 84214040, 84214048, 84214056, 84214064,
+                      84214072, 84214080, 84214088, 84214096, 84214104, 84214112]
+    All_Star_Lobby = [84214017, 84214025, 84214033, 84214041, 84214049, 84214057, 84214065,
+                      84214073, 84214081, 84214089, 84214097, 84214105]
+    All_Star_Fighter_Trophy_Fall = 85393768
+    # 387384576 not sure which scene this could be
+    All_Star_Credits = 387384577
+    All_Star_Fighter_Sizzle_Reel = 387384578
+    All_Star_Fighter_Congratulations = 387384579
+    All_Star_Continue = 84214121
+
+    Event_CSS = 724238592
+    Event_Battle = 724238593
+    Targets_CSS = 252641536
+    Targets_Test = 252641537
+    HomeRun_CSS = 538968320
+    Multi_Man_10_CSS = 555811072
+    Multi_Man_10_Battle = 555811073
+    Multi_Man_100_CSS = 572653824
+    Multi_Man_100_Battle = 572653825
+    Multi_Man_3M_CSS = 589496576
+    Multi_Man_3M_Battle = 589496577
+    Multi_Man_15M_CSS = 606339328
+    Multi_Man_15M_Battle = 606339329
+    Multi_Man_Endless_CSS = 623182080
+    Multi_Man_Endless_Battle = 623182081
+    Multi_Man_Cruel_CSS = 640024832
+    Multi_Man_Cruel_Battle = 640024833
+    Training_Mode_CSS = 471597312
+    Training_Mode_SSS = 471597313
+    Training_Mode_Battle = 471597314
+    # Vs Mode
+    Vs_Melee_CSS = 33685760
+    Vs_Melee_SSS = 33685761
+    Vs_Melee_Battle = 33685762
+    Vs_Melee_Results = 33685764
+    Vs_Tournament_Prep = 454754560
+    Vs_Tournament_Ladder = 454754561
+    Vs_Tournament_SSS = 454754563
+    Vs_Tournament_Battle = 454754564
+    Vs_Tournament_Battle_Result = 454754566
+    Vs_Special_Camera_MemCardWarning = 168427776
+    Vs_Special_Camera_CSS = 168427777
+    Vs_Special_Camera_SSS = [b'n', b'x02']
+    Vs_Special_Camera_Battle = [b'n', b'x03']
+    Vs_Special_Camera_Result = [b'n', b'x04']
+    Vs_Special_Stamina_CSS = 522125568
+    Vs_Special_Stamina_SSS = 522125569
+    Vs_Special_Stamina_Battle = 522125570
+    Vs_Special_Sudden_Death_CSS = 269484288
+    Vs_Special_Sudden_Death_SSS = 269484289
+    Vs_Special_Sudden_Death_Battle = 269484290
+    Vs_Special_Sudden_Death_Result = 269484292
+    Vs_Special_Giant_CSS = 505282816
+    Vs_Special_Giant_SSS = 505282817
+    Vs_Special_Giant_Battle = 505282818
+    Vs_Special_Giant_Result = 505282820
+    Vs_Special_Tiny_CSS = 488440064
+    Vs_Special_Tiny_SSS = 488440065
+    Vs_Special_Tiny_Battle = 488440066
+    Vs_Special_Tiny_Result = 488440068
+    Vs_Special_Invis_CSS = 286327040
+    Vs_Special_Invis_SSS = 286327041
+    Vs_Special_Invis_Battle = 286327042
+    Vs_Special_Invis_Result = 286327044
+    Vs_Special_FixedCam_CSS = 707395840
+    Vs_Special_FixedCam_SSS = 707395841
+    Vs_Special_FixedCam_Battle = 707395842
+    Vs_Special_FixedCam_Result = 707395844
+    Vs_Special_Button_CSS = 741081344
+    Vs_Special_Button_SSS = 741081345
+    Vs_Special_Button_Battle = 741081346
+    Vs_Special_Button_Result = 741081348
+    Vs_Special_Lightning_CSS = 320012544
+    Vs_Special_Lightning_SSS = 320012545
+    Vs_Special_Lightning_Battle = 320012546
+    Vs_Special_Lightning_Result = 320012548
+    Vs_Special_SloMo_CSS = 303169792
+    Vs_Special_SloMo_SSS = 303169793
+    Vs_Special_SloMo_Battle = 303169794
+    Vs_Special_SloMo_Result = 303169796
+
+    Challenger_Approaching = [336860416, 33685888]
+    Fighter_Unlock_Duel_Young_Link = [336860417, 33685889]
+    Fighter_or_Stage_Unlocked_Message = [33685952, 336860930]
+    Trophy_Get = 336866050
+    Thing_Unlocked = 336860674
+    Continue = 67371369
+
+    Trophies_Gallery = 185270528
+    Trophies_Lottery = 202113280
+    Trophies_Collection = 218956032
+
+
+def screen_by_id(id: bytes) -> Optional[MeleeAreas]:
+    from typing import List
+    print(f'screen_by_id id: {id}')
+    if str(id)[:2] == "16":
+        return MeleeAreas.Main_Menu
     for world in MeleeAreas:
-        if world.value == id:
+        if world.value == id and type(world.value) == int:
             return world
+        try:
+            if id in world.value:
+                return world
+        except:
+            continue
     return None
 
 class Area:
@@ -195,17 +388,15 @@ class MeleeInterface:
         pass
 
     def get_current_menu(self) -> Optional[MeleeAreas]:
-        """Returns the world that the player is currently in"""
+        """Returns the screen that the player is currently in"""
         if self.current_game is None:
             return None
-        world_bytes = self.dolphin_client.read_pointer(
-            0x8065CC14, 0x00, 4
-            # GAMES[self.current_game]["game_state_pointer"], 0x84, struct.calcsize(">I")
+        screen_bytes = self.dolphin_client.read_address(
+            0x80479d30, 4
         )
-        if world_bytes is not None:
-            logging.debug(f'Current menu is: {world_bytes}')
-            world_asset_id = struct.unpack(">I", world_bytes)[0]
-            return world_by_id(world_asset_id)
+        if screen_bytes is not None:
+            screen_asset_id = struct.unpack(">I", screen_bytes)[0]
+            return screen_by_id(screen_asset_id)
         return None
 
     def get_current_health(self) -> float:
@@ -294,10 +485,6 @@ class MeleeInterface:
         except DolphinException:
             return ConnectionState.DISCONNECTED.value
 
-    def is_in_playable_state(self) -> bool:
-        """Check if the player is in the actual game rather than the main menu"""
-        # self.get_player1_state()
-        return self.get_current_menu() is not None # and self.__is_player_table_ready()
 
     # TODO: rework to use special messages in-game
     # def send_hud_message(self, message: str) -> bool:

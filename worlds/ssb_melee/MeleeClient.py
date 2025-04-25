@@ -127,7 +127,6 @@ def update_connection_status(ctx: MeleeContext, status):
         return
     else:
         logger.info(status_messages[status])
-        #logger.info(status_messages)
         if get_num_dolphin_instances() > 1:
             logger.info(status_messages[ConnectionState.MULTIPLE_DOLPHIN_INSTANCES.value])
         ctx.connection_state = status
@@ -192,9 +191,10 @@ def __int_to_reversed_bits(value: int, bit_length: int) -> str:
 async def handle_check_goal_complete(ctx: MeleeContext):
     if ctx.game_interface.current_game is not None:
         current_menu = ctx.game_interface.get_current_menu()
-        if current_menu == MeleeAreas.End_of_Game:
-            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-            ## TODO: add call to force credits after goal achieved
+        logger.debug(f"Current scene is: {current_menu.name}")
+        # if current_menu == MeleeAreas.Credits:
+            # await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            ## TODO: figure out what the hell you're gonna do for once goal is reached
 
 
 async def handle_check_deathlink(ctx: MeleeContext):
