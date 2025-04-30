@@ -1,10 +1,10 @@
+from random import choice
+import typing
+
 from BaseClasses import CollectionState, List, Dict
 
 from .classes.Event import EVENTDATA
 
-from random import choice
-
-import typing
 if typing.TYPE_CHECKING:
     from .MeleeOptions import MeleeOptions
 
@@ -58,50 +58,29 @@ def sanitize_event_exclusions(state: CollectionState, player: int) -> List[int|N
     else: 
         return events_to_remove
 
-
 ## Classic
-def goal_includes_classic(state: CollectionState, player: int) -> bool:
+def goal_includes_classic(state: CollectionState, player: int) -> bool | int:
     clear = _get_options(state, player).classic_goal.value
     total = int(_get_options(state, player).classic_total_goal.value) > 0
     return clear or total
 
 
 ## Adventure
-def goal_includes_adventure(state: CollectionState, player: int) -> bool:
+def goal_includes_adventure(state: CollectionState, player: int) -> bool | int:
     clear = bool(_get_options(state, player).adventure_goal.value)
     total = int(_get_options(state, player).adventure_total_goal.value) > 0
     return clear or total
 
 
 ## All-Star
-def goal_includes_all_star(state: CollectionState, player: int) -> bool:
+def goal_includes_all_star(state: CollectionState, player: int) -> bool | int:
     clear = bool(_get_options(state, player).all_star_goal.value)
     total = int(_get_options(state, player).all_star_total_goal.value) > 0
     return clear or total
 
 
 def goal_includes_trophies(state: CollectionState, player: int) -> int:
-    option = _get_options(state, player).trophy_count_goal.value
-    value = 0
-    random_values = {
-        'low': range(1, 51),
-        'mid': range(51, 151),
-        'high': range(151, 291),
-    }
-    split = option.split('-')
-    if split[0] == 'random':
-        if split[1] in random_values.keys():
-            value = choice(random_values[split[1]])
-        else:
-            value = choice(range(1, 291))
-
-    if value == 0:
-        try:
-            value = int(split[0])
-        except ValueError as e:
-            from CommonClient import logger
-            logger(f'Trophy count logic error: "{e}"')
-    return value
+    return _get_options(state, player).trophy_count_goal.value
 
 
 def get_goals(state: CollectionState, player: int) -> Dict:
@@ -112,6 +91,7 @@ def get_goals(state: CollectionState, player: int) -> Dict:
     goal['all-star'] = goal_includes_all_star(state, player)
     goal['trophy'] = goal_includes_trophies(state, player)
     return goal
+
 
 # item logic
 def has_fighter(state: CollectionState, player: int, fighter: str) -> bool:
@@ -141,66 +121,65 @@ def has_all_unlockable_fighters(state: CollectionState, player: int) -> bool:
             has_fighter(state, player, "Marth") and 
             has_fighter(state, player, "Roy"))
 
-
 def has_event_set_one(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 1", player) or state.has('Progressive Event Gate', player, 1)
+    return state.has("Event Gate 1", player) or state.has('Progressive Event Gate', player, 1)
 
 
 def has_event_set_two(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 2", player) or state.has('Progressive Event Gate', player, 2)
+    return state.has("Event Gate 2", player) or state.has('Progressive Event Gate', player, 2)
 
 
 def has_event_set_three(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 3", player) or state.has('Progressive Event Gate', player, 3)
+    return state.has("Event Gate 3", player) or state.has('Progressive Event Gate', player, 3)
 
 
 def has_event_set_four(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 4", player) or state.has('Progressive Event Gate', player, 4)
+    return state.has("Event Gate 4", player) or state.has('Progressive Event Gate', player, 4)
 
 
 def has_event_set_five(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 5", player) or state.has('Progressive Event Gate', player, 5)
+    return state.has("Event Gate 5", player) or state.has('Progressive Event Gate', player, 5)
 
 
 def has_event_set_six(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 6", player) or state.has('Progressive Event Gate', player, 6)
+    return state.has("Event Gate 6", player) or state.has('Progressive Event Gate', player, 6)
 
 
 def has_event_set_seven(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 7", player) or state.has('Progressive Event Gate', player, 7)
+    return state.has("Event Gate 7", player) or state.has('Progressive Event Gate', player, 7)
 
 
 def has_event_set_eight(state: CollectionState, player: int) -> bool:
-    state.has("Event Gate 8", player) or state.has('Progressive Event Gate', player, 8)
+    return state.has("Event Gate 8", player) or state.has('Progressive Event Gate', player, 8)
 
 
 def has_all_star(state: CollectionState, player: int) -> bool:
-    state.has('All-Star Mode', player)
+    return state.has('All-Star Mode', player)
 
 
 def can_do_all_star_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_all_star(state, player) and has_fighter(state, player, fighter)
+    return has_all_star(state, player) and has_fighter(state, player, fighter)
 
 
 def can_do_adventure_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_fighter(state, player, fighter)
+    return has_fighter(state, player, fighter)
 
 
 def can_do_classic_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_fighter(state, player, fighter)
+    return has_fighter(state, player, fighter)
 
 
 def can_do_hrc_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_fighter(state, player, fighter)
+    return has_fighter(state, player, fighter)
 
 
 def can_do_btt_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_fighter(state, player, fighter)
+    return has_fighter(state, player, fighter)
 
 
 def can_do_mmm_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_fighter(state, player, fighter)
+    return has_fighter(state, player, fighter)
 
 
 def can_do_vs_with_fighter(state: CollectionState, player: int, fighter: str) -> bool:
-    has_fighter(state, player, fighter)
+    return has_fighter(state, player, fighter)

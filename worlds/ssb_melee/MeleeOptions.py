@@ -4,13 +4,15 @@ from dataclasses import dataclass
 
 class EventsGoal(DefaultOnToggle):
     """Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
+
     If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear."""
     display_name = "Event Mode Goal"
 
 class ProgressiveEvents(Toggle):
-    """By default, Event mode unlocks as you gather more fighters and complete a specified number of events.
-    Set this to true, and events will instead be gated by Event Gate items.
+    """By default, Event mode unlocks as you receive Event Gate items.
+    Set this to true, and events will be unlocked in a set order.
     Set this to false, and events will require certain fighters as well as a specified number of cleared events to unlock later events.
+
     Ignored if Event Mode Goal is False."""
     display_name = "Progressive Events"
     default = False
@@ -19,6 +21,7 @@ class ShuffleEventDetails(Choice):
     """By default, an event has a set P1 fighter (if applicable), set enemies, a set stage, and other restrictions or AI routines.
     You can choose your level of randomization for events.
     If the player fighter is randomized, the event will logically require that fighter in order to count its completion. 
+
     NOT YET IMPLEMENTED"""
     display_name = "Shuffle Event Details"
     default = 3
@@ -29,7 +32,9 @@ class ShuffleEventDetails(Choice):
 
 class ExcludedEvents(OptionList):
     """Events to exclude from the Events goal. Events can be excluded by name or number.
+
     Ignored if Event Mode Goal is False.
+
     Note: excluding events from the logic could mean that you still have to clear some excluded events in order for the game to allow access to more events."""
     display_name = "Exclude Events"
     default = []
@@ -41,6 +46,7 @@ class ClassicGoal(Toggle):
 
 class ClassicTotalGoal(Range):
     """Adds Classic Mode to the goal. Adds Classic Mode to the goal if Classic Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+
     This option will be ignored if set to 0."""
     display_name = "Classic Mode High Score Total Goal"
     default = 0
@@ -54,6 +60,7 @@ class AdventureGoal(Toggle):
 
 class AdventureTotalGoal(Range):
     """Adds Adventure Mode to the goal. Adds Adventure Mode to the goal if Adventure Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+
     This option will be ignored if set to 0."""
     display_name = "Adventure Mode High Score Total Goal"
     default = 0
@@ -61,13 +68,13 @@ class AdventureTotalGoal(Range):
     range_end = 100000000
 
 class AllStarGoal(Toggle):
-    """Adds All-Star Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete All-Star with all fighters.
-    You can unlock All-Star Mode by unlocking all playable fighters."""
+    """Adds All-Star Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete All-Star with all fighters."""
     display_name = "All-Star Mode Goal"
     default = False
 
 class AllStarTotalGoal(Range):
     """Adds All-Star Mode to the goal. Adds All-Star Mode to the goal if All-Star Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+
     This option will be ignored if set to 0."""
     display_name = "All-Star Mode High Score Total Goal"
     default = 0
@@ -76,7 +83,9 @@ class AllStarTotalGoal(Range):
 
 class TrophyCountGoal(Range):
     """Adds collecting trophies to the goal. This can be used with other goals. In order to complete your seed, you must get the number of trophies specified.
-    This option will be ignored if set to 0. 
+
+    This option will be ignored if set to 0.
+
     Excludes the Olimar and Japan-only trophies.
     For more information: https://www.ssbwiki.com/List_of_trophies_by_unlock_criteria_(SSBM)"""
     display_name = "Trophy Collection Goal"
@@ -92,7 +101,7 @@ class ExcludeFighters(OptionList):
 class EasyVsModeUnlocks(Range):
     """Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick."""
     display_name = "Easy Vs Mode Unlocks"
-    default = 0
+    default = 1000
     range_start = 0
     range_end = 1000
 
@@ -105,7 +114,14 @@ class DisableTapJump(DefaultOnToggle):
     display_name = "Disable Tap Jumping"
 
 class DeathLinkMode(Choice):
-    """Set what happens when death link activates."""
+    """Set what happens when death link activates.
+
+    LoseStock: Lose a single stock when someone else sends a deathlink signal.
+
+    LoseAllStocks: Lose all stocks when someone else sends a deathlink signal. In Vs, you lose. In 1P, you'll be taken to the Continue screen.
+
+    LoseWithoutContinue: Same as LoseAllStocks, but you don't get a chance to Continue. Game over!
+    """
     display_name = 'Death Link Mode'
     default = 0
     option_LoseStock = 0
