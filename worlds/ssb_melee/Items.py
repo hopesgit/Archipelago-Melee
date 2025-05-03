@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Dict, List, TYPE_CHECKING, Optional, Union
-from BaseClasses import Item, ItemClassification
+from BaseClasses import Item, ItemClassification, Group
 if TYPE_CHECKING:
     from . import SSBMeleeWorld
 
@@ -138,7 +138,7 @@ def get_item_for_options(
             return progressive_upgrade
     return item
 
-modes_table: Dict[str, ItemData] = {
+events_table: Dict[str, ItemData] = {
     MeleeUnlock.Event_Gate_1.value: ItemData(
         MeleeUnlock.Event_Gate_1.value, 0, ItemClassification.progression
     ),
@@ -162,10 +162,13 @@ modes_table: Dict[str, ItemData] = {
     ),
     MeleeUnlock.Event_Gate_8.value: ItemData(
         MeleeUnlock.Event_Gate_8.value, 7, ItemClassification.progression
-    ),
-    MeleeUnlock.All_Star_Mode.value: ItemData(
+    )
+}
+
+modes_table: Dict[str, ItemData] = {
+    MeleeUnlock.Dr_Mario.value: ItemData(
         MeleeUnlock.All_Star_Mode.value, 8, ItemClassification.progression
-    ),
+    )
 }
 
 fighters_table: Dict[str, ItemData] = {
@@ -299,11 +302,12 @@ useful_items_table: Dict[str, ItemData] = {
 }
 
 item_table: Dict[str, ItemData] = {
+    **events_table,
     **modes_table,
     **fighters_table,
     **stage_unlocks_table,
     **misc_unlocks_table,
-    **progressive_table,
+    #**progressive_table,
     **traps_table,
     **useful_items_table
 }

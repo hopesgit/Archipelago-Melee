@@ -84,6 +84,8 @@ class MeleeContext(CommonContext):
     last_error_message: Optional[str] = None
     apssbm_file: Optional[str] = None
     hardcore_mode = False
+    piggy_bank: int = 0
+    """Holds the player's received coins; fills the player's coins pointer up to 999"""
 
     def __init__(self, server_address, password, apssbm_file=None):
         super().__init__(server_address, password)
@@ -240,9 +242,7 @@ async def _handle_game_not_ready(ctx: MeleeContext):
 
 
 async def run_game(romfile):
-    # auto_start = settings.Settings.get(key="ssbmelee_options").rom_start == True
-    auto_start = settings.get_settings()["ssb_melee_options"].get("rom_start", True)
-    # auto_start = Utils.get_options()["ssbmelee_options"].get("rom_start", True)
+    auto_start = settings.get_settings()["ssb_melee_options"].get("auto_start", True)
 
     if auto_start is True and assert_no_running_dolphin():
         import webbrowser

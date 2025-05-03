@@ -10,15 +10,37 @@ from .Items import (
     item_table
 )
 
+### ssbmStringBytes = bytearray()
+### ssbmStringBytes.extend( "Super Smash Bros. Melee" )
+
+	###	dataBytes = bytearray.fromhex( self.data )
+	###	if dataBytes[0x3B78FB:0x3B7912] == ssbmStringBytes: self.region = 'NTSC'; self.version = '1.02' # most common, so checking for it first
+	###	elif dataBytes[0x3B6C1B:0x3B6C32] == ssbmStringBytes: self.region = 'NTSC'; self.version = '1.01'
+	###	elif dataBytes[0x3B5A3B:0x3B5A52] == ssbmStringBytes: self.region = 'NTSC'; self.version = '1.00'
+	###	elif dataBytes[0x3B75E3:0x3B75FA] == ssbmStringBytes: self.region = 'PAL'; self.version = '1.00'
+
 _SUPPORTED_VERSIONS = ["0-02"]
 GAMES: Dict[str, Any] = {
+    "0-00": {
+        "game_id": b"GALE01",
+        "game_rev": "0-00",
+        "revision_range": [0x3B5A3B, 0x3B5A52]
+    },
+    "0-01": {
+        "game_id": b"GALE01",
+        "game_rev": "0-01",
+        "revision_range": [0x3B6C1B, 0x3B6C32]
+    },
     "0-02": {
         "game_id": b"GALE01",
-        "game_rev": 2,
-        "game_state_pointer": 0x80591ce0,
-        "cstate_manager_global": 0x80459e88,
-        "cplayer_vtable": 0x803DA7A8,
-    }
+        "game_rev": "0-02",
+        "revision_range": [0x3B78FB, 0x3B7912]
+    },
+    "PAL": {
+        "game_id": b"GALP01",
+        "game_rev": "PAL",
+        "revision_range": [0x3B75E3, 0x3B75FA]
+    },
 }
 
 def calculate_item_offset(item_id: int) -> int:
@@ -233,7 +255,6 @@ class MeleeAreas(Enum):
 
 
 def screen_by_id(id: bytes) -> Optional[MeleeAreas]:
-    from typing import List
     print(f'screen_by_id id: {id}')
     if str(id)[:2] == "16":
         return MeleeAreas.Main_Menu
@@ -243,7 +264,7 @@ def screen_by_id(id: bytes) -> Optional[MeleeAreas]:
         try:
             if id in world.value:
                 return world
-        except:
+        except TypeError:
             continue
     return None
 
@@ -336,6 +357,7 @@ class MeleeInterface:
         logging.info(f"p1 stocks: {stocks}")
         return stocks
 
+
     def get_current_inventory(self) -> Dict[str, InventoryItemData]:
         MAX_VANILLA_ITEM_ID = 40
         inventory: Dict[str, InventoryItemData] = {}
@@ -345,26 +367,6 @@ class MeleeInterface:
                 if item.id <= MAX_VANILLA_ITEM_ID:
                     inventory[item.name] = i
         return inventory
-
-    def get_alive(self) -> bool:
-        player_state_pointer = self.__get_player_state_pointer()
-        value = struct.unpack(
-            ">I", self.dolphin_client.read_pointer(player_state_pointer, 0, 4)
-        )[0]
-        return bool(value & (1 << 31))
-
-    def set_alive(self, alive: bool):
-        player_state_pointer = self.__get_player_state_pointer()
-        value = struct.unpack(
-            ">I", self.dolphin_client.read_pointer(player_state_pointer, 0, 4)
-        )[0]
-        if alive:
-            value |= 1 << 31
-        else:
-            value &= ~(1 << 31)
-        self.dolphin_client.write_pointer(
-            player_state_pointer, 0, struct.pack(">I", value)
-        )
 
 
     def set_hardcore_mode(self, on: bool):
@@ -398,6 +400,7 @@ class MeleeInterface:
             screen_asset_id = struct.unpack(">I", screen_bytes)[0]
             return screen_by_id(screen_asset_id)
         return None
+
 
     def get_current_health(self) -> float:
         result = self.dolphin_client.read_pointer(
@@ -437,15 +440,22 @@ class MeleeInterface:
             self.dolphin_client.connect()
             game_id = self.dolphin_client.read_address(GC_GAME_ID_ADDRESS, 6)
             try:
-                game_rev = 2
+                for version in GAMES:
+                    brange = GAMES[version]["revision_range"]
+                    offset = brange[1] - brange[0]
+                    rev_bytes = self.dolphin_client.read_address(brange[0], offset)
+                    rev_range = struct.unpack(">c", rev_bytes)
+                    self.logger.info(f"revision check {version} : bytes = {rev_range}")
+                    if "Super Smash Bros. Melee" in rev_range:
+                        game_rev = GAMES[version]["game_rev"]
                 # game_rev: Optional[int] = self.dolphin_client.read_address(
                 #     GC_GAME_ID_ADDRESS, 2
                 # )[0]
-                logging.debug(f"Game ID is: {game_rev}")
+                logging.debug(f"Revision is: {game_rev}")
             except:
-                game_rev = None
+                game_rev = "0-02" # None
             # The first read of the address will be null if the client is faster than the emulator
-            self.current_game = None
+            #self.current_game = None
             for version in _SUPPORTED_VERSIONS:
                 if (
                     game_id == GAMES[version]["game_id"]

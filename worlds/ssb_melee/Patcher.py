@@ -13,31 +13,71 @@ import pathlib
 #         ]
 #     )
 
-import pycdlib
+import copy
 import os
+import struct
+from typing import TYPE_CHECKING, Dict, List, Tuple
 
+from pycdlib import PyCdlib
 import worlds
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
+from settings import get_settings
+
+import pycdlib
+
+from docutils.nodes import literal
+from BaseClasses import logging
+
 base_path = worlds.user_path()
 print(base_path)
 
 
-def extract_iso(iso_path, extract_path):
-    """Extracts the contents of an ISO file to a specified directory."""
-    iso = pycdlib.PyCdlib()
-    iso.open(iso_path)
+class MeleeProcedurePatch(APProcedurePatch):
+    game = "Super Smash Bros. Melee"
+    # hash = "605b89b67018abcea91e693a4dd25be3"
+    patch_file_ending = ".apssbm"
+    result_file_ending = ".iso"
 
-    for root, dirs, files in iso.walk():
-        for directory in dirs:
-            target_dir = os.path.join(extract_path, *root[1:], directory.name())
-            os.makedirs(target_dir, exist_ok=True)
-        for file in files:
-            target_file = os.path.join(extract_path, *root[1:], file.name())
-            with open(target_file, 'wb') as f:
-                iso.get_file_from_iso_fp(f, iso_path=os.path.join(*root[1:], file.name()))
-    iso.close()
+    procedure = [
+        ("apply_bsdiff4", ["base_patch.bsdiff4"]),
+        ("apply_tokens", ["token_data.bin"])
+    ]
 
-# Example usage
 
-iso_file_path = 'melee.iso'
-# extraction_path = 'worlds/ssb_melee/unpack/'
-# extract_iso(iso_file_path, extraction_path)
+class Patcher:
+    output_path: literal
+    extracted_folder_path: str
+    logger: logging.Logger
+
+    def extract_iso(self, iso_path, extract_path):
+        """Extracts the contents of an ISO file to a specified directory."""
+        self.logger.info('Extracting files from iso...')
+        iso = pycdlib.PyCdlib()
+        iso.open(iso_path)
+        os.mkdir(extract_path)
+
+        for root, dirs, files in iso.walk():
+            for directory in dirs:
+                target_dir = os.path.join(extract_path, *root[1:], directory.name())
+                os.makedirs(target_dir, exist_ok=True)
+            for file in files:
+                target_file = os.path.join(extract_path, *root[1:], file.name())
+                with open(target_file, 'wb') as f:
+                    iso.get_file_from_iso_fp(f, iso_path=os.path.join(*root[1:], file.name()))
+        iso.close()
+
+    def patch_cstick_in_regular_match(self):
+        self.logger.info('Applying patch: C-Stick in Single-Player')
+        with os.open(os.path.join(self.extracted_folder_path, "main.dol"), flags=os.O_WRONLY) as dol:
+            diff = bsdiff4.diff(48000008, 60000000)
+            patch = bsdiff4.file_patch_inplace()
+
+    # def reassemble_iso(self):
+    #     iso = PyCdlib.write()
+
+
+def run():
+    iso_file_path = 'melee.iso'
+    extraction_path = os.path.curdir + 'unpack/'
+    patcher = Patcher()
+    patcher.extract_iso(iso_file_path, extraction_path)

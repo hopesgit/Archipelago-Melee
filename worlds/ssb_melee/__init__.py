@@ -1,13 +1,12 @@
 # from .MeleeClient import MeleeCommandProcessor
 from .MeleeOptions import MeleeOptions
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, icon_paths, launch_subprocess
-from .Items import item_table
+from .Items import item_table, fighters_table, events_table, progressive_table
 from .Locations import locations
 from .Logic import get_goals
 # from .classes.Event import EventRandomizer
 
-from BaseClasses import CollectionState, List, Dict, Tutorial
-from Options import OptionGroup
+from BaseClasses import CollectionState, List, Dict, Tutorial, MultiWorld
 from worlds.AutoWorld import World, WebWorld
 from .MeleeOptions import *
 import settings
@@ -17,7 +16,7 @@ def run_client() -> None:
     """
     Launch the Super Smash Bros Melee client.
     """
-    print("Running Super Smash Bros Melee client.")
+    print("Running Super Smash Bros. Melee client.")
     from .MeleeClient import main
 
     launch_subprocess(main, name="MeleeClient")
@@ -35,19 +34,16 @@ icon_paths["Melee"] = "ap:worlds.ssb_melee/img/melee.png"
 
 
 class MeleeSettings(settings.Group):
-    class IsoFile(settings.SNESRomPath):
+    class IsoFile(settings.UserFilePath):
         """Path of the Melee .iso file to use."""
         description = "Super Smash Bros. Melee US Revision 2 .iso file"  # displayed in the file browser
-        copy_to = "melee.iso"  # instead of storing the path, copy to AP dir
-        crc32 = "5365c84b"
-        sha1 = "d4e70c064cc714ba8400a849cf299dbd1aa326fc"
-        sha5 = "0e63d4223b01d9aba596259dc155a174"
+        copy_to = "melee.iso"
 
-    iso_file: IsoFile = IsoFile("melee.iso")  # definition and default value
+    iso_file: IsoFile = IsoFile("melee.iso")
 
-    class AutoStart(settings.Bool):
+    class AutoStart(str):
         """Auto-start the iso when clicked."""
-        default = True
+        default = 'true'
 
     auto_start = AutoStart
 
@@ -64,6 +60,7 @@ class SSBMeleeWeb(WebWorld):
         )
     ]
     theme="partyTime"
+    option_groups = option_groups()
 
 
 class SSBMeleeWorld(World):
@@ -74,19 +71,38 @@ class SSBMeleeWorld(World):
     game = "Super Smash Bros Melee"
     web = SSBMeleeWeb()
     origin_region_name = "Main Menu"
-    # required_client_version = (0, 6, 1)
+    required_client_version = (0, 6, 1)
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = locations
     settings = MeleeSettings
+    item_name_groups = {"Fighters": set(fighters_table.keys()), "Events": set(events_table.keys())}
     #event_rando = EventRandomizer
-    goals = Dict | None
+    goals: dict
 
-    def __init__(self, multiworld, player):
+    def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
-        self._set_goals(multiworld.state, player)
 
-    def _set_goals(self, ctx: CollectionState, player: int):
-        return get_goals(ctx, player)
+    @classmethod
+    def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
+        pass
+
+    def set_goals(self):
+        ctx = self.multiworld.state
+        player = self.player
+        self.goals = get_goals(ctx, player)
+
+    def events_are_progressive(self):
+        prog = self.options.progressive_events.value
+        if prog == 1:
+            self.item_name_groups["Events"] = set(progressive_table.keys())
+            for item in self.item_name_to_id:
+                if item[0].startswith("Event Gate"):
+                   del self.item_name_to_id[item[0]]
 
 
-# client = MeleeCommandProcessor()
+    def generate_early(self) -> None:
+        self.events_are_progressive()
+
+    def create_regions(self):
+        from .Regions import get_regions
+        return get_regions(self.multiworld.worlds[self.player], self.player)

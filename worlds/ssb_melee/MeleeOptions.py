@@ -1,6 +1,9 @@
 from enum import Enum
-from Options import DeathLink, DefaultOnToggle, OptionDict, OptionList, TextChoice, Toggle, Range, ItemDict, StartInventoryPool, Choice, PerGameCommonOptions, Visibility
+from Options import DeathLink, DefaultOnToggle, OptionDict, OptionList, TextChoice, Toggle, Range, ItemDict, \
+    StartInventoryPool, Choice, PerGameCommonOptions, Visibility, OptionGroup, ProgressionBalancing, Accessibility
 from dataclasses import dataclass
+from BaseClasses import List
+
 
 class EventsGoal(DefaultOnToggle):
     """Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
@@ -8,19 +11,24 @@ class EventsGoal(DefaultOnToggle):
     If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear."""
     display_name = "Event Mode Goal"
 
+
 class ProgressiveEvents(Toggle):
     """By default, Event mode unlocks as you receive Event Gate items.
-    Set this to true, and events will be unlocked in a set order.
+
+    Set this to true, and events will be unlocked in a set order.\n
     Set this to false, and events will require certain fighters as well as a specified number of cleared events to unlock later events.
 
     Ignored if Event Mode Goal is False."""
     display_name = "Progressive Events"
     default = False
 
+
 class ShuffleEventDetails(Choice):
-    """By default, an event has a set P1 fighter (if applicable), set enemies, a set stage, and other restrictions or AI routines.
+    """By default, an event has a set P1 fighter (if applicable), set enemies and allies, a set stage, and other restrictions or AI routines.
+
     You can choose your level of randomization for events.
-    If the player fighter is randomized, the event will logically require that fighter in order to count its completion. 
+
+    If the player fighter is randomized, the event will logically require that fighter in order to count its completion.
 
     NOT YET IMPLEMENTED"""
     display_name = "Shuffle Event Details"
@@ -29,6 +37,7 @@ class ShuffleEventDetails(Choice):
     option_ShuffleEnemyChar = 1
     option_ShuffleBoth = 2
     option_Vanilla = 3
+
 
 class ExcludedEvents(OptionList):
     """Events to exclude from the Events goal. Events can be excluded by name or number.
@@ -39,47 +48,60 @@ class ExcludedEvents(OptionList):
     display_name = "Exclude Events"
     default = []
 
+
 class ClassicGoal(Toggle):
     """Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all fighters."""
     display_name = "Classic Mode Goal"
     default = False
 
+
 class ClassicTotalGoal(Range):
     """Adds Classic Mode to the goal. Adds Classic Mode to the goal if Classic Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+
+    Your selection will be multiplied by 1 million to get your score requirement.
 
     This option will be ignored if set to 0."""
     display_name = "Classic Mode High Score Total Goal"
     default = 0
     range_start = 0
-    range_end = 100000000
+    range_end = 999
+
 
 class AdventureGoal(Toggle):
     """Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all fighters."""
     display_name = "Adventure Mode Goal"
     default = False
 
+
 class AdventureTotalGoal(Range):
     """Adds Adventure Mode to the goal. Adds Adventure Mode to the goal if Adventure Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+
+    Your selection will be multiplied by 1 million to get your score requirement.
 
     This option will be ignored if set to 0."""
     display_name = "Adventure Mode High Score Total Goal"
     default = 0
     range_start = 0
-    range_end = 100000000
+    range_end = 999
+
 
 class AllStarGoal(Toggle):
     """Adds All-Star Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete All-Star with all fighters."""
     display_name = "All-Star Mode Goal"
     default = False
 
+
 class AllStarTotalGoal(Range):
     """Adds All-Star Mode to the goal. Adds All-Star Mode to the goal if All-Star Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+
+    Your selection will be multiplied by 1 million to get your score requirement.
 
     This option will be ignored if set to 0."""
     display_name = "All-Star Mode High Score Total Goal"
     default = 0
     range_start = 0
-    range_end = 100000000
+    range_end = 999
+
 
 class TrophyCountGoal(Range):
     """Adds collecting trophies to the goal. This can be used with other goals. In order to complete your seed, you must get the number of trophies specified.
@@ -93,10 +115,12 @@ class TrophyCountGoal(Range):
     range_start = 0
     range_end = 290
 
+
 class ExcludeFighters(OptionList):
     """Excludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character."""
     display_name = "Exclude Fighters from Goals"
     default = []
+
 
 class EasyVsModeUnlocks(Range):
     """Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick."""
@@ -105,21 +129,22 @@ class EasyVsModeUnlocks(Range):
     range_start = 0
     range_end = 1000
 
+
 class CStickInSinglePlayer(DefaultOnToggle):
     """By default, the C-Stick moves the camera in single-player. This option changes the controls so that the C-Stick performs Smash attacks, like in Vs Mode."""
     display_name = "Enable C-Stick in Single Player"
+
 
 class DisableTapJump(DefaultOnToggle):
     """By default, you can flick the control stick up quickly to jump. Set this option to true to disable that behavior."""
     display_name = "Disable Tap Jumping"
 
+
 class DeathLinkMode(Choice):
     """Set what happens when death link activates.
 
-    LoseStock: Lose a single stock when someone else sends a deathlink signal.
-
-    LoseAllStocks: Lose all stocks when someone else sends a deathlink signal. In Vs, you lose. In 1P, you'll be taken to the Continue screen.
-
+    LoseStock: Lose a single stock when someone else sends a deathlink signal.\n
+    LoseAllStocks: Lose all stocks when someone else sends a deathlink signal. In Vs, you lose. In 1P, you'll be taken to the Continue screen.\n
     LoseWithoutContinue: Same as LoseAllStocks, but you don't get a chance to Continue. Game over!
     """
     display_name = 'Death Link Mode'
@@ -127,6 +152,7 @@ class DeathLinkMode(Choice):
     option_LoseStock = 0
     option_LoseAllStocks = 1
     option_LoseWithoutContinue = 2
+
 
 @dataclass
 class MeleeOptions(PerGameCommonOptions):
@@ -152,3 +178,31 @@ class MeleeOptions(PerGameCommonOptions):
 
     # generic
     death_link: DeathLink
+
+
+def option_groups() -> List[OptionGroup]:
+    groups = list()
+    groups.append(OptionGroup('Goals and Logic', [
+        ProgressionBalancing,
+        Accessibility,
+        EventsGoal,
+        ProgressiveEvents,
+        ShuffleEventDetails,
+        ExcludedEvents,
+        ClassicGoal,
+        ClassicTotalGoal,
+        AdventureGoal,
+        AdventureTotalGoal,
+        AllStarGoal,
+        AllStarTotalGoal,
+        TrophyCountGoal
+    ]))
+    groups.append(OptionGroup('Quality of Life', [
+        ExcludeFighters,
+        EasyVsModeUnlocks,
+        CStickInSinglePlayer,
+        DisableTapJump,
+        DeathLink,
+        DeathLinkMode
+    ]))
+    return groups

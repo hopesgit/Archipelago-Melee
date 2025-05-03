@@ -1,5 +1,6 @@
 from enum import Enum
 from BaseClasses import Region
+from . import SSBMeleeWorld
 
 
 class MeleeRegion(Enum):
@@ -18,4 +19,3 @@ def get_regions(world: 'SSBMeleeWorld', player: int):
         region = Region(name, player, world)
         regions.append(region)
     return regions
-''
