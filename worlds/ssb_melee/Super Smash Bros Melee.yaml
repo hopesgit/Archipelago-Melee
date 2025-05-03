@@ -1,0 +1,252 @@
+﻿# Q. What is this file?
+# A. This file contains options which allow you to configure your multiworld experience while allowing
+#    others to play how they want as well.
+#
+# Q. How do I use it?
+# A. The options in this file are weighted. This means the higher number you assign to a value, the
+#    more chances you have for that option to be chosen. For example, an option like this:
+#
+#    map_shuffle:
+#      on: 5
+#      off: 15
+#
+#    Means you have 5 chances for map shuffle to occur, and 15 chances for map shuffle to be turned
+#    off.
+#
+# Q. I've never seen a file like this before. What characters am I allowed to use?
+# A. This is a .yaml file. You are allowed to use most characters.
+#    To test if your yaml is valid or not, you can use this website:
+#        http://www.yamllint.com/
+#    You can also verify that your Archipelago options are valid at this site:
+#        https://archipelago.gg/check
+
+# Your name in-game, limited to 16 characters.
+#     {player} will be replaced with the player's slot number.
+#     {PLAYER} will be replaced with the player's slot number, if that slot number is greater than 1.
+#     {number} will be replaced with the counter value of the name.
+#     {NUMBER} will be replaced with the counter value of the name, if the counter value is greater than 1.
+name: Player{number}
+
+# Used to describe your yaml. Useful if you have multiple files.
+description: Default Super Smash Bros Melee Template
+
+game: Super Smash Bros Melee
+requires:
+  version: 0.6.2 # Version of Archipelago required for this yaml to work as expected.
+
+Super Smash Bros Melee:
+  # Goals and Logic
+  progression_balancing:
+    # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
+    # 
+    # A lower setting means more getting stuck. A higher setting means less getting stuck.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 99
+    random: 0
+    random-low: 0
+    random-high: 0
+    disabled: 0 # equivalent to 0
+    normal: 50 # equivalent to 50
+    extreme: 0 # equivalent to 99
+
+  accessibility:
+    # Set rules for reachability of your items/locations.
+    # 
+    # **Full:** ensure everything can be reached and acquired.
+    # 
+    # **Minimal:** ensure what is needed to reach your goal can be acquired.
+    full: 50
+    minimal: 0
+
+  events_goal:
+    # Adds Event Mode to the goal. This can be used with other goals. In order to complete your seed, you must clear Event 51.
+    # 
+    # If you exclude Event 51, the highest numbered Event that is still included will be the target Event to clear.
+    'false': 0
+    'true': 50
+
+  progressive_events:
+    # By default, Event mode unlocks as you receive Event Gate items.
+    # 
+    # Set this to true, and events will be unlocked in a set order.
+    # 
+    # Set this to false, and events will require certain fighters as well as a specified number of cleared events to unlock later events.
+    # 
+    # Ignored if Event Mode Goal is False.
+    'false': 50
+    'true': 0
+
+  shuffle_event_details:
+    # By default, an event has a set P1 fighter (if applicable), set enemies and allies, a set stage, and other restrictions or AI routines.
+    # 
+    # You can choose your level of randomization for events.
+    # 
+    # If the player fighter is randomized, the event will logically require that fighter in order to count its completion.
+    # 
+    # NOT YET IMPLEMENTED
+    shuffleplayerchar: 0
+    shuffleenemychar: 0
+    shuffleboth: 0
+    vanilla: 50
+
+  excluded_events:
+    # Events to exclude from the Events goal. Events can be excluded by name or number.
+    # 
+    # Ignored if Event Mode Goal is False.
+    # 
+    # Note: excluding events from the logic could mean that you still have to clear some excluded events in order for the game to allow access to more events.
+    []
+
+  classic_goal:
+    # Adds Classic Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Classic with all fighters.
+    'false': 50
+    'true': 0
+
+  classic_total_goal:
+    # Adds Classic Mode to the goal. Adds Classic Mode to the goal if Classic Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+    # 
+    # Your selection will be multiplied by 1 million to get your score requirement.
+    # 
+    # This option will be ignored if set to 0.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 999
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  adventure_goal:
+    # Adds Adventure Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete Adventure with all fighters.
+    'false': 50
+    'true': 0
+
+  adventure_total_goal:
+    # Adds Adventure Mode to the goal. Adds Adventure Mode to the goal if Adventure Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+    # 
+    # Your selection will be multiplied by 1 million to get your score requirement.
+    # 
+    # This option will be ignored if set to 0.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 999
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  all_star_goal:
+    # Adds All-Star Mode to the goal. This can be used with other goals. In order to complete your seed, you must complete All-Star with all fighters.
+    'false': 50
+    'true': 0
+
+  all_star_total_goal:
+    # Adds All-Star Mode to the goal. Adds All-Star Mode to the goal if All-Star Mode Goal isn't selected. In order to complete your goal, you must reach the given amount of total points between all fighters.
+    # 
+    # Your selection will be multiplied by 1 million to get your score requirement.
+    # 
+    # This option will be ignored if set to 0.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 999
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  trophy_count_goal:
+    # Adds collecting trophies to the goal. This can be used with other goals. In order to complete your seed, you must get the number of trophies specified.
+    # 
+    # This option will be ignored if set to 0.
+    # 
+    # Excludes the Olimar and Japan-only trophies.
+    # For more information: https://www.ssbwiki.com/List_of_trophies_by_unlock_criteria_(SSBM)
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 290
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  # Quality of Life
+  exclude_fighters:
+    # Excludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character.
+    []
+
+  easy_vs_mode_unlocks:
+    # Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1000
+    1000: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  c_stick_in_single_player:
+    # By default, the C-Stick moves the camera in single-player. This option changes the controls so that the C-Stick performs Smash attacks, like in Vs Mode.
+    'false': 0
+    'true': 50
+
+  disable_tap_jump:
+    # By default, you can flick the control stick up quickly to jump. Set this option to true to disable that behavior.
+    'false': 0
+    'true': 50
+
+  death_link:
+    # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
+    'false': 50
+    'true': 0
+
+  death_link_mode:
+    # Set what happens when death link activates.
+    # 
+    # LoseStock: Lose a single stock when someone else sends a deathlink signal.
+    # 
+    # LoseAllStocks: Lose all stocks when someone else sends a deathlink signal. In Vs, you lose. In 1P, you'll be taken to the Continue screen.
+    # 
+    # LoseWithoutContinue: Same as LoseAllStocks, but you don't get a chance to Continue. Game over!
+    losestock: 50
+    loseallstocks: 0
+    losewithoutcontinue: 0
+
+  # Item & Location Options
+  local_items:
+    # Forces these items to be in their native world.
+    []
+
+  non_local_items:
+    # Forces these items to be outside their native world.
+    []
+
+  start_inventory:
+    # Start with these items.
+    {}
+
+  start_hints:
+    # Start with these item's locations prefilled into the ``!hint`` command.
+    []
+
+  start_location_hints:
+    # Start with these locations and their item prefilled into the ``!hint`` command.
+    []
+
+  exclude_locations:
+    # Prevent these locations from having an important item.
+    []
+
+  priority_locations:
+    # Prevent these locations from having an unimportant item.
+    []
+
+  item_links:
+    # Share part of your item pool with other players.
+    []

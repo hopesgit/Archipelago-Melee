@@ -1,14 +1,17 @@
 # from .MeleeClient import MeleeCommandProcessor
+from typing import Mapping, Any, TextIO, Set, Optional
+
 from .MeleeOptions import MeleeOptions
-from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, icon_paths, launch_subprocess
-from .Items import item_table, fighters_table, events_table, progressive_table
-from .Locations import locations
+from .Items import item_table, fighters_table, events_table, progressive_table, SSBMeleeItem
+from .Locations import *
 from .Logic import get_goals
+from .MeleeOptions import *
+from .Regions import MeleeRegion
 # from .classes.Event import EventRandomizer
 
-from BaseClasses import CollectionState, List, Dict, Tutorial, MultiWorld
-from worlds.AutoWorld import World, WebWorld
-from .MeleeOptions import *
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, icon_paths, launch_subprocess
+from BaseClasses import CollectionState, List, Dict, Tutorial, MultiWorld, Item, Region, ItemClassification
+from worlds.AutoWorld import World, WebWorld, LogicMixin
 import settings
 
 
@@ -73,6 +76,7 @@ class SSBMeleeWorld(World):
     origin_region_name = "Main Menu"
     required_client_version = (0, 6, 1)
     item_name_to_id = {name: data.code for name, data in item_table.items()}
+    items = item_table
     location_name_to_id = locations
     settings = MeleeSettings
     item_name_groups = {"Fighters": set(fighters_table.keys()), "Events": set(events_table.keys())}
@@ -82,9 +86,10 @@ class SSBMeleeWorld(World):
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
 
+    ### I'm essentially just copying the methods from World in order to make them easier to understand and edit later
     @classmethod
     def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
-        pass
+        super().stage_assert_generate(multiworld)
 
     def set_goals(self):
         ctx = self.multiworld.state
@@ -103,6 +108,101 @@ class SSBMeleeWorld(World):
     def generate_early(self) -> None:
         self.events_are_progressive()
 
-    def create_regions(self):
-        from .Regions import get_regions
-        return get_regions(self.multiworld.worlds[self.player], self.player)
+    def create_regions(self) -> None:
+        from .Logic import has_all_star
+
+        main_menu = Region(MeleeRegion.Menu.value, self.player, self.multiworld)
+        main_menu.locations = generate_loc_objs(self.player, MeleeRegion.Menu.value, main_menu)
+        main_menu.add_locations(bonus_location_table, MeleeLocation)
+
+        adventure = Region(MeleeRegion.Adventure.value, self.player, self.multiworld)
+        adventure.locations = generate_loc_objs(self.player, MeleeRegion.Adventure.value, adventure)
+        main_menu.connect(adventure)
+
+        all_star = Region(MeleeRegion.All_Star.value, self.player, self.multiworld)
+        all_star.locations = generate_loc_objs(self.player, MeleeRegion.All_Star.value, all_star)
+        main_menu.connect(all_star, "All Star Unlocked", lambda state: has_all_star(self.multiworld.state, self.player))
+
+        classic = Region(MeleeRegion.Classic.value, self.player, self.multiworld)
+        classic.locations = generate_loc_objs(self.player, MeleeRegion.Classic.value, classic)
+        main_menu.connect(classic)
+
+        event = Region(MeleeRegion.Event.value, self.player, self.multiworld)
+        event.locations = generate_loc_objs(self.player, MeleeRegion.Event.value, event)
+        main_menu.connect(event)
+
+        self.multiworld.regions.append(main_menu)
+        self.multiworld.regions.append(adventure)
+        self.multiworld.regions.append(all_star)
+        self.multiworld.regions.append(classic)
+        self.multiworld.regions.append(event)
+
+        victory = MeleeLocation(self.player, "Victory", None)
+        victory.parent_region = main_menu
+        victory.place_locked_item(SSBMeleeItem("Victory", ItemClassification.progression, None, self.player))
+
+
+    def create_items(self) -> None:
+        super().create_items()
+
+    def set_rules(self) -> None:
+        self.set_goals()
+
+    def connect_entrances(self) -> None:
+        super().connect_entrances()
+
+    def generate_basic(self) -> None:
+        super().generate_basic()
+
+    # skipping fill_hook for now
+
+    def post_fill(self) -> None:
+        super().post_fill()
+
+    def generate_output(self, output_directory: str) -> None:
+        super().generate_output(output_directory)
+
+    def fill_slot_data(self) -> Mapping[str, Any]:
+        super().fill_slot_data()
+
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]):
+        super().extend_hint_information(hint_data)
+
+    def modify_multidata(self, multidata: Dict[str, Any]) -> None:
+        super().modify_multidata(multidata)
+
+    def write_spoiler_header(self, spoiler_handle: TextIO) -> None:
+        super().write_spoiler_header(spoiler_handle)
+
+    def write_spoiler_end(self, spoiler_handle: TextIO) -> None:
+        super().write_spoiler_end(spoiler_handle)
+
+    def write_spoiler(self, spoiler_handle: TextIO) -> None:
+        super().write_spoiler(spoiler_handle)
+
+    # def get_filler_item_name(self) -> str:
+    #     from .Items import useful_items_table
+    #     filler = tuple(useful_items_table.keys())
+    #     return self.multiworld.random.choice(filler)
+
+    def create_item(self, name: str) -> "Item":
+        super().create_item(name)
+
+    @classmethod
+    def create_group(cls, multiworld: "MultiWorld", new_player_id: int, players: Set[int]) -> World:
+        super().create_group(multiworld, new_player_id, players)
+
+    def collect_item(self, state: "CollectionState", item: "Item", remove: bool = False) -> Optional[str]:
+        super().collect_item(state, item, remove)
+
+    # could use this to "give" the starting fighters (Mario, Bowser, Peach, etc.) until I eventually stop doing that
+    def get_pre_fill_items(self) -> List["Item"]:
+        super().get_pre_fill_items()
+
+    def collect(self, state: "CollectionState", item: "Item") -> bool:
+        super().collect(state, item)
+
+
+class MeleeLogicMixin(LogicMixin):
+    def melee_test_method(self):
+        pass

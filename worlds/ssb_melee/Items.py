@@ -73,9 +73,11 @@ class MeleeUnlock(Enum):
     Bomb_Rain_Trap = "Bomb Rain Trap" # bombs rain for 280 frames
     Item_Bonanza_Trap = "Item Bonanza Trap" # item spawn rate set to very high for 5 minutes
     #bonuses
+    Coins_10 = "10 Coins"
     Coins_100 = "100 Coins"
     Coins_500 = "500 Coins"
     Coins_999 = "999 Coins"
+    Nothing = "Nothing"
 
     def __str__(self):
         return self.value
@@ -166,7 +168,7 @@ events_table: Dict[str, ItemData] = {
 }
 
 modes_table: Dict[str, ItemData] = {
-    MeleeUnlock.Dr_Mario.value: ItemData(
+    MeleeUnlock.All_Star_Mode.value: ItemData(
         MeleeUnlock.All_Star_Mode.value, 8, ItemClassification.progression
     )
 }
@@ -264,7 +266,7 @@ misc_unlocks_table: Dict[str, ItemData] = {
 
 progressive_table: Dict[str, ItemData] = {
     ProgressiveUpgrade.Progressive_Event_Gate.value: ItemData(
-        ProgressiveUpgrade.Progressive_Event_Gate.value, 100, ItemClassification.progression, 8
+        ProgressiveUpgrade.Progressive_Event_Gate.value, 9, ItemClassification.progression, 8
     ),
 }
 
@@ -290,15 +292,21 @@ traps_table: Dict[str, ItemData] = {
 }
 
 useful_items_table: Dict[str, ItemData] = {
+    MeleeUnlock.Coins_10.value: ItemData(
+        MeleeUnlock.Coins_10.value, 120, ItemClassification.filler, 999
+    ),
     MeleeUnlock.Coins_100.value: ItemData(
-        MeleeUnlock.Coins_100.value, 120, ItemClassification.filler, 10
+        MeleeUnlock.Coins_100.value, 121, ItemClassification.filler, 30
     ),
     MeleeUnlock.Coins_500.value: ItemData(
-        MeleeUnlock.Coins_500.value, 121, ItemClassification.filler, 10
+        MeleeUnlock.Coins_500.value, 122, ItemClassification.filler, 10
     ),
     MeleeUnlock.Coins_999.value: ItemData(
-        MeleeUnlock.Coins_999.value, 122, ItemClassification.filler, 5
+        MeleeUnlock.Coins_999.value, 123, ItemClassification.filler, 5
     ),
+    MeleeUnlock.Nothing.value: ItemData(
+        MeleeUnlock.Nothing.value, 0, ItemClassification.filler, 999
+    )
 }
 
 item_table: Dict[str, ItemData] = {

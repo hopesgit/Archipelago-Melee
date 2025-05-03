@@ -1,4 +1,5 @@
-from BaseClasses import Location
+from BaseClasses import Location, List, Dict, Optional, Region
+from .Regions import MeleeRegion
 import os
 import csv
 
@@ -129,7 +130,7 @@ with open(path, 'r') as file:
 # fighter_location_table = {}
 # fighter_location_counter = trophy_location_counter
 # fighter_counter = trophy_counter
-# fighters = get_unlockable_fighters()
+# fighters = await get_unlockable_fighters()
 # for fighter in fighters:
 #     fighter_location_counter += 1
 #     fighter_counter = fighter_counter + 1
@@ -155,3 +156,33 @@ locations: dict[str, int] = {
     #**fighter_location_table,
     **bonus_location_table
 }
+
+
+def generate_loc_objs(player: int, region: str | None, region_obj: Optional[Region]):
+    result = dict()
+    result[MeleeRegion.Menu.value] = loc_objs_from_table(player, bonus_location_table)
+    result[MeleeRegion.Adventure.value] = loc_objs_from_table(player, adventure_location_table)
+    result[MeleeRegion.All_Star.value] = loc_objs_from_table(player, all_star_location_table)
+    result[MeleeRegion.Classic.value] = loc_objs_from_table(player, classic_location_table)
+    result[MeleeRegion.Event.value] = loc_objs_from_table(player, event_location_table)
+    # result[MeleeRegion.HRC.value] = loc_objs_from_table(player, hrc_location_table)
+    # result[MeleeRegion.Target_Test.value] = loc_objs_from_table(player, target_location_table)
+    # result[MeleeRegion.Multi_Man.value] = loc_objs_from_table(player, multi_man_location_table)
+    result[MeleeRegion.Trophies.value] = loc_objs_from_table(player, trophy_location_table)
+    # result[MeleeRegion.Vs.value] = loc_objs_from_table(player, fighter_location_table)
+    result["High Score"] = loc_objs_from_table(player, total_score_table)
+    if region:
+        if region_obj:
+            for location in result[region]:
+                location.parent_region = region_obj
+        return result[region]
+    return result
+
+
+def loc_objs_from_table(player, table: Dict[str, int]) -> List[MeleeLocation]:
+    result = list()
+    for loc, id in table.items():
+        newloc = MeleeLocation(player=player, name=loc, address=id)
+        print(newloc)
+        result.append(newloc)
+    return result

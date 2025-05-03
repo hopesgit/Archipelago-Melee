@@ -43,7 +43,7 @@ class Fighter:
                 return self.groups
 
 
-def create_fighters() -> List[Fighter]:
+async def create_fighters() -> List[Fighter]:
     fighters = list()
     fighters.append(Fighter("Dr. Mario", "drmario", 0x15, 0x16, ["unlock1", "unlock2"]))
     fighters.append(Fighter("Mario", "mario", 0x00, 0x08, ["starter"]))
@@ -78,7 +78,6 @@ def create_fighters() -> List[Fighter]:
     fighters.append(Fighter("Sandbag", "sandbag", 0x20, 0x1F, ["special"], has_trophies=False, selectable=False))
     fighters.append(Fighter("Male Wireframe", "mwire", 0x1D, 0x1B, ["special"], has_trophies=False, selectable=False))
     fighters.append(Fighter("Female Wireframe", "fwire", 0x1E, 0x1C, ["special"], has_trophies=False, selectable=False))
-    logging.info(f"Fighter.py - create_fighters - fighters obj is: {fighters}")
     return fighters
 
 

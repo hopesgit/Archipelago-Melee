@@ -1,6 +1,8 @@
+import typing
 from enum import Enum
 from BaseClasses import Region
-from . import SSBMeleeWorld
+if typing.TYPE_CHECKING:
+    from . import SSBMeleeWorld
 
 
 class MeleeRegion(Enum):
@@ -8,14 +10,18 @@ class MeleeRegion(Enum):
     Adventure = "1P Adventure Mode"
     All_Star = "1P All-Star Mode"
     Classic = "1P Classic Mode"
-    Event = "1P Event Mode"
-    Trophies = "Trophies"
-    Vs = "MP Versus Mode"
+    Event = "1P Event Match"
+    HRC = "Home-Run Contest"
+    Target_Test = "Target Test"
+    Multi_Man = "Multi-Man Melee"
+    Trophies = "Trophies/Lottery"
+    Vs = "Vs Mode"
 
-def get_regions(world: 'SSBMeleeWorld', player: int):
+
+def get_regions(world: 'SSBMeleeWorld'):
     region_names = MeleeRegion
     regions = list()
-    for name in region_names:
-        region = Region(name, player, world)
+    for item in region_names:
+        region = Region(item.value, world.player, world.multiworld)
         regions.append(region)
     return regions
