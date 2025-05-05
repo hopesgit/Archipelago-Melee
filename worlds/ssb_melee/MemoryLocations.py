@@ -34,7 +34,7 @@ MEMORY = {
     'p4data': 0x80455c30,
     'p5data': 0x80456ac0,
     'p6data': 0x80457950,
-    'player_offsets': { # apply these to thee pxdata sets above
+    'player_offsets': { # apply these to the pxdata sets above
         0x00: int, # player state. 0x02 for in-game (including dead). 0x00 otherwise.
         0x04: int, # player character (external id)
         0x0A: int, # slot type. 0x00 for human, 0x01 for cpu, 0x02 for demo, 0x03 for n/a
@@ -68,7 +68,7 @@ MEMORY = {
     },
     'stage_struct': {
         0x8049e6c8: {
-            0x88: bytes, # internal stage id
+            0x88: bytes, # internal stage id (hex 32)
             0x6D4: bytes, # number of targets remaining in BTT
             0x6e0: float, # HRC distance. This is a coordinate offset rather than the distance normally seen
             # which coordinate? maybe the p2 spawn point, or maybe the right edge of the platform

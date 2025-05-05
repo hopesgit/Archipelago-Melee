@@ -13,6 +13,7 @@ from worlds.LauncherComponents import Component, SuffixIdentifier, Type, compone
 from BaseClasses import CollectionState, List, Dict, Tutorial, MultiWorld, Item, Region, ItemClassification
 from worlds.AutoWorld import World, WebWorld, LogicMixin
 import settings
+from ..stardew_valley.stardew_rule import true_
 
 
 def run_client() -> None:
@@ -64,6 +65,7 @@ class SSBMeleeWeb(WebWorld):
     ]
     theme="partyTime"
     option_groups = option_groups()
+    bug_report_page = 'https://github.com/hopesgit/Archipelago-Melee/issues'
 
 
 class SSBMeleeWorld(World):
