@@ -118,23 +118,24 @@ def query_fighter_list(field: str, query):
 
 
 def get_fighter_from_internal_id(id: int):
-    query_fighter_list("internal_id", id)
+    return query_fighter_list("internal_id", id)
 
 
 def get_fighter_from_external_id(id: int):
-    query_fighter_list("external_id", id)
+    return query_fighter_list("external_id", id)
 
 
 def get_fighters_with_trophies():
-    query_fighter_list("has_trophies", True)
+    return query_fighter_list("has_trophies", True)
 
 
 def get_starter_fighters():
-    query_fighter_list("groups", "starter")
+    return query_fighter_list("groups", "starter")
 
 
 def get_unlockable_fighters():
-    query_fighter_list("groups", "unlock2")
+    return query_fighter_list("groups", "unlock2")
+
 
 def setup():
     fighters = create_fighters()

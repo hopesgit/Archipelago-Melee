@@ -36,6 +36,22 @@ class MeleeUnlock(Enum):
     # modes
     All_Star_Mode = "All-Star Mode" #unlocks All-Star Mode
     # fighters
+    ## starting
+    Mario = "Mario"
+    Bowser = "Bowser"
+    Peach = "Peach"
+    Yoshi = "Yoshi"
+    Donkey_Kong = "Donkey Kong"
+    Captain_Falcon = "Captain Falcon"
+    Fox = "Fox"
+    Ness = "Ness"
+    Ice_Climbers = "Ice Climbers"
+    Kirby = "Kirby"
+    Samus = "Samus"
+    Zelda = "Zelda/Sheik"
+    Link = "Link"
+    Pikachu = "Pikachu"
+    ## unlockable
     Dr_Mario = "Dr. Mario" #unlocks Dr. Mario
     Luigi = "Luigi" #unlocks Luigi
     Ganondorf = "Ganondorf" #unlocks Ganondorf
@@ -72,7 +88,9 @@ class MeleeUnlock(Enum):
     Stale_Moves_Trap = "Stale Moves Trap" # all p1 moves are stale for 5 minutes
     Bomb_Rain_Trap = "Bomb Rain Trap" # bombs rain for 280 frames
     Item_Bonanza_Trap = "Item Bonanza Trap" # item spawn rate set to very high for 5 minutes
+    Hardcore_Mode_Trap = "Hardcore Mode Trap" # removes hud for 300 game frames
     #bonuses
+    Coins_1 = "1 Coin"
     Coins_10 = "10 Coins"
     Coins_100 = "100 Coins"
     Coins_500 = "500 Coins"
@@ -173,100 +191,142 @@ modes_table: Dict[str, ItemData] = {
     )
 }
 
+progressive_table: Dict[str, ItemData] = {
+    ProgressiveUpgrade.Progressive_Event_Gate.value: ItemData(
+        ProgressiveUpgrade.Progressive_Event_Gate.value, 9, ItemClassification.progression, 8
+    ),
+}
+
 fighters_table: Dict[str, ItemData] = {
+    MeleeUnlock.Mario.value: ItemData(
+        MeleeUnlock.Mario.value, 10, ItemClassification.progression
+    ),
+    MeleeUnlock.Bowser.value: ItemData(
+        MeleeUnlock.Bowser.value, 11, ItemClassification.progression
+    ),
+    MeleeUnlock.Peach.value: ItemData(
+        MeleeUnlock.Peach.value, 12, ItemClassification.progression
+    ),
+    MeleeUnlock.Yoshi.value: ItemData(
+        MeleeUnlock.Yoshi.value, 14, ItemClassification.progression
+    ),
+    MeleeUnlock.Donkey_Kong.value: ItemData(
+        MeleeUnlock.Donkey_Kong.value, 15, ItemClassification.progression
+    ),
+    MeleeUnlock.Captain_Falcon.value: ItemData(
+        MeleeUnlock.Captain_Falcon.value, 16, ItemClassification.progression
+    ),
+    MeleeUnlock.Fox.value: ItemData(
+        MeleeUnlock.Fox.value, 17, ItemClassification.progression
+    ),
+    MeleeUnlock.Ness.value: ItemData(
+        MeleeUnlock.Ness.value, 18, ItemClassification.progression
+    ),
+    MeleeUnlock.Ice_Climbers.value: ItemData(
+        MeleeUnlock.Ice_Climbers.value, 19, ItemClassification.progression
+    ),
+    MeleeUnlock.Kirby.value: ItemData(
+        MeleeUnlock.Kirby.value, 20, ItemClassification.progression
+    ),
+    MeleeUnlock.Samus.value: ItemData(
+        MeleeUnlock.Samus.value, 21, ItemClassification.progression
+    ),
+    MeleeUnlock.Link.value: ItemData(
+        MeleeUnlock.Link.value, 22, ItemClassification.progression
+    ),
+    MeleeUnlock.Zelda.value: ItemData(
+        MeleeUnlock.Zelda.value, 23, ItemClassification.progression
+    ),
+    MeleeUnlock.Pikachu.value: ItemData(
+        MeleeUnlock.Pikachu.value, 24, ItemClassification.progression
+    ),
     MeleeUnlock.Dr_Mario.value: ItemData(
-        MeleeUnlock.Dr_Mario.value, 10, ItemClassification.progression
+        MeleeUnlock.Dr_Mario.value, 25, ItemClassification.progression
     ),
     MeleeUnlock.Luigi.value: ItemData(
-        MeleeUnlock.Luigi.value, 11, ItemClassification.progression
+        MeleeUnlock.Luigi.value, 26, ItemClassification.progression
     ),
     MeleeUnlock.Ganondorf.value: ItemData(
-        MeleeUnlock.Ganondorf.value, 12, ItemClassification.progression
+        MeleeUnlock.Ganondorf.value, 27, ItemClassification.progression
     ),
     MeleeUnlock.Falco.value: ItemData(
-        MeleeUnlock.Falco.value, 13, ItemClassification.progression
+        MeleeUnlock.Falco.value, 28, ItemClassification.progression
     ),
     MeleeUnlock.Young_Link.value: ItemData(
-        MeleeUnlock.Young_Link.value, 14, ItemClassification.progression
+        MeleeUnlock.Young_Link.value, 29, ItemClassification.progression
     ),
     MeleeUnlock.Pichu.value: ItemData(
-        MeleeUnlock.Pichu.value, 15, ItemClassification.progression
+        MeleeUnlock.Pichu.value, 30, ItemClassification.progression
     ),
     MeleeUnlock.Jigglypuff.value: ItemData(
-        MeleeUnlock.Jigglypuff.value, 16, ItemClassification.progression
+        MeleeUnlock.Jigglypuff.value, 31, ItemClassification.progression
     ),
     MeleeUnlock.Mewtwo.value: ItemData(
-        MeleeUnlock.Mewtwo.value, 17, ItemClassification.progression
+        MeleeUnlock.Mewtwo.value, 32, ItemClassification.progression
     ),
     MeleeUnlock.Mr_Game_and_Watch.value: ItemData(
-        MeleeUnlock.Mr_Game_and_Watch.value, 18, ItemClassification.progression
+        MeleeUnlock.Mr_Game_and_Watch.value, 33, ItemClassification.progression
     ),
     MeleeUnlock.Marth.value: ItemData(
-        MeleeUnlock.Marth.value, 19, ItemClassification.progression
+        MeleeUnlock.Marth.value, 34, ItemClassification.progression
     ),
     MeleeUnlock.Roy.value: ItemData(
-        MeleeUnlock.Roy.value, 20, ItemClassification.progression
+        MeleeUnlock.Roy.value, 35, ItemClassification.progression
     ),
 }
 
 stage_unlocks_table: Dict[str, MeleeUnlock] = {
     MeleeUnlock.Brinstar_Depths.value: ItemData(
-        MeleeUnlock.Brinstar_Depths.value, 30, ItemClassification.progression
+        MeleeUnlock.Brinstar_Depths.value, 40, ItemClassification.progression
     ),
     MeleeUnlock.Fourside.value: ItemData(
-        MeleeUnlock.Fourside.value, 31, ItemClassification.progression
+        MeleeUnlock.Fourside.value, 41, ItemClassification.progression
     ),
     MeleeUnlock.Big_Blue.value: ItemData(
-        MeleeUnlock.Big_Blue.value, 32, ItemClassification.progression
+        MeleeUnlock.Big_Blue.value, 42, ItemClassification.progression
     ),
     MeleeUnlock.Poke_Floats.value: ItemData(
-        MeleeUnlock.Poke_Floats.value, 33, ItemClassification.progression
+        MeleeUnlock.Poke_Floats.value, 44, ItemClassification.progression
     ),
     MeleeUnlock.PS_Dream_Land.value: ItemData(
-        MeleeUnlock.PS_Dream_Land.value, 34, ItemClassification.progression
+        MeleeUnlock.PS_Dream_Land.value, 44, ItemClassification.progression
     ),
     MeleeUnlock.PS_Kongo_Jungle.value: ItemData(
-        MeleeUnlock.PS_Kongo_Jungle.value, 35, ItemClassification.progression
+        MeleeUnlock.PS_Kongo_Jungle.value, 45, ItemClassification.progression
     ),
     MeleeUnlock.PS_Yoshis_Island.value: ItemData(
-        MeleeUnlock.PS_Yoshis_Island.value, 36, ItemClassification.progression
+        MeleeUnlock.PS_Yoshis_Island.value, 46, ItemClassification.progression
     ),
     MeleeUnlock.Battlefield.value: ItemData(
-        MeleeUnlock.Battlefield.value, 37, ItemClassification.progression
+        MeleeUnlock.Battlefield.value, 47, ItemClassification.progression
     ),
     MeleeUnlock.Final_Destination.value: ItemData(
-        MeleeUnlock.Final_Destination.value, 38, ItemClassification.progression
+        MeleeUnlock.Final_Destination.value, 48, ItemClassification.progression
     ),
     MeleeUnlock.Flat_Zone.value: ItemData(
-        MeleeUnlock.Flat_Zone.value, 39, ItemClassification.progression
+        MeleeUnlock.Flat_Zone.value, 49, ItemClassification.progression
     ),
 }
 
 
 misc_unlocks_table: Dict[str, ItemData] = {
     MeleeUnlock.Mew.value: ItemData(
-        MeleeUnlock.Mew.value, 40, ItemClassification.useful
+        MeleeUnlock.Mew.value, 50, ItemClassification.useful
     ),
     MeleeUnlock.Celebi.value: ItemData(
-        MeleeUnlock.Celebi.value, 41, ItemClassification.useful
+        MeleeUnlock.Celebi.value, 51, ItemClassification.useful
     ),
     MeleeUnlock.Score_Display.value: ItemData(
-        MeleeUnlock.Score_Display.value, 42, ItemClassification.filler
+        MeleeUnlock.Score_Display.value, 52, ItemClassification.filler
     ),
     MeleeUnlock.Sound_Test.value: ItemData(
-        MeleeUnlock.Sound_Test.value, 43, ItemClassification.filler
+        MeleeUnlock.Sound_Test.value, 53, ItemClassification.filler
     ),
     MeleeUnlock.Random_Stage_Select.value: ItemData(
-        MeleeUnlock.Random_Stage_Select.value, 44, ItemClassification.useful
+        MeleeUnlock.Random_Stage_Select.value, 54, ItemClassification.useful
     ),
     MeleeUnlock.Trophy.value: ItemData(
-        MeleeUnlock.Trophy.value, 45, ItemClassification.progression, 290
-    ),
-}
-
-progressive_table: Dict[str, ItemData] = {
-    ProgressiveUpgrade.Progressive_Event_Gate.value: ItemData(
-        ProgressiveUpgrade.Progressive_Event_Gate.value, 9, ItemClassification.progression, 8
+        MeleeUnlock.Trophy.value, 55, ItemClassification.progression, 290
     ),
 }
 
@@ -292,20 +352,23 @@ traps_table: Dict[str, ItemData] = {
 }
 
 useful_items_table: Dict[str, ItemData] = {
+    MeleeUnlock.Coins_1.value: ItemData(
+        MeleeUnlock.Coins_1.value, 120, ItemClassification.filler, 999
+    ),
     MeleeUnlock.Coins_10.value: ItemData(
-        MeleeUnlock.Coins_10.value, 120, ItemClassification.filler, 999
+        MeleeUnlock.Coins_10.value, 121, ItemClassification.filler, 999
     ),
     MeleeUnlock.Coins_100.value: ItemData(
-        MeleeUnlock.Coins_100.value, 121, ItemClassification.filler, 30
+        MeleeUnlock.Coins_100.value, 122, ItemClassification.filler, 30
     ),
     MeleeUnlock.Coins_500.value: ItemData(
-        MeleeUnlock.Coins_500.value, 122, ItemClassification.filler, 10
+        MeleeUnlock.Coins_500.value, 123, ItemClassification.filler, 10
     ),
     MeleeUnlock.Coins_999.value: ItemData(
-        MeleeUnlock.Coins_999.value, 123, ItemClassification.filler, 5
+        MeleeUnlock.Coins_999.value, 124, ItemClassification.filler, 5
     ),
     MeleeUnlock.Nothing.value: ItemData(
-        MeleeUnlock.Nothing.value, 0, ItemClassification.filler, 999
+        MeleeUnlock.Nothing.value, 0, ItemClassification.filler, 5
     )
 }
 
@@ -315,7 +378,7 @@ item_table: Dict[str, ItemData] = {
     **fighters_table,
     **stage_unlocks_table,
     **misc_unlocks_table,
-    #**progressive_table,
+    **progressive_table,
     **traps_table,
     **useful_items_table
 }

@@ -2,9 +2,9 @@
 from typing import Mapping, Any, TextIO, Set, Optional
 
 from .MeleeOptions import MeleeOptions
-from .Items import item_table, fighters_table, events_table, progressive_table, SSBMeleeItem
+from .Items import item_table, fighters_table, events_table, progressive_table, SSBMeleeItem, useful_items_table
 from .Locations import *
-from .Logic import get_goals
+from .Logic import get_options
 from .MeleeOptions import *
 from .Regions import MeleeRegion
 # from .classes.Event import EventRandomizer
@@ -13,7 +13,6 @@ from worlds.LauncherComponents import Component, SuffixIdentifier, Type, compone
 from BaseClasses import CollectionState, List, Dict, Tutorial, MultiWorld, Item, Region, ItemClassification
 from worlds.AutoWorld import World, WebWorld, LogicMixin
 import settings
-from ..stardew_valley.stardew_rule import true_
 
 
 def run_client() -> None:
@@ -42,6 +41,8 @@ class MeleeSettings(settings.Group):
         """Path of the Melee .iso file to use."""
         description = "Super Smash Bros. Melee US Revision 2 .iso file"  # displayed in the file browser
         copy_to = "melee.iso"
+        md5s = ["0e63d4223b01d9aba596259dc155a174"]
+
 
     iso_file: IsoFile = IsoFile("melee.iso")
 
@@ -75,15 +76,39 @@ class SSBMeleeWorld(World):
     options = MeleeOptions
     game = "Super Smash Bros Melee"
     web = SSBMeleeWeb()
-    origin_region_name = "Main Menu"
+    settings = MeleeSettings
     required_client_version = (0, 6, 1)
+
+    origin_region_name = "Main Menu"
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     items = item_table
     location_name_to_id = locations
-    settings = MeleeSettings
     item_name_groups = {"Fighters": set(fighters_table.keys()), "Events": set(events_table.keys())}
-    #event_rando = EventRandomizer
-    goals: dict
+    location_name_groups = {
+        "Classic": set(classic_location_table),
+        "Adventure": set(adventure_location_table),
+        "All-Star": set(all_star_location_table),
+        "Total Score": set(total_score_table),
+        "Events": set(event_location_table),
+        "Special Bonuses": set(bonus_location_table)
+    }
+
+    opt_events_goal: bool
+    opt_excluded_events: List[int | None]
+    opt_progressive_events: bool
+    opt_shuffle_events: int
+    opt_classic_goal: bool
+    opt_classic_total_goal: int
+    opt_adv_goal: bool
+    opt_adv_total_goal: int
+    opt_all_star_goal: bool
+    opt_all_star_total_goal: int
+    opt_trophy_goal: int
+    opt_excluded_fighters: List[str]
+    opt_shuffle_starters: bool
+    opt_starting_fighter: Set[Dict[str, int]]
+
+    #events_rando = EventRandomizer()
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -93,29 +118,42 @@ class SSBMeleeWorld(World):
     def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
         super().stage_assert_generate(multiworld)
 
-    def set_goals(self):
-        ctx = self.multiworld.state
-        player = self.player
-        self.goals = get_goals(ctx, player)
-
     def events_are_progressive(self):
-        prog = self.options.progressive_events.value
-        if prog == 1:
+        prog = self.opt_progressive_events
+        if prog:
             self.item_name_groups["Events"] = set(progressive_table.keys())
             for item in self.item_name_to_id:
                 if item[0].startswith("Event Gate"):
                    del self.item_name_to_id[item[0]]
 
+    def set_class_attrs_from_options(self):
+        opts = get_options(self.multiworld.state, self.player)
+        self.opt_events_goal = opts["events_goal"]
+        self.opt_excluded_events = opts["excluded_events"]
+        self.opt_progressive_events = opts["progressive_events"]
+        self.opt_shuffle_events = opts["shuffle_events"]
+        self.opt_classic_goal = opts["classic_goal"]
+        self.opt_classic_total_goal = opts["classic_total"]
+        self.opt_adv_goal = opts["adventure_goal"]
+        self.opt_adv_total_goal = opts["adventure_total"]
+        self.opt_all_star_goal = opts["all_star_goal"]
+        self.opt_all_star_total_goal = opts["all_star_total"]
+        self.opt_trophy_goal = opts["trophy_goal"]
+        self.opt_shuffle_starters = opts["shuffle_starters"]
+        self.opt_starting_fighter = opts["starting_fighter"]
+        if len(self.opt_starting_fighter) > 1: raise KeyError('Option "Starting Fighter" does not support selecting multiple choices.')
 
     def generate_early(self) -> None:
+        self.set_class_attrs_from_options()
+        # self.set_goals()
         self.events_are_progressive()
 
     def create_regions(self) -> None:
         from .Logic import has_all_star
 
         main_menu = Region(MeleeRegion.Menu.value, self.player, self.multiworld)
-        main_menu.locations = generate_loc_objs(self.player, MeleeRegion.Menu.value, main_menu)
-        main_menu.add_locations(bonus_location_table, MeleeLocation)
+        # main_menu.locations = generate_loc_objs(self.player, MeleeRegion.Menu.value, main_menu)
+        # main_menu.add_locations(bonus_location_table, MeleeLocation)
 
         adventure = Region(MeleeRegion.Adventure.value, self.player, self.multiworld)
         adventure.locations = generate_loc_objs(self.player, MeleeRegion.Adventure.value, adventure)
@@ -144,17 +182,25 @@ class SSBMeleeWorld(World):
         victory.place_locked_item(SSBMeleeItem("Victory", ItemClassification.progression, None, self.player))
 
 
+    def get_filler_item_name(self) -> str:
+        filler_items: List[str] = [name for name, data in useful_items_table.items()]
+        return self.random.choice(filler_items)
+
     def create_items(self) -> None:
-        super().create_items()
+        self.items = item_table
+        # super().create_items()
+
+    # def set_goals(self): -> None:
+
 
     def set_rules(self) -> None:
-        self.set_goals()
-
-    def connect_entrances(self) -> None:
-        super().connect_entrances()
+        super().set_rules()
 
     def generate_basic(self) -> None:
         super().generate_basic()
+
+    # def pre_fill(self) -> None:
+
 
     # skipping fill_hook for now
 
@@ -188,7 +234,7 @@ class SSBMeleeWorld(World):
     #     return self.multiworld.random.choice(filler)
 
     def create_item(self, name: str) -> "Item":
-        super().create_item(name)
+        return Item(name, ItemClassification.progression, None, self.player)
 
     @classmethod
     def create_group(cls, multiworld: "MultiWorld", new_player_id: int, players: Set[int]) -> World:

@@ -1,8 +1,9 @@
 from enum import Enum
 from Options import DeathLink, DefaultOnToggle, OptionDict, OptionList, TextChoice, Toggle, Range, ItemDict, \
-    StartInventoryPool, Choice, PerGameCommonOptions, Visibility, OptionGroup, ProgressionBalancing, Accessibility
+    StartInventoryPool, Choice, PerGameCommonOptions, Visibility, OptionGroup, ProgressionBalancing, Accessibility, ItemSet
 from dataclasses import dataclass
 from BaseClasses import List
+from .Items import fighters_table
 
 
 class EventsGoal(DefaultOnToggle):
@@ -116,18 +117,33 @@ class TrophyCountGoal(Range):
     range_end = 290
 
 
-class ExcludeFighters(OptionList):
-    """Excludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character."""
+class ExcludeFighters(ItemSet):
+    """Excludes specific fighters from any goals you've chosen.
+
+    This does not prevent you from obtaining your selected fighter, and neither does it prevent you from clearing various modes with them. This only prevents goals from considering their contributions."""
     display_name = "Exclude Fighters from Goals"
-    default = []
+    valid_keys = {name: data.code for name, data in fighters_table.items()}
+    convert_name_groups = False
 
 
-class EasyVsModeUnlocks(Range):
-    """Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick."""
+class ShuffleStartingFighters(Toggle):
+    """By default, you begin with Mario, Yoshi, Kirby, Fox, Samus, Link, etc. Turn this on to add those fighters to the randomization."""
+    display_name = "Shuffle Starting Fighters"
+    default = False
+
+
+class StartingFighter(ItemSet):
+    """Ignored unless Shuffle Starting Fighters is on. This fighter will be the only one you can select until you receive more.
+
+    Choose ONE fighter only."""
+    display_name = "Starting Fighter"
+    valid_keys = {name: data.code for name, data in fighters_table.items()}
+    convert_name_groups = False
+
+
+class EasyVsModeUnlocks(DefaultOnToggle):
+    """Can make getting stages, fighters, and trophies very easy and quick."""
     display_name = "Easy Vs Mode Unlocks"
-    default = 1000
-    range_start = 0
-    range_end = 1000
 
 
 class CStickInSinglePlayer(DefaultOnToggle):
@@ -168,6 +184,8 @@ class MeleeOptions(PerGameCommonOptions):
     all_star_goal: AllStarGoal
     all_star_total_goal: AllStarTotalGoal
     trophy_count_goal: TrophyCountGoal
+    shuffle_starting_fighters: ShuffleStartingFighters
+    starting_fighter: StartingFighter
 
     # optional/QoL
     exclude_fighters: ExcludeFighters
@@ -195,7 +213,9 @@ def option_groups() -> List[OptionGroup]:
         AdventureTotalGoal,
         AllStarGoal,
         AllStarTotalGoal,
-        TrophyCountGoal
+        TrophyCountGoal,
+        ShuffleStartingFighters,
+        StartingFighter,
     ]))
     groups.append(OptionGroup('Quality of Life', [
         ExcludeFighters,
@@ -203,6 +223,6 @@ def option_groups() -> List[OptionGroup]:
         CStickInSinglePlayer,
         DisableTapJump,
         DeathLink,
-        DeathLinkMode
+        DeathLinkMode,
     ]))
     return groups

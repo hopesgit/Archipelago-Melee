@@ -58,11 +58,16 @@ def sanitize_event_exclusions(state: CollectionState, player: int) -> List[int|N
     else: 
         return events_to_remove
 
+
 ## Classic
 def goal_includes_classic(state: CollectionState, player: int) -> bool | int:
     clear = _get_options(state, player).classic_goal.value
     total = int(_get_options(state, player).classic_total_goal.value) > 0
     return clear or total
+
+
+def classic_total(state: CollectionState, player: int) -> int:
+    return int(_get_options(state, player).classic_total_goal.value)
 
 
 ## Adventure
@@ -72,6 +77,10 @@ def goal_includes_adventure(state: CollectionState, player: int) -> bool | int:
     return clear or total
 
 
+def adventure_total(state: CollectionState, player: int) -> int:
+    return int(_get_options(state, player).adventure_total_goal.value)
+
+
 ## All-Star
 def goal_includes_all_star(state: CollectionState, player: int) -> bool | int:
     clear = bool(_get_options(state, player).all_star_goal.value)
@@ -79,18 +88,47 @@ def goal_includes_all_star(state: CollectionState, player: int) -> bool | int:
     return clear or total
 
 
+def all_star_total(state: CollectionState, player: int) -> int:
+    return int(_get_options(state, player).all_star_total_goal.value)
+
+
 def goal_includes_trophies(state: CollectionState, player: int) -> int:
     return _get_options(state, player).trophy_count_goal.value
 
 
-def get_goals(state: CollectionState, player: int) -> Dict:
-    goal = dict()
-    goal['event'] = goal_includes_events(state, player)
-    goal['classic'] = goal_includes_classic(state, player)
-    goal['adventure'] = goal_includes_adventure(state, player)
-    goal['all-star'] = goal_includes_all_star(state, player)
-    goal['trophy'] = goal_includes_trophies(state, player)
-    return goal
+def excluded_fighters(state: CollectionState, player: int) -> set[str]:
+    return _get_options(state, player).exclude_fighters.value
+
+
+def starting_fighters_shuffled(state: CollectionState, player: int) -> bool:
+    return bool(_get_options(state, player).shuffle_starting_fighters.value)
+
+
+def starting_fighter(state: CollectionState, player: int) -> set[str]:
+    return _get_options(state, player).starting_fighter.value
+
+def easy_unlocks(state: CollectionState, player: int) -> bool:
+    return bool(_get_options(state, player).easy_vs_mode_unlocks)
+
+
+def get_options(state: CollectionState, player: int) -> Dict:
+    options = dict()
+    options["events_goal"] = goal_includes_events(state, player)
+    options["excluded_events"] = sanitize_event_exclusions(state, player)
+    options["progressive_events"] = progressive_events(state, player)
+    options["shuffle_events"] = shuffle_events(state, player)
+    options["classic_goal"] = goal_includes_classic(state, player)
+    options["classic_total"] = classic_total(state, player)
+    options["adventure_goal"] = goal_includes_adventure(state, player)
+    options["adventure_total"] = adventure_total(state, player)
+    options["all_star_goal"] = goal_includes_all_star(state, player)
+    options["all_star_total"] = all_star_total(state, player)
+    options["trophy_goal"] = goal_includes_trophies(state, player)
+    options["excluded_fighters"] = excluded_fighters(state, player)
+    options["shuffle_starters"] = starting_fighters_shuffled(state, player)
+    options["starting_fighter"] = starting_fighter(state, player)
+    options["easy_vs"] = easy_unlocks(state, player)
+    return options
 
 
 # item logic
