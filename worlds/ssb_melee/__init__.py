@@ -82,6 +82,7 @@ class SSBMeleeWorld(World):
     origin_region_name = "Main Menu"
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     items = item_table
+    item_pool = []
     location_name_to_id = locations
     item_name_groups = {"Fighters": set(fighters_table.keys()), "Events": set(events_table.keys())}
     location_name_groups = {
@@ -126,6 +127,23 @@ class SSBMeleeWorld(World):
                 if item[0].startswith("Event Gate"):
                    del self.item_name_to_id[item[0]]
 
+    def shuffle_starting_fighters(self):
+        fighters = []
+        starters = ["Mario", "Peach", "Bowser", "Yoshi", "Ice Climbers",
+                      "Captain Falcon", "Ness", "Donkey Kong", "Fox", "Samus",
+                      "Kirby", "Zelda/Sheik", "Link", "Pikachu"]
+        for s in starters:
+            fighters.append(self.create_item(s))
+
+        if not self.opt_shuffle_starters:
+            for item in fighters:
+                item_name = item
+                self.multiworld.push_precollected(item_name)
+        else:
+            choice = self.random.choice(fighters)
+            self.multiworld.push_precollected(choice)
+
+
     def set_class_attrs_from_options(self):
         opts = get_options(self.multiworld.state, self.player)
         self.opt_events_goal = opts["events_goal"]
@@ -147,27 +165,27 @@ class SSBMeleeWorld(World):
         self.set_class_attrs_from_options()
         # self.set_goals()
         self.events_are_progressive()
+        self.shuffle_starting_fighters()
 
     def create_regions(self) -> None:
         from .Logic import has_all_star
 
-        main_menu = Region(MeleeRegion.Menu.value, self.player, self.multiworld)
+        main_menu = Region(MeleeRegion.Menu.value, self.player, self.multiworld, hint="Special Bonuses can be gained in 1p and Vs, so be careful!")
         # main_menu.locations = generate_loc_objs(self.player, MeleeRegion.Menu.value, main_menu)
-        # main_menu.add_locations(bonus_location_table, MeleeLocation)
 
-        adventure = Region(MeleeRegion.Adventure.value, self.player, self.multiworld)
+        adventure = Region(MeleeRegion.Adventure.value, self.player, self.multiworld, hint="Complete various tasks in Adventure Mode!")
         adventure.locations = generate_loc_objs(self.player, MeleeRegion.Adventure.value, adventure)
         main_menu.connect(adventure)
 
-        all_star = Region(MeleeRegion.All_Star.value, self.player, self.multiworld)
+        all_star = Region(MeleeRegion.All_Star.value, self.player, self.multiworld, hint="Complete various tasks in All-Star Mode!")
         all_star.locations = generate_loc_objs(self.player, MeleeRegion.All_Star.value, all_star)
         main_menu.connect(all_star, "All Star Unlocked", lambda state: has_all_star(self.multiworld.state, self.player))
 
-        classic = Region(MeleeRegion.Classic.value, self.player, self.multiworld)
+        classic = Region(MeleeRegion.Classic.value, self.player, self.multiworld, hint="Complete various tasks in Classic Mode!")
         classic.locations = generate_loc_objs(self.player, MeleeRegion.Classic.value, classic)
         main_menu.connect(classic)
 
-        event = Region(MeleeRegion.Event.value, self.player, self.multiworld)
+        event = Region(MeleeRegion.Event.value, self.player, self.multiworld, hint="Complete the events in Event Match!")
         event.locations = generate_loc_objs(self.player, MeleeRegion.Event.value, event)
         main_menu.connect(event)
 
@@ -186,10 +204,6 @@ class SSBMeleeWorld(World):
         filler_items: List[str] = [name for name, data in useful_items_table.items()]
         return self.random.choice(filler_items)
 
-    def create_items(self) -> None:
-        self.items = item_table
-        # super().create_items()
-
     # def set_goals(self): -> None:
 
 
@@ -201,7 +215,12 @@ class SSBMeleeWorld(World):
 
     # def pre_fill(self) -> None:
 
-
+    def fill_hook(self,
+                  progitempool: List["Item"],
+                  usefulitempool: List["Item"],
+                  filleritempool: List["Item"],
+                  fill_locations: List["Location"]) -> None:
+        super().fill_hook(progitempool, usefulitempool, filleritempool, fill_locations)
     # skipping fill_hook for now
 
     def post_fill(self) -> None:
@@ -228,11 +247,6 @@ class SSBMeleeWorld(World):
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         super().write_spoiler(spoiler_handle)
 
-    # def get_filler_item_name(self) -> str:
-    #     from .Items import useful_items_table
-    #     filler = tuple(useful_items_table.keys())
-    #     return self.multiworld.random.choice(filler)
-
     def create_item(self, name: str) -> "Item":
         return Item(name, ItemClassification.progression, None, self.player)
 
@@ -242,10 +256,6 @@ class SSBMeleeWorld(World):
 
     def collect_item(self, state: "CollectionState", item: "Item", remove: bool = False) -> Optional[str]:
         super().collect_item(state, item, remove)
-
-    # could use this to "give" the starting fighters (Mario, Bowser, Peach, etc.) until I eventually stop doing that
-    def get_pre_fill_items(self) -> List["Item"]:
-        super().get_pre_fill_items()
 
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         super().collect(state, item)

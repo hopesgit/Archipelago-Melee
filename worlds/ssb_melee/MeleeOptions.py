@@ -135,7 +135,9 @@ class ShuffleStartingFighters(Toggle):
 class StartingFighter(ItemSet):
     """Ignored unless Shuffle Starting Fighters is on. This fighter will be the only one you can select until you receive more.
 
-    Choose ONE fighter only."""
+    Choose ONE fighter only.
+
+    If Shuffle Starting Fighters is Yes, but this is left blank, a starter will be randomly chosen for you."""
     display_name = "Starting Fighter"
     valid_keys = {name: data.code for name, data in fighters_table.items()}
     convert_name_groups = False

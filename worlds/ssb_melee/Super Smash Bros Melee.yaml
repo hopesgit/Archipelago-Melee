@@ -175,21 +175,30 @@ Super Smash Bros Melee:
     random-low: 0
     random-high: 0
 
+  shuffle_starting_fighters:
+    # By default, you begin with Mario, Yoshi, Kirby, Fox, Samus, Link, etc. Turn this on to add those fighters to the randomization.
+    'false': 50
+    'true': 0
+
+  starting_fighter:
+    # Ignored unless Shuffle Starting Fighters is on. This fighter will be the only one you can select until you receive more.
+    # 
+    # Choose ONE fighter only.
+    # 
+    # If Shuffle Starting Fighters is Yes, but this is left blank, a starter will be randomly chosen for you.
+    []
+
   # Quality of Life
   exclude_fighters:
-    # Excludes specific fighters from any goals you've chosen. Good for if you just really don't vibe with a character.
+    # Excludes specific fighters from any goals you've chosen.
+    # 
+    # This does not prevent you from obtaining your selected fighter, and neither does it prevent you from clearing various modes with them. This only prevents goals from considering their contributions.
     []
 
   easy_vs_mode_unlocks:
-    # Completely optional. Sets the vs mode battle counters to whatever value specified. Can make getting stages, fighters, and trophies very easy and/or quick.
-    #
-    # You can define additional values between the minimum and maximum values.
-    # Minimum value is 0
-    # Maximum value is 1000
-    1000: 50
-    random: 0
-    random-low: 0
-    random-high: 0
+    # Can make getting stages, fighters, and trophies very easy and quick.
+    'false': 0
+    'true': 50
 
   c_stick_in_single_player:
     # By default, the C-Stick moves the camera in single-player. This option changes the controls so that the C-Stick performs Smash attacks, like in Vs Mode.

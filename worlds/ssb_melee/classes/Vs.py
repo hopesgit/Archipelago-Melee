@@ -7,6 +7,5 @@ VSCOUNTERS = {
     "match_counter_5": 0x8045A128 # this one includes forfeits (the others do not)
 }
 
-# Setting counters 1-4 to a high number (like 25000) can and does allow the 
-#   player to do their character unlocks fights after a single vs mode battle
-# An option can be provided for this to lessen grinding (or not)
+# Setting counters 1-4 to a high number (like 1000) can and does allow the
+#   player to do their character unlock fights after a single vs mode battle (each time)

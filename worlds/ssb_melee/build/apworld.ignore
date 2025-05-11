@@ -1,8 +1,8 @@
 .git*
 __pycache__
 .idea
+dev
 LICENSE.md
 README.md
 requirements.txt
-SSB_Melee.yaml
-*.iso
+extract/*.iso
