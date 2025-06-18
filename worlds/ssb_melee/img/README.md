@@ -1,0 +1,1 @@
+Credit for the icon goes to teh_supar_hackr on Spriter's Resource. It's a rip of the GC memory card icon for SSB Melee.
