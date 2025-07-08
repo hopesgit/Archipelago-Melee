@@ -27,7 +27,7 @@ async def handle_receive_items(
             continue
 
             # Handle Single Item Upgrades
-        if (item_data.max_capacity == 1):
+        if item_data.max_capacity == 1:
             give_item_if_not_owned(ctx, item_data, network_item)
         elif item_data.max_capacity > 1:
             continue
@@ -65,13 +65,6 @@ def disable_item_if_owned(ctx: "MeleeContext", item_data: InventoryItemData):
         )
         ctx.notification_manager.queue_notification(f"{item_data.name} offline")
 
-
-async def handle_cosmetic_suit(
-    ctx: "MeleeContext", current_items: Dict[str, InventoryItemData]
-):
-    if ctx.cosmetic_suit == None:
-        return
-    ctx.game_interface.set_current_suit(ctx.cosmetic_suit)
 
 async def handle_receive_missiles(
     ctx: "MeleeContext", current_items: Dict[str, InventoryItemData]

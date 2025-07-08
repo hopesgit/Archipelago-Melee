@@ -62,12 +62,10 @@ class MeleeAreas(Enum):
     """Game menus/areas with their corresponding IDs in memory"""
     # Melee's menu state is stored in a struct in 0x80479d30
     # state is as follows b'\x00\x00\x00\x00'
-    # s1: current_major;
-    # s2: pending_major;
-    # s3: previous_major;
-    # s4: current_minor;
-
-    # all we care about is the current major and current minor, so check for those
+    # s1: current_major
+    # s2: pending_major
+    # s3: previous_major
+    # s4: current_minor
 
     # 10240 don't know what this is yet
     Intro_Movie = [404226048, 404236288]
@@ -258,12 +256,12 @@ def screen_by_id(id: bytes) -> Optional[MeleeAreas]:
     print(f'screen_by_id id: {id}')
     if str(id)[:2] == "16":
         return MeleeAreas.Main_Menu
-    for world in MeleeAreas:
-        if world.value == id and type(world.value) == int:
-            return world
+    for screen in MeleeAreas:
+        if screen.value == id and type(screen.value) == int:
+            return screen
         try:
-            if id in world.value:
-                return world
+            if id in screen.value:
+                return screen
         except TypeError:
             continue
     return None
@@ -369,7 +367,7 @@ class MeleeInterface:
         return inventory
 
 
-    def set_hardcore_mode(self, on: bool):
+    def set_hardcore_mode(self, on: bool, timed: bool):
         value: 0
         if on:
             value = 0
@@ -576,29 +574,6 @@ class MeleeInterface:
         item_bytes = self.dolphin_client.read_address(address, AREA_SIZE)
         return Area(*struct.unpack(">IIII", item_bytes))
 
-    def set_layer_active(self, area_index: int, layer_id: int, active: bool):
-        area = self.__get_area(area_index)
-        if active:
-            flag = 1 << layer_id
-            area.layerBitsLo = area.layerBitsLo | flag
-            area.layerBitsHi = area.layerBitsHi | (flag >> 0x1F)
-        else:
-            flag = ~(1 << layer_id)
-            area.layerBitsLo = area.layerBitsLo & flag
-            area.layerBitsHi = area.layerBitsHi & (flag >> 0x1F)
-
-        new_bytes = struct.pack(
-            ">IIII",
-            area.startNameIdx,
-            area.layerCount,
-            area.layerBitsHi,
-            area.layerBitsLo,
-        )
-
-        self.dolphin_client.write_address(
-            self.__get_area_address(area_index), new_bytes
-        )
-
     # probably not going to need this
     def reset_relay_tracker_cache(self):
         self.relay_trackers = None
@@ -657,14 +632,3 @@ class MeleeInterface:
             relay_tracker["memory_relays"] = [
                 mr & 0x00FFFFFF for mr in relay_tracker["memory_relays"]
             ]
-
-    def is_memory_relay_active(self, mlvl: str, idx: int) -> bool:
-        if self.relay_trackers is None:
-            return False
-
-        relay_tracker = self.relay_trackers[mlvl]
-        for i in range(relay_tracker["count"]):
-            if relay_tracker["memory_relays"][i] == idx:
-                return True
-
-        return False

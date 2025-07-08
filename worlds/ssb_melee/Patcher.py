@@ -157,19 +157,15 @@ class Patcher:
         shutil.copy(self.vanilla_iso_path, self.output_iso_path)
 
     def create_base_patch(self):
-        ap_text = bytes(b'Archipelago')
-        ap_text_length = len(ap_text)
-        ap_text_offset = 0x08 + ap_text_length
+        ap_text = bytes(b'ARCHIPELAGO')
         diff = bsdiff4.diff(self.dol_data[0x08:0x19], ap_text)
         self.base_patch_bytes.join(diff)
-
 
     def patch_cstick_in_regular_match(self, selection: bool):
         if not selection: return
         print('Applying patch: C-Stick in Single-Player')
-        input_iso = self.input_iso_path
         diff = bsdiff4.diff(48000008, 60000000)
-        patch = bsdiff4.file_patch_inplace(main, diff)
+        bsdiff4.file_patch_inplace(self.output_iso_path, diff)
 
 
 def run(cstick: bool = True):
